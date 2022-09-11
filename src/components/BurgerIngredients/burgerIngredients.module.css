@@ -1,0 +1,45 @@
+
+.ingredients {
+    /* border: 1px solid red; */
+    width: 600px;
+    height: 912px;
+    background-color: black;
+    margin-right: 20px;
+  }
+  
+h3 { 
+  /* font-family: 'JetBrains Mono'; */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+}
+  .type {
+    /* border: 1px solid red; */
+  }
+  
+
+  .burger__ingredients-tabs {
+    /* border: 1px solid red; */
+    height: 100px;
+  }
+
+
+  .list {
+    /* border: 1px solid yellow; */
+    margin-top: 10px;
+    width: 600px;
+    height: 740px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .list::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+  }
+  
+  .list::-webkit-scrollbar-thumb {
+    height: 492px;
+    background-color: #8585AD;
+  }

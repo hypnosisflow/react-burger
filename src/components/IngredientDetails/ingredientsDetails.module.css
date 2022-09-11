@@ -1,0 +1,78 @@
+.wrap {
+    background: #1C1C21;
+    width: 720px;
+    height: 538px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+}
+
+.name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    margin-top: 16px;
+}
+
+.title {
+    margin-top: 40px;
+    margin-right: 40px;
+    margin-left: 40px;
+    width: 640px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    height: 56px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail {
+    font-family: 'Iceland';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 24px;
+    color: #8585AD;
+    /* width: 520px; */
+
+}
+
+.nutrient {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #8585AD;
+    margin: 0 20px;
+}
+
+.nutrients {
+    /* margin: 10px; */
+    width: 512px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 0;
+    margin-bottom: 60px;
+    margin-top: 32px;
+}
+

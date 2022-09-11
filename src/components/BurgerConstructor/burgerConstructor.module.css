@@ -1,0 +1,115 @@
+.constructorwrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+    width: 600px;
+    height: 900px;
+    background-color: black;
+    margin-left: 20px;
+  }
+  
+  .list {
+    width: 900px;
+    max-height: 462px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    padding: 0;
+}
+  .top_item {
+    margin-top: 100px;
+    cursor: pointer;
+    margin-left: 30px;
+    gap: 8px;
+  }
+  .last_item {
+    cursor: pointer;
+    margin-left: 30px;
+    gap: 8px;
+  }
+  .list_item {
+    cursor: pointer;
+    width: 568px;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 16px 5px;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+  }
+  .component {
+    /* list-style: none;
+    width: 566px;
+    height: 80px;
+    padding: 0;
+    margin: 0 ;
+    border: 1px solid red; */
+    cursor: pointer;
+    width: 568px;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 16px 5px;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .constructor-element {
+    width: 488px !important;
+  }
+
+  .order  {
+    margin-top: 42px;
+    margin-bottom: 52px;
+    width: 583px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .total  {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    /* border: 1px solid blue; */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 36px;
+    width: 119px;
+    height: 64px;
+  }
+  
+  .button {
+    padding: 0px;
+    /* border: 1px solid blue; */
+    width: 215px;
+    height: 64px;
+  }
+  
+  .list::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+  }
+  
+  .list::-webkit-scrollbar-thumb {
+    height: 292px;
+    background-color: #8585AD;
+  }
+
+  .sum {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 40px;
+  }
