@@ -1,8 +1,8 @@
 import React, { useEffect, useState} from "react";
 import './App.css';
 import AppHeader from "../AppHeader/appHeader";
-import BurgerIngredients from "../BurgerIngredients/bugrerIngredients";
-import BurgerConstructor from "../BurgerConstructor/bugerConstructor";
+import BurgerIngredients from "../BurgerIngredients/burgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
 import Modal from '../Modal/modal'
 import IngredientsDetails from "../IngredientDetails/ingredientDetails";
 import OrderDetails from "../OrderDetails/orderDetails";

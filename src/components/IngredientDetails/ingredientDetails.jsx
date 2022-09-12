@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './ingredientsDetails.module.css';
-import {dataObject} from '../../utils/types';
+import {ingredientType} from '../../utils/types';
 import PropTypes from 'prop-types'
 
 IngredientsDetails.propTypes = {
-    item: dataObject.isRequired,
+    item: ingredientType.isRequired,
   }; 
 
 
