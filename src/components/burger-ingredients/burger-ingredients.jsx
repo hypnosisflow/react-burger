@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import styles from './burgerIngredients.module.css';
-import IngredientsGroup from "../IngredientsGroup/ingredientsGroup";
+import styles from './burger-ingredients.module.css';
+import IngredientsGroup from "../ingredients-group/ingredients-group";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types'
 import {dataType} from '../../utils/types'
@@ -19,7 +19,7 @@ function BurgerIngredients({ data, openModal }) {
             <h3 className={styles.title}>
                 Соберие бургер
             </h3>
-            <div style={{ display: 'flex' }}>
+            <div className={styles.tabs}>
                 <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                     Булки
                 </Tab>

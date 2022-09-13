@@ -1,32 +1,32 @@
+.root {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
 
-    .root {
-      display: flex;
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-    }
-  
-  .content {
-    max-width: 720px;
-    /* height: 200px; */
-    background-color: white;
-    border-radius: 5;
-    z-index: 2000;
-    margin: auto;  
-    position: relative;
-  }
-  
-  .close {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    /* background-color: red; */
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    margin-top: 50px;
-    margin-right: 40px;
-  }
-  
+.content {
+  max-width: 720px;
+  /* height: 200px; */
+  background-color: white;
+  border-radius: 5;
+  z-index: 2000;
+  margin: auto;
+  position: relative;
+  border-radius: 25px;
+
+}
+
+.close {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  /* background-color: red; */
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-top: 50px;
+  margin-right: 40px;
+}

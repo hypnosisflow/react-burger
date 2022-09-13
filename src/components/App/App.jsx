@@ -1,59 +1,66 @@
-import React, { useEffect, useState} from "react";
-import './App.css';
-import AppHeader from "../AppHeader/appHeader";
-import BurgerIngredients from "../BurgerIngredients/burgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/burgerConstructor";
-import Modal from '../Modal/modal'
-import IngredientsDetails from "../IngredientDetails/ingredientDetails";
-import OrderDetails from "../OrderDetails/orderDetails";
+import React, { useEffect, useState } from "react";
+import styles from './app.module.css';
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Modal from "../Modal/modal";
+import IngredientsDetails from "../ingredients-details/ingredients-details";
+import OrderDetails from "../order-details/order-details";
 
-const url = 'https://norma.nomoreparties.space/api/ingredients'
+const url = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
+  const [modalState, setModalState] = React.useState({ open: false });
+  const [productData, setProductData] = useState([]);
+  const [state, setState] = useState({
+    isLoading: false,
+    hasError: false,
+  });
 
- const [modalState, setModalState] = React.useState({ open: false})
- const [productData, setProductData] = useState([]);
- const [state, setState] = useState({
-  isLoading: false,
-  hasError: false
- })
-
- useEffect(() => {
-  const getProductData = async () => {
-   try {
-      setState({...state, isLoading: true});
-      const res = await fetch(url);
-      const data = await res.json();
-      setProductData({...data});
-      console.log('Дата загружена!')
-    } catch (error) {
-      setState({isLoading: false, hasError: true})
-      console.log('Произошла ошибка!')
-    }
-
-  }
-  getProductData();
-}, [])
+  useEffect(() => {
+    fetch(url)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return Promise.reject(`Ошибка! ${res.status}.`);
+        }
+      })
+      .then((data) => setProductData({ ...data, isError: false }))
+      .catch((error) => {
+        setState({ hasError: true });
+        console.error(error);
+      });
+  }, []);
 
   const handleOpenModal = (props) => setModalState({ props, open: true });
   const handleCloseModal = () => setModalState({ open: false });
 
   return (
-    <div className="App">
-      <AppHeader/>
+    <div className={styles.app}>
+      <AppHeader />
       {productData.data && (
-           <main className="main">
-           <BurgerIngredients data={productData.data} openModal={handleOpenModal} />
-           <BurgerConstructor data={productData.data} openModal={handleOpenModal} />  
-         </main>
+        <main className={styles.main}>
+          <BurgerIngredients
+            data={productData.data}
+            openModal={handleOpenModal}
+          />
+          <BurgerConstructor
+            data={productData.data}
+            openModal={handleOpenModal}
+          />
+        </main>
       )}
       {modalState.open && (
         <Modal closeModal={handleCloseModal}>
-          {modalState.props.name === 'ingredient' ? <IngredientsDetails item={modalState.props.item}/> : <OrderDetails />}
+          {modalState.props.name === "ingredient" ? (
+            <IngredientsDetails item={modalState.props.item} />
+          ) : (
+            <OrderDetails />
+          )}
         </Modal>
       )}
     </div>
   );
 }
 export default App;
-

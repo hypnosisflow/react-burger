@@ -14,8 +14,8 @@ h3 {
   font-size: 36px;
   line-height: 40px;
 }
-  .type {
-    /* border: 1px solid red; */
+  .tabs {
+    display: flex;
   }
   
 
