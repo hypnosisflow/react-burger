@@ -8,16 +8,18 @@
   height: 900px;
   background-color: black;
   margin-left: 20px;
+
 }
 
 .list {
   width: 600px;
-  max-height: 462px;
+  height: 462px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
   padding: 0;
+  /* border: 1px solid red; */
 }
 
 .top_item {
