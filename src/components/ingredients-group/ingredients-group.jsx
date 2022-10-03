@@ -15,43 +15,37 @@ IngredientsGroup.propTypes = {
 };
 
 function IngredientsGroup({ data, group, open }) {
+
   const dispatch = useDispatch();
 
-  const { menu } = useSelector((state) => state.menu);
-  const { ...item } = useSelector((state) => state.menu);
-  // console.log('item:', item )
-  // console.log('menu', menu)
-
-  const res = menu.map((i) => i.item)
-  // console.log(res, 'RES ')
-
-  const filteredItems = res.filter((item) => {
-    return item.type === group;
+  const filteredItems = data.filter((item) => {
+    return item.item.type === group;
   });
-  // console.log(filteredItems, 'FILTERED')
+
   return (
     <ul className={styles.group}>
       {filteredItems.map((item) => (
         <li
           key={item._id}
-          // onClick={() => open({ item, name: "ingredient" })}
+          // onClick={() => dispatch({ type: "ADD_DETAILS", payload: item})}
           onClick={() =>
             dispatch(
-              { type: "ADD_PRODUCT", payload: item._id },
-              console.log(item._id)
+              { type: "ADD_PRODUCT", payload: item.item },
             )
           }
           className={styles.item}
         >
-          {/* {constructorItems.countItem &&  */}
-          <Counter count={item.countItem} size="default" />
-          {/* //  }  */}
-          <img src={item.image} alt="ingredient" />
+          {item.countItem > 0 && (
+            <Counter count={item.countItem} size="default" />
+          )}
+          <img src={item.item.image} alt="ingredient" />
           <div className={styles.price}>
-            <span className="text text_type_digits-default">{item.price}</span>
+            <span className="text text_type_digits-default">
+              {item.item.price}
+            </span>
             <CurrencyIcon className={styles.icon} type="primary" />
           </div>
-          <span className={styles.name}>{item.name}</span>
+          <span className={styles.name}>{item.item.name}</span>
         </li>
       ))}
     </ul>

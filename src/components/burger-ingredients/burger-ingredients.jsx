@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { dataType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../services/actions/fetch";
-
+import { menuSelector } from "../../services/selectors/selectors";
 
 BurgerIngredients.propTypes = {
   // data: dataType.isRequired,y
@@ -15,9 +15,10 @@ BurgerIngredients.propTypes = {
 
 function BurgerIngredients({ data, openModal }) {
   const [current, setCurrent] = useState("one");
-  
+
   const dispatch = useDispatch();
   const { menu } = useSelector((state) => state.menu);
+
 
   useEffect(() => {
     dispatch(fetchData());
@@ -39,13 +40,13 @@ function BurgerIngredients({ data, openModal }) {
       </div>
       <div className={styles.list}>
         <h3 className={styles.group}>Булки</h3>
-        <IngredientsGroup data={data} group={"bun"} open={openModal} />
+        <IngredientsGroup data={menu} group={"bun"} open={openModal} />
 
         <h3 className={styles.group}>Начинка</h3>
-        <IngredientsGroup data={data} group={"main"} open={openModal} />
+        <IngredientsGroup data={menu} group={"main"} open={openModal} />
 
         <h3 className={styles.group}>Соусы</h3>
-        <IngredientsGroup data={data} group={"sauce"} open={openModal} />
+        <IngredientsGroup data={menu} group={"sauce"} open={openModal} />
       </div>
     </section>
   );

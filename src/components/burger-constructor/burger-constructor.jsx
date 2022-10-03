@@ -9,7 +9,10 @@ import {
 import PropTypes from "prop-types";
 import { dataType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { sumSelector,  constructorSelector } from "../../services/selectors/selectors";
+import {
+  sumSelector,
+  constructorSelector,
+} from "../../services/selectors/selectors";
 import { sendOrder } from "../../services/actions/fetch";
 
 BurgerConstructor.propTypes = {
@@ -20,29 +23,36 @@ BurgerConstructor.propTypes = {
 function BurgerConstructor({ data, openModal }) {
   const dispatch = useDispatch();
   const sum = useSelector(sumSelector)
+  const constructorItems = useSelector(constructorSelector);
+  const { ...bun } = useSelector((state) => state.cart.bun);
 
-  const { menu } = useSelector((state) => state.menu);
-  const  constructorItems  = useSelector(constructorSelector);
-  // console.log("ITEMS:", constructorItems, typeof(constructorItems));
+  function isEmptyObject(obj) {
+    return JSON.stringify(obj) !== "{}";
+  }
+
+  const hasBun = isEmptyObject(bun);
 
   return (
     <section className={styles.constructorwrap}>
-      {/* <div className={styles.top_item}>
-        <ConstructorElement
-          type="top"
-          // isLocked={true}
-          // text={menu[0].name + " (верх)"}
-          // price={menu[0].price}
-          // thumbnail={menu[0].image}
-        />
-      </div> */}
+      {hasBun && (
+        <div className={styles.top_item}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={bun.name + " (верх)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
+
       <ul className={styles.list}>
         {constructorItems.map((item) => {
           return (
             <li
               key={item._id}
               className={styles.component}
-              onClick={() => dispatch({ type: 'REMOVE', payload: item })}
+              onClick={() => dispatch({ type: "REMOVE", payload: item })}
             >
               <DragIcon type="primary" />
               <ConstructorElement
@@ -55,15 +65,17 @@ function BurgerConstructor({ data, openModal }) {
           );
         })}
       </ul>
-      {/* <div className={styles.last_item}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={menu[0].name + " (низ)"}
-          price={menu[0].price}
-          thumbnail={menu[0].image}
-        />
-      </div> */}
+      {hasBun && (
+        <div className={styles.last_item}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={bun.name + " (верх)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
       <div className={styles.order}>
         <div className={styles.sum}>
           <p className="text text_type_digits-medium">{sum}</p>

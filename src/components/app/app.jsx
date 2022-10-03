@@ -11,8 +11,8 @@ import { fetchData } from "../../services/actions/fetch";
 
 function App() {
   const [modalState, setModalState] = React.useState({ open: false });
-
-  // console.log("menu:", menu[5], typeof menu);
+  const {modalOpen} = useSelector(state => state.ingredient)
+  const { item } = useSelector(state => state.ingredient)
 
   const handleOpenModal = (props) => setModalState({ props, open: true });
   const handleCloseModal = () => setModalState({ open: false });
@@ -26,13 +26,14 @@ function App() {
         <BurgerConstructor openModal={handleOpenModal} />
       </main>
       {/* )} */}
-      {modalState.open && (
-        <Modal closeModal={handleCloseModal}>
-          {modalState.props.name === "ingredient" ? (
+      {modalOpen && item &&  (
+        <Modal closeModal={handleCloseModal}> 
+          <IngredientsDetails item={item.item} />
+          {/* {modalState.props.name === "ingredient" ? (
             <IngredientsDetails item={modalState.props.item} />
           ) : (
             <OrderDetails />
-          )}
+          )} */}
         </Modal>
       )}
     </div>
