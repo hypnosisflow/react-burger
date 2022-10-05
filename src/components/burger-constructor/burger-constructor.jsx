@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   sumSelector,
   constructorSelector,
+  menuSelector,
 } from "../../services/selectors/selectors";
 import { sendOrder } from "../../services/actions/fetch";
 
@@ -20,10 +21,14 @@ BurgerConstructor.propTypes = {
   openModal: PropTypes.func.isRequired,
 };
 
-function BurgerConstructor({ data, openModal }) {
+function BurgerConstructor({  openModal }) {
   const dispatch = useDispatch();
-  const sum = useSelector(sumSelector)
+
+  const sum = useSelector(sumSelector);
   const constructorItems = useSelector(constructorSelector);
+  const data = useSelector(menuSelector)
+  // console.log('data', data)
+
   const { ...bun } = useSelector((state) => state.cart.bun);
 
   function isEmptyObject(obj) {

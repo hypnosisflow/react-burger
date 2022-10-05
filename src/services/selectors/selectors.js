@@ -31,11 +31,18 @@ export const constructorSelector = (state) => {
 
 export const menuSelector = (state) => {
   const products = state.cart.items;
+  const menu = state.menu.menu;
 
   let res = new Map();
 
-  return products.reduce(
-    (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
-    res
-  );
+  products.reduce((acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1), res);
+
+  let test = menu.map((i) => {
+    if (res.has(i.item._id)) {
+      return i.countItem = res.get(i.item._id);
+    }
+    return i;
+  });
+
+  return test;
 };

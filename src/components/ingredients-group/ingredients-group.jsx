@@ -15,27 +15,26 @@ IngredientsGroup.propTypes = {
 };
 
 function IngredientsGroup({ data, group, open }) {
-
   const dispatch = useDispatch();
 
   const filteredItems = data.filter((item) => {
     return item.item.type === group;
   });
+  console.log(filteredItems)
+  
 
   return (
     <ul className={styles.group}>
       {filteredItems.map((item) => (
+        
         <li
           key={item._id}
           // onClick={() => dispatch({ type: "ADD_DETAILS", payload: item})}
-          onClick={() =>
-            dispatch(
-              { type: "ADD_PRODUCT", payload: item.item },
-            )
-          }
+          onClick={() => dispatch({ type: "ADD_PRODUCT", payload: item.item })}
+          
           className={styles.item}
         >
-          {item.countItem > 0 && (
+          {filteredItems.countItem > 0 && (
             <Counter count={item.countItem} size="default" />
           )}
           <img src={item.item.image} alt="ingredient" />
