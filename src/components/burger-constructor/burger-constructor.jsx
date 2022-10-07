@@ -25,9 +25,9 @@ function BurgerConstructor({  openModal }) {
   const dispatch = useDispatch();
 
   const sum = useSelector(sumSelector);
-  const constructorItems = useSelector(constructorSelector);
-  const data = useSelector(menuSelector)
-  // console.log('data', data)
+  const ingredients = useSelector(constructorSelector);
+  // const test = useSelector(menuSelector)
+  // console.log('test', test)
 
   const { ...bun } = useSelector((state) => state.cart.bun);
 
@@ -52,12 +52,12 @@ function BurgerConstructor({  openModal }) {
       )}
 
       <ul className={styles.list}>
-        {constructorItems.map((item) => {
+        {ingredients.map((item, index) => {
           return (
             <li
-              key={item._id}
+              key={item.id}
               className={styles.component}
-              onClick={() => dispatch({ type: "REMOVE", payload: item })}
+              // onClick={() => dispatch({ type: "REMOVE", payload: item._id })}
             >
               <DragIcon type="primary" />
               <ConstructorElement
@@ -65,6 +65,7 @@ function BurgerConstructor({  openModal }) {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image_mobile}
+                handleClose={() => dispatch({ type: "REMOVE", payload: item.id})}
               />
             </li>
           );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "./ingredients-group.module.css";
 import {
   CurrencyIcon,
@@ -7,6 +7,8 @@ import {
 import PropTypes from "prop-types";
 import { dataType } from "../../utils/types";
 import { useSelector, useDispatch } from "react-redux";
+import { cartSelector } from "../../services/selectors/selectors";
+import { addToConstructor } from '../../services/actions/constructor'
 
 IngredientsGroup.propTypes = {
   // data: dataType.isRequired,
@@ -17,25 +19,24 @@ IngredientsGroup.propTypes = {
 function IngredientsGroup({ data, group, open }) {
   const dispatch = useDispatch();
 
+  const res = useSelector(cartSelector);
+
   const filteredItems = data.filter((item) => {
     return item.item.type === group;
   });
-  console.log(filteredItems)
-  
 
   return (
     <ul className={styles.group}>
       {filteredItems.map((item) => (
-        
         <li
           key={item._id}
           // onClick={() => dispatch({ type: "ADD_DETAILS", payload: item})}
-          onClick={() => dispatch({ type: "ADD_PRODUCT", payload: item.item })}
-          
+          // onClick={() => dispatch({ type: "ADD_PRODUCT", payload: item.item })}
+          onClick={() => dispatch(addToConstructor(item.item))}
           className={styles.item}
         >
-          {filteredItems.countItem > 0 && (
-            <Counter count={item.countItem} size="default" />
+          {res.get(item.item._id) && (
+            <Counter count={res.get(item.item._id)} size="default" />
           )}
           <img src={item.item.image} alt="ingredient" />
           <div className={styles.price}>

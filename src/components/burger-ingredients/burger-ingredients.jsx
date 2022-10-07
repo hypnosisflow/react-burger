@@ -19,7 +19,6 @@ function BurgerIngredients({ data, openModal }) {
   const dispatch = useDispatch();
   const { menu } = useSelector((state) => state.menu);
 
-
   useEffect(() => {
     dispatch(fetchData());
   }, []);
@@ -32,10 +31,10 @@ function BurgerIngredients({ data, openModal }) {
           Булки
         </Tab>
         <Tab value="two" active={current === "two"} onClick={setCurrent}>
-          Соусы
+          Начинка
         </Tab>
         <Tab value="three" active={current === "three"} onClick={setCurrent}>
-          Начинка
+          Соусы
         </Tab>
       </div>
       <div className={styles.list}>

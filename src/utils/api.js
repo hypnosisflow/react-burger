@@ -6,7 +6,7 @@ export async function loadIngredients() {
 }
 
 export function makeOrder(data) {
-  console.log("DATA", data, JSON.stringify({data}));
+  console.log("data", JSON.stringify({data}));
 
   return fetch(`${baseUrl}orders`, {
     method: "POST",

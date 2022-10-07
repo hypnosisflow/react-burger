@@ -34,12 +34,13 @@ export function fetchData() {
 
 export function sendOrder() {
   return function (dispatch, getState) {
-    const products = getState().menu.constructorItems;
+    const products = getState().cart.items;
+    const bun = getState().cart.bun._id;
     const request = products.map((i) => i._id);
-    console.log("SENDING", request);
+    const data = [bun, ...request, bun];
 
     dispatch({ type: ORDER_REQUEST });
-    makeOrder(request)
+    makeOrder(data)
       .then((res) => {
         if (res && res.success) {
           dispatch({ type: ORDER_SUCCESS, orderNumber: res.data });
