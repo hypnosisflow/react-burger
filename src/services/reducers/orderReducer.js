@@ -10,13 +10,13 @@ const initialState = {
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ORDER_REQUEST: {
-      return { ...state, orderRequest: true, orderFailed: false };
+      return { ...state, orderNumber: 0,  orderRequest: true, orderFailed: false };
     }
     case ORDER_SUCCESS: {
       return { ...state, orderNumber: action.payload, orderRequest: false, orderFailed: false };
     }
     case ORDER_FAILED: {
-      return { ...state, orderRequest: false, orderFailed: true };
+      return { ...state, orderNumber: 0, orderRequest: false, orderFailed: true };
     }
     case ORDER_RESET: {
       return initialState;

@@ -25,6 +25,7 @@ const initialState = {
       case FETCH_FAILED: {
         return {
           ...state,
+          menu: [],
           menuFailed: true,
           menuRequest: false,
         };
