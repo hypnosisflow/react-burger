@@ -1,9 +1,7 @@
-import { ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS } from "../actions/fetch";
+import { ORDER_FAILED, ORDER_REQUEST, ORDER_SUCCESS, ORDER_RESET } from "../actions/order";
 
 const initialState = {
-  order: [],
-  
-  orderNumber: null,
+  orderNumber: 0,
 
   orderFailed: false,
   orderRequest: false,
@@ -15,10 +13,13 @@ export const orderReducer = (state = initialState, action) => {
       return { ...state, orderRequest: true, orderFailed: false };
     }
     case ORDER_SUCCESS: {
-      return { ...state, order: action.payload, orderRequest: false, orderFailed: false };
+      return { ...state, orderNumber: action.payload, orderRequest: false, orderFailed: false };
     }
     case ORDER_FAILED: {
       return { ...state, orderRequest: false, orderFailed: true };
+    }
+    case ORDER_RESET: {
+      return initialState;
     }
     default: {
       return state;

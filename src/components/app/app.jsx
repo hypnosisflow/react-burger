@@ -5,38 +5,40 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import IngredientsDetails from "../ingredients-details/ingredients-details";
-import OrderDetails from "../order-details/order-details";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../../services/actions/fetch";
+import { fetchData } from "../../services/actions/menu";
+import { REMOVE_DETAILS } from '../../services/actions/ingredient'
 
 function App() {
-  const [modalState, setModalState] = React.useState({ open: false });
-  const {modalOpen} = useSelector(state => state.ingredient)
-  const { item } = useSelector(state => state.ingredient)
+  const dispatch = useDispatch();
 
-  const handleOpenModal = (props) => setModalState({ props, open: true });
-  const handleCloseModal = () => setModalState({ open: false });
+  const { modalOpen } = useSelector((state) => state.ingredient);
+  const { item } = useSelector((state) => state.ingredient);
+  const { menu } = useSelector((state) => state.menu);
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      {/* {menu.data && ( */}
-      <main className={styles.main}>
-        <BurgerIngredients openModal={handleOpenModal} />
-        <BurgerConstructor openModal={handleOpenModal} />
-      </main>
-      {/* )} */}
-      {modalOpen && item &&  (
-        <Modal closeModal={handleCloseModal}> 
-          <IngredientsDetails item={item.item} />
-          {/* {modalState.props.name === "ingredient" ? (
-            <IngredientsDetails item={modalState.props.item} />
-          ) : (
-            <OrderDetails />
-          )} */}
-        </Modal>
-      )}
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className={styles.app}>
+        <AppHeader />
+        {menu && (
+        <main className={styles.main}>
+          <BurgerIngredients data={menu} />
+          <BurgerConstructor />
+        </main>
+         )} 
+        {modalOpen && item && (
+          <Modal closeModal={() => dispatch({ type: REMOVE_DETAILS })}>
+            <IngredientsDetails item={item.item} />
+          </Modal>
+        )}
+      </div>
+    </DndProvider>
   );
 }
 export default App;

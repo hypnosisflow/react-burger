@@ -15,7 +15,6 @@ Modal.propTypes = {
 const modalsElement = document.querySelector("#modal");
 
 function Modal({ closeModal, children }) {
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleCloseEsc = (e) => e.key === "Escape" && closeModal();
@@ -29,10 +28,10 @@ function Modal({ closeModal, children }) {
       <ModalOverlay closeModal={closeModal} />
 
       <div className={styles.content}>
-        <div className={styles.close} 
-              // onClick={closeModal}
-              onClick={() => dispatch({ type: "REMOVE_DETAILS"})}
-              >
+        <div
+          className={styles.close}
+          onClick={closeModal}
+        >
           <CloseIcon type="primary" />
         </div>
         {children}

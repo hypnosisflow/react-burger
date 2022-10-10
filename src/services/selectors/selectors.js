@@ -1,4 +1,4 @@
-const hasBun = (state) => {
+export const hasBun = (state) => {
   const bun = state.cart.bun;
   function isEmptyObject(obj) {
     return JSON.stringify(obj) !== "{}";
@@ -31,18 +31,18 @@ export const constructorSelector = (state) => {
 };
 
 //
-export const cartSelector = (state) => {
-  const cartIngredients = state.cart.items;
-  const cartBun = state.cart.bun;
+export const countSelector = (state) => {
+  const ingredients = state.cart.items;
+  const bun = state.cart.bun;
 
   let res = new Map();
 
-  cartIngredients.reduce(
+  ingredients.reduce(
     (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
     res
   );
   if (hasBun) {
-    res.set(cartBun._id, 2);
+    res.set(bun._id, 2);
   }
 
   return res;

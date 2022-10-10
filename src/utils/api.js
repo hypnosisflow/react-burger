@@ -5,12 +5,11 @@ export async function loadIngredients() {
   return await res.json();
 }
 
-export function makeOrder(data) {
-  console.log("data", JSON.stringify({data}));
-
-  return fetch(`${baseUrl}orders`, {
-    method: "POST",
+export async function makeOrder(ingredients) {
+  const res = await fetch(`${baseUrl}orders`, {
+    method: 'POST',
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ data }),
+    body: JSON.stringify({ ingredients }),
   });
+  return await res.json()
 }

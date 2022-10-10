@@ -1,11 +1,16 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT } from "../actions/constructor";
+import {
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
+  REORDER_PRODUCTS,
+  RESET,
+} from "../actions/constructor";
 
 const initialState = {
   bun: {},
   items: [],
 };
 
-export const cartReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT: {
       if (action.payload.type === "bun") {
@@ -14,15 +19,13 @@ export const cartReducer = (state = initialState, action) => {
         return { ...state, items: [...state.items, action.payload] };
       }
     }
-
-    case "REMOVE": {
+    case REMOVE_PRODUCT: {
       return {
         ...state,
         items: state.items.filter((i) => i.id !== action.payload),
       };
     }
-
-    case "REORDER": {
+    case REORDER_PRODUCTS: {
       const items = [...state.items];
       items.splice(
         action.payload.to,
@@ -34,21 +37,9 @@ export const cartReducer = (state = initialState, action) => {
         items,
       };
     }
-
-    case "RESET": {
+    case RESET: {
       return initialState;
     }
-
-    case "REMOVE_PRODUCT": {
-      return {
-        ...state,
-        items: [
-          ...state.items.slice(0, action.payload),
-          ...state.items.slice(action.payload + 1)
-        ]
-      }
-    }
-
     default: {
       return state;
     }
