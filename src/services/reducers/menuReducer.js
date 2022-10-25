@@ -4,6 +4,7 @@ const initialState = {
     menu: [],
     menuRequest: false,
     menuFailed: false,
+    menuSuccess: false
   };
   
   export const menuReducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const initialState = {
         return {
           ...state,
           menuRequest: true,
+          menuSuccess: false
         };
       }
       case FETCH_SUCCESS: {
@@ -20,6 +22,7 @@ const initialState = {
           menu: [...state.menu, ...action.menu.map((i) => ({ item: i }))],
           menuRequest: false,
           menuFailed: false,
+          menuSuccess: true
         };
       }
       case FETCH_FAILED: {
@@ -28,6 +31,7 @@ const initialState = {
           menu: [],
           menuFailed: true,
           menuRequest: false,
+          menuSuccess: false
         };
       }
       default: {

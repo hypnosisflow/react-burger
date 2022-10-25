@@ -4,12 +4,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {  countSelector } from "../../services/selectors/selectors";
+import { countSelector } from "../../services/selectors/selectors";
 import { useDrag } from "react-dnd/dist/hooks";
+import { Link, useLocation } from "react-router-dom";
 
-function BurgerIngredient({ ingredient }) {
+function BurgerIngredient({ ingredient, id, name }) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const res = useSelector(countSelector);
+  // console.log(ingredient)
+  // console.log(location)
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "MENU_INGREDIENT",
     item: ingredient,
@@ -18,13 +23,19 @@ function BurgerIngredient({ ingredient }) {
       handlerId: monitor.getHandlerId(),
     }),
   }));
-  
-
   return (
-    <div ref={drag} >
+    // <div ref={drag}>
+    <Link
+      className={styles.link}
+      to={{
+        pathname: `/ingredients/${ingredient.item._id}`,
+        state: { background: location },
+      }}
+      ref={drag}
+    >
       <li
-        key={ingredient._id}
-        onClick={() => dispatch({ type: "ADD_DETAILS", payload: ingredient})}
+        key={ingredient.item._id}
+        onClick={() => dispatch({ type: "ADD_DETAILS", payload: ingredient })}
         className={styles.item}
       >
         {res.get(ingredient.item._id) && (
@@ -39,7 +50,8 @@ function BurgerIngredient({ ingredient }) {
         </div>
         <span className={styles.name}>{ingredient.item.name}</span>
       </li>
-    </div>
+    </Link>
+    // </div>
   );
 }
 

@@ -6,26 +6,43 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function AppHeader() {
+  const isConstructor = !!useRouteMatch({ path: '/', exact: true})
+
+  const loggedIn = useSelector((state) => state.auth.loggedIn)
+  const user = useSelector(state => state.auth.user)
+  // console.log(user)
+
   return (
     <header className={styles.header}>
       <div className={styles.content}>
         <nav className={styles.navigation}>
-          <a href="#" className={styles.button}>
+          <NavLink
+            to={{ pathname: "/" }}
+            exact
+            className={styles.button}
+            activeClassName={styles.active}
+          >
             <BurgerIcon />
-            <span className={styles.active}>Конструктор</span>
-          </a>
+            Конструктор
+          </NavLink>
           <a href="#" className={styles.button}>
             <ListIcon />
             <span className={styles.inactive}>Лента заказов</span>
           </a>
         </nav>
         <Logo />
-        <a href="#" className={styles.button}>
+        <NavLink
+          to={{ pathname: "/profile" }}
+          className={styles.button}
+          activeClassName={styles.active}
+        >
           <ProfileIcon />
-          <span className={styles.inactive}>Личный кабинет</span>
-        </a>
+          {loggedIn ? user.name : 'Личный кабинет'}
+        </NavLink>
       </div>
     </header>
   );
