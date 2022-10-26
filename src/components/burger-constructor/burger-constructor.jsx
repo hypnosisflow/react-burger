@@ -35,7 +35,7 @@ function BurgerConstructor({ openModal, onDropHandler }) {
   const ingredients = useSelector(constructorSelector);
   const buns = useSelector(hasBun);
   const { ...bun } = useSelector((state) => state.cart.bun);
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const user = useSelector((state) => state.auth.user);
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
     accept: "MENU_INGREDIENT",
@@ -58,13 +58,13 @@ function BurgerConstructor({ openModal, onDropHandler }) {
   const send = useCallback(
     (e) => {
       e.preventDefault();
-      if (loggedIn) {
+      if (user) {
         dispatch(sendOrder())
       } else {
         history.push('/login')
       }
     },
-    [loggedIn]
+    [user]
   );
 
   return (

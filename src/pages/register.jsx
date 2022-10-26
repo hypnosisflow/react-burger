@@ -23,7 +23,7 @@ export function RegisterPage() {
     (e) => {
       e.preventDefault();
       dispatch(registerSend(form));
-      setValue({ email: "", password: "", name: "" })
+      setValue({ email: "", password: "", name: "" });
       console.log(form);
     },
     [form]
@@ -32,36 +32,35 @@ export function RegisterPage() {
     <section className={styles.main}>
       <div className={styles.container}>
         <span> Регистрация </span>
-        <form className={styles.form}>
-          <Input
-            name="name"
-            value={form.name}
-            className={styles.input}
-            onChange={onChange}
-            placeholder={'Имя'}
-          />
-          <Input
-            name="email"
-            value={form.email}
-            className={styles.input}
-            onChange={onChange}
-            placeholder={'E-mail'}
-          />
-          <PasswordInput
-            name="password"
-            value={form.password}
-            onChange={onChange}
-          />
-        
+        <form onSubmit={request} >
+          <div className={styles.form}>
+            <Input
+              name="name"
+              value={form.name}
+              className={styles.input}
+              onChange={onChange}
+              placeholder={"Имя"}
+            />
+            <Input
+              name="email"
+              value={form.email}
+              className={styles.input}
+              onChange={onChange}
+              placeholder={"E-mail"}
+            />
+            <PasswordInput
+              name="password"
+              value={form.password}
+              onChange={onChange}
+            />
+          </div>
+          <Button className={styles.button}>Зарегистрироваться</Button>
         </form>
-        <Button onClick={request} className={styles.button}>
-            Зарегистрироваться
-          </Button>
       </div>
       <div className={styles.links_wrap}>
-      <span>
-        Уже зарегистрированы <Link to="/login"> Войти</Link>
-      </span>
+        <span>
+          Уже зарегистрированы <Link to="/login"> Войти</Link>
+        </span>
       </div>
     </section>
   );

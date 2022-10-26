@@ -3,6 +3,7 @@ import {
   Input,
   Button,
   EditIcon,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useHistory } from "react-router-dom";
 
@@ -19,10 +20,11 @@ export function ProfilePage() {
     email: user.email,
     password: "********",
     name: user.name,
+    isChanged: false,
   });
 
   const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setValue({ ...form, isChanged: true, [e.target.name]: e.target.value });
   };
 
   const edit = useCallback(
@@ -72,6 +74,7 @@ export function ProfilePage() {
             <span>Выход</span>
           </NavLink>
         </nav>
+
         <div className={styles.inputs_wrapper}>
           <form onSubmit={edit} className={styles.inputs_wrapper}>
             <Input
@@ -92,7 +95,7 @@ export function ProfilePage() {
               // onIconClick={onIconClick}
               onChange={onChange}
             ></Input>
-            <Input
+            <PasswordInput
               className={styles.input}
               placeholder={"Пароль"}
               name="password"
@@ -101,22 +104,28 @@ export function ProfilePage() {
               // onIconClick={onIconClick}
               onChange={onChange}
               size={"default"}
-            ></Input>
+            ></PasswordInput>
+            {form.isChanged && (
+              <div>
+                <Button onClick={clear} type="secondary" size="medium">
+                  ОЧИСТИТЬ
+                </Button>
+                <Button type="submit" size="medium">
+                  {" "}
+                  СОХРАНИТЬ{" "}
+                </Button>
+              </div>
+            )}
+      
           </form>
         </div>
+        
       </div>
       <div className={styles.profile_info}>
-        <span className={styles.info}>
-          В этом разделе вы можете изменить свои персональные данные{" "}
-        </span>
-        <Button onClick={clear} type="secondary" size="medium">
-          ОЧИСТИТЬ
-        </Button>
-        <Button onClick={edit} type="primary" size="medium">
-          {" "}
-          СОХРАНИТЬ{" "}
-        </Button>
-      </div>
+              <span className={styles.info}>
+                В этом разделе вы можете изменить свои персональные данные{" "}
+              </span>
+            </div>
     </section>
   );
 }

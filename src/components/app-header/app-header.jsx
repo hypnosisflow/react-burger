@@ -10,11 +10,9 @@ import { NavLink, useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AppHeader() {
-  const isConstructor = !!useRouteMatch({ path: '/', exact: true})
+  // const isConstructor = !!useRouteMatch({ path: '/', exact: true})
 
-  const loggedIn = useSelector((state) => state.auth.loggedIn)
-  const user = useSelector(state => state.auth.user)
-  // console.log(user)
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <header className={styles.header}>
@@ -41,7 +39,7 @@ function AppHeader() {
           activeClassName={styles.active}
         >
           <ProfileIcon />
-          {loggedIn ? user.name : 'Личный кабинет'}
+          {user ? user.name : "Личный кабинет"}
         </NavLink>
       </div>
     </header>

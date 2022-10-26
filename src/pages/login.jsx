@@ -36,20 +36,22 @@ export function LoginPage() {
     <section className={styles.main}>
       <div className={styles.container}>
         <h1>Вход</h1>
-        <form className={styles.form}>
-          <Input
-            value={form.email}
-            name="email"
-            onChange={onChange}
-            placeholder={"E-mail"}
-          />
-          <PasswordInput
-            value={form.password}
-            name="password"
-            onChange={onChange}
-          />
+        <form onSubmit={login}>
+          <div className={styles.form}>
+            <Input
+              value={form.email}
+              name="email"
+              onChange={onChange}
+              placeholder={"E-mail"}
+            />
+            <PasswordInput
+              value={form.password}
+              name="password"
+              onChange={onChange}
+            />
+          </div>
+          <Button>Войти</Button>
         </form>
-        <Button onClick={login}>Войти</Button>
         <div className={styles.links_wrap}>
           <span>
             Вы новый пользователь?{" "}

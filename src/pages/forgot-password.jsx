@@ -19,7 +19,7 @@ export function ForgotPasswordPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let request = useCallback(
+  const request = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(forgotPassword(form));
@@ -33,15 +33,16 @@ export function ForgotPasswordPage() {
     <section className={styles.main}>
       <div className={styles.container}>
         <span>Восстановление пароля</span>
-        <form className={styles.form}>
+        <form onSubmit={request} className={styles.form}>
           <Input
             placeholder={"Укажите e-mail"}
             value={form.email}
             name="email"
             onChange={onChange}
           />
+          <Button>Восстановить</Button>
         </form>
-        <Button onClick={request}>Восстановить</Button>
+        
 
         <div className={styles.links_wrap}>
           <span>Вспомнили пароль? <Link to="/login"> Войти </Link></span>

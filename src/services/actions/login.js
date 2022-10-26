@@ -29,24 +29,21 @@ export const SET_USER = "SET_USER";
 export const SET_USER_FAILED = "SET_USER_FAILED";
 export const TOKEN_UPDATE = "TOKEN_UPDATE";
 
-export const RESET_REQUEST = 'RESET_REQUEST'
-export const RESET_SUCCESS = 'RESET_SUCCESS'
+export const RESET_REQUEST = "RESET_REQUEST";
+export const RESET_SUCCESS = "RESET_SUCCESS";
 
 export const registerSend = (data) => {
   return function (dispatch) {
     dispatch({ type: REGISTER_REQUSET });
     register(data)
       .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: REGISTER_SUCCESS,
-          });
-        } else {
-          dispatch({ type: REGISTER_FAILED });
-        }
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.message,
+        });
       })
       .catch((err) => {
-        dispatch({ type: REGISTER_FAILED });
+        dispatch({ type: REGISTER_FAILED, payload: err.message });
       });
   };
 };
@@ -56,21 +53,17 @@ export const loginSend = (data) => {
     dispatch({ type: LOGIN_REQUEST });
     login(data)
       .then((res) => {
-        if (res && res.success) {
-          localStorage.setItem("refreshToken", res.refreshToken);
-          setCookie("accessToken", res.accessToken);
-          dispatch({
-            type: LOGIN_SUCCESS,
-            payload: res.user,
-            accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
-          });
-        } else {
-          dispatch({ type: LOGIN_FAILED });
-        }
+        localStorage.setItem("refreshToken", res.refreshToken);
+        setCookie("accessToken", res.accessToken);
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.user,
+          accessToken: res.accessToken,
+          refreshToken: res.refreshToken,
+        });
       })
       .catch((err) => {
-        dispatch({ type: REGISTER_FAILED });
+        dispatch({ type: LOGIN_FAILED });
       });
   };
 };
@@ -80,11 +73,7 @@ export const editProfile = (data) => {
     dispatch({ type: EDIT_REQUEST });
     editProfileRequest(data)
       .then((res) => {
-        if (res && res.success) {
-          dispatch({ type: EDIT_SUCCESS, payload: res.user });
-        } else {
-          dispatch({ type: LOGIN_FAILED });
-        }
+        dispatch({ type: EDIT_SUCCESS, payload: res.user });
       })
       .catch((err) => {
         dispatch({ type: EDIT_FAILED });
@@ -130,12 +119,10 @@ export const getUser = () => {
     dispatch({ type: SET_USER_REQUEST });
     getUserRequest()
       .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: SET_USER,
-            payload: res.user,
-          });
-        }
+        dispatch({
+          type: SET_USER,
+          payload: res.user,
+        });
       })
       .catch((err) => {
         if (err.message === "jwt expired") {
@@ -149,13 +136,14 @@ export const getUser = () => {
 
 export const forgotPassword = (data) => {
   return function (dispatch) {
-    dispatch({ type: RESET_REQUEST})
+    dispatch({ type: RESET_REQUEST });
     passwordResetRequest(data)
       .then((res) => {
-        if (res && res.success) {
-         
-          return res.message;
-        }
+        dispatch({
+          type: RESET_SUCCESS,
+          payload: res.message
+        })
+      
       })
       .catch((err) => Promise.reject(err));
   };
@@ -165,10 +153,7 @@ export const resetPassword = (data) => {
   return function (dispatch) {
     passwordReset(data)
       .then((res) => {
-        if (res && res.success) {
-          dispatch({ type: RESET_SUCCESS})
-          // return res.message;
-        }
+        dispatch({ type: RESET_SUCCESS, payload: res.message });
       })
       .catch((err) => Promise.reject(err));
   };
