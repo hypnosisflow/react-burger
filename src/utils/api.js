@@ -7,7 +7,9 @@ const checkResponse = (res) => {
 const BASE_URL = "https://norma.nomoreparties.space/api/";
 
 export async function loadIngredients() {
-  return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(checkResponse);
+  return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
+    checkResponse
+  );
 }
 
 export async function makeOrder(ingredients) {
@@ -30,7 +32,7 @@ export const register = async (form) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse)
+  }).then(checkResponse);
 };
 
 export const login = async (form) => {
@@ -61,7 +63,7 @@ export const logout = async () =>
     referrerPolicy: "no-referrer",
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
-    }).then(checkResponse)
+    }).then(checkResponse),
   });
 
 export const editProfileRequest = async (form) => {

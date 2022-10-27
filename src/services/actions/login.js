@@ -141,9 +141,8 @@ export const forgotPassword = (data) => {
       .then((res) => {
         dispatch({
           type: RESET_SUCCESS,
-          payload: res.message
-        })
-      
+          payload: res.message,
+        });
       })
       .catch((err) => Promise.reject(err));
   };

@@ -14,7 +14,6 @@ export function ForgotPasswordPage() {
   const history = useHistory();
   const [form, setValue] = useState({ email: "" });
 
-
   const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
@@ -24,7 +23,7 @@ export function ForgotPasswordPage() {
       e.preventDefault();
       dispatch(forgotPassword(form));
       setValue({ email: "" });
-      history.replace({ pathname: '/reset-password'})
+      history.replace({ pathname: "/reset-password" });
     },
     [form]
   );
@@ -42,11 +41,10 @@ export function ForgotPasswordPage() {
           />
           <Button>Восстановить</Button>
         </form>
-        
-
         <div className={styles.links_wrap}>
-          <span>Вспомнили пароль? <Link to="/login"> Войти </Link></span>
-          
+          <span>
+            Вспомнили пароль? <Link to="/login"> Войти </Link>
+          </span>
         </div>
       </div>
     </section>

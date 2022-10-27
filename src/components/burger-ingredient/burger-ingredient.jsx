@@ -5,7 +5,7 @@ import {
 import styles from "./burger-ingredient.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { countSelector } from "../../services/selectors/selectors";
-import { useDrag } from "react-dnd/dist/hooks";
+import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
 function BurgerIngredient({ ingredient, id, name }) {

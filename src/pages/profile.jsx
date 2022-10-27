@@ -31,6 +31,7 @@ export function ProfilePage() {
     (e) => {
       e.preventDefault();
       dispatch(editProfile(form));
+      setValue({ ...form, isChanged: false})
     },
     [form]
   );
@@ -110,7 +111,7 @@ export function ProfilePage() {
                 <Button onClick={clear} type="secondary" size="medium">
                   ОЧИСТИТЬ
                 </Button>
-                <Button type="submit" size="medium">
+                <Button size="medium">
                   {" "}
                   СОХРАНИТЬ{" "}
                 </Button>
