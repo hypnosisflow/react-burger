@@ -34,4 +34,11 @@ body {
 
 }
 
+a {
+  color: blue;
+  text-decoration: none;
+}
 
+html {
+  background: black;
+}

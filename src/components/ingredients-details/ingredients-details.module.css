@@ -1,5 +1,9 @@
+.section {
+    height: 100%;
+}
+
 .wrap {
-    background: #1C1C21;
+    background: transparent;
     width: 720px;
     height: 538px;
     display: flex;
@@ -15,6 +19,7 @@
     font-weight: 700;
     font-size: 36px;
     line-height: 40px;
+    text-align: center;
 }
 
 .name {
@@ -30,8 +35,9 @@
     margin-right: 40px;
     margin-left: 40px;
     width: 640px;
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
+    text-align: center;
 }
 
 .details {

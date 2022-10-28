@@ -107,12 +107,12 @@
   height: 64px;
 }
 
-.button {
+/* .button {
   padding: 0px;
   /* border: 1px solid blue; */
-  width: 215px;
+  /* width: 215px;
   height: 64px;
-}
+} */ 
 
 .list::-webkit-scrollbar {
   width: 8px;
