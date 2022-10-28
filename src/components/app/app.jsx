@@ -51,9 +51,11 @@ function App() {
     <DndProvider backend={HTML5Backend}>
       {menu && (
         <div className={styles.app}>
+
           <main className={styles.main}>
+          <AppHeader />
+
             {/* <Router> */}
-            <AppHeader />
             <Switch location={background || location}>
               <Route path="/" exact={true}>
                 <MainPage />
@@ -73,7 +75,7 @@ function App() {
               <ProtectedRoute path="/profile" exact={true}>
                 <ProfilePage />
               </ProtectedRoute>
-              <Route path="/ingredients/:id" >
+              <Route path="/ingredients/:id">
                 <IngredientsDetails item={item.item} />
               </Route>
               <Route>

@@ -11,7 +11,10 @@ import {
   LOGOUT,
   RESET_REQUEST,
   RESET_SUCCESS,
-  SET_USER_FAILED
+  SET_USER_FAILED,
+  RESET_REQUEST_FAILED,
+  AUTH_CHECKED,
+  AUTH_FAILED
 } from "../actions/login";
 
 const initialState = {
@@ -78,7 +81,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGIN_FAILED: {
-      return { ...state, loginSucces: false, loginError: true };
+      return { ...state, loginSucces: false, loginError: true, loggedIn: true };
     }
     case LOGOUT: {
       return { ...initialState}
@@ -95,8 +98,17 @@ export const authReducer = (state = initialState, action) => {
     case RESET_REQUEST: {
       return { ...state, resetRequest: true}
     }
+    case RESET_REQUEST_FAILED: {
+        return { ...state, resetRequest: false, resetSuccess: false}
+    }
     case RESET_SUCCESS: {
-      return { ...state, resetSuccess: true}
+      return { ...state, resetSuccess: true, resetRequest: true}
+    }
+    case AUTH_CHECKED: {
+      return {...state, loggedIn: true}
+    }
+    case AUTH_FAILED: {
+      return {...state, loggedIn: false }
     }
     case TOKEN_UPDATE: {
       return {

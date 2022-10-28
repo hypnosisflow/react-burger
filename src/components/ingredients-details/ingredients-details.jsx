@@ -1,15 +1,9 @@
 import React from "react";
 import styles from "./ingredients-details.module.css";
-import { ingredientType } from "../../utils/types";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-IngredientsDetails.propTypes = {
-  // item: ingredientType.isRequired,
-};
-
-function IngredientsDetails({}) {
+function IngredientsDetails() {
   const { id } = useParams();
   // console.log(id);
 

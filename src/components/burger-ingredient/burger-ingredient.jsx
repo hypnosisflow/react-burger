@@ -8,12 +8,12 @@ import { countSelector } from "../../services/selectors/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
-function BurgerIngredient({ ingredient, id, name }) {
+function BurgerIngredient({ ingredient, index }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const res = useSelector(countSelector);
-  // console.log(ingredient)
-  // console.log(location)
+  // console.log(ingredient.item._id)
+  // console.log(key)
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "MENU_INGREDIENT",

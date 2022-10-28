@@ -8,13 +8,19 @@
 .navigation {
   display: flex;
   margin-right: -120px;
+  text-align: center;
   /* width: 383px; */
   /* color: #282c34; */
 }
 
 /* .profile-links a {
   color: #8585AD;
+  
 } */
+
+header {
+  height: 88px;
+}
 
 .header {
   background-color: #282c34;
@@ -25,8 +31,8 @@
   /* color:#282c34; */
   /* color: white; */
   /* border: 1px solid red; */
-  height: 88px;
-  width: 100vw;
+  /* height: 288px; */
+  width: 100%;
 }
 
 .content {
@@ -36,7 +42,7 @@
   justify-content: space-between;
   /* position: absolute; */
   width: 1280px;
-  height: 56px;
+  height: 88px;
   left: calc(50% - 1280px/2);
   top: calc(50% - 56px/2);
   /* color: white; */

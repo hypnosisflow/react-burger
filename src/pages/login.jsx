@@ -18,7 +18,7 @@ export function LoginPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  let login = useCallback(
+  const login = useCallback(
     (e) => {
       e.preventDefault();
       dispatch(loginSend(form));

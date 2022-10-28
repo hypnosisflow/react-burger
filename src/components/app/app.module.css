@@ -8,7 +8,7 @@
 }
 
 .main {
-  /* width: 1280px; */
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
