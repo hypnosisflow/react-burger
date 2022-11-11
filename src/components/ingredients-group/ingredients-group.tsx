@@ -5,14 +5,7 @@ import { ADD_DETAILS } from "../../services/actions/ingredient";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { useDispatch } from "react-redux";
-import { TIngredient } from "../../utils/types";
-
-type TGroupProps = {
-  data: TIngredient[];
-  group: string;
-  onClick?: () => void;
-  ref: any;
-};
+import { TIngredient, TGroupProps } from "../../utils/types";
 
 const IngredientsGroup: FC<TGroupProps> = forwardRef(
   ({ data, group }, ref: LegacyRef<HTMLUListElement>) => {

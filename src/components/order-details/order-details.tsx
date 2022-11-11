@@ -3,8 +3,8 @@ import styles from "./order-details.module.css";
 //@ts-ignore
 import done from "../../images/done.png";
 
-
-function OrderDetails({ number }: number | any) {
+// ругается на Number??
+const  OrderDetails = ({ number }: any) => {
   return (
     <div className={styles.wrap}>
       <p className="text text_type_digits-large mt-30">{number}</p>

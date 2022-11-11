@@ -13,12 +13,7 @@ import {
   REMOVE_PRODUCT,
   REORDER_PRODUCTS,
 } from "../../services/actions/constructor";
-import { TIngredient } from "../../utils/types";
-
-type TConstructorProps = {
-  item: TIngredient;
-  index: number;
-};
+import { TConstructorProps } from "../../utils/types";
 
 const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
   const dispatch = useDispatch();
@@ -38,11 +33,13 @@ const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
         return;
       }
       //@ts-ignore
+      // getBoundingClientRect - не существует в типе never ?? 
       const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      //@ts-ignore
+      const clientOffset: any = monitor.getClientOffset();
+      //@ts-ignor
+      //clientOffset не ругается только с any, нужна ли тут вооьще типизация какаято?
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;

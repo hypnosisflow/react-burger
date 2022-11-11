@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { getUser } from "../services/actions/login";
 import { useDispatch } from 'react-redux';
+import { TState } from '../utils/types';
 
 export function ProtectedRoute({ auth = false, children, ...rest }: any) {
   //@ts-ignore
   const  user  = useSelector((state) => state.auth.user);
-  const location = useLocation();
+  const location = useLocation<TState>();
   const dispatch = useDispatch();
 
     useEffect(() => {
@@ -16,7 +17,6 @@ export function ProtectedRoute({ auth = false, children, ...rest }: any) {
     }, [])
 
     if (auth && user) {
-      //@ts-ignore
       const { from } = location.state || { from: {pathname: '/'}}
 
       return (

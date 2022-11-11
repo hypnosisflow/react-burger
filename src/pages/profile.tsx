@@ -10,6 +10,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile, logoutSend } from "../services/actions/login";
+import { TForm } from "../utils/types";
 
 export function ProfilePage() {
   const dispatch = useDispatch();
@@ -17,12 +18,6 @@ export function ProfilePage() {
   //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
-  type TForm = {
-    email: string;
-    password: string;
-    name: string;
-    isChanged?: boolean;
-  };
 
   const [form, setValue] = useState<TForm>({
     email: user.email,
@@ -44,6 +39,8 @@ export function ProfilePage() {
     },
     [form]
   );
+
+  // Нужноли как то типизировать штуки внизу ?? 
 
   const clear = useCallback(() => {
     setValue({
@@ -92,6 +89,7 @@ export function ProfilePage() {
               className={styles.input}
               placeholder={"Имя"}
               name="name"
+              //@ts-ignore ругается на TForm
               value={form.name}
               icon={"EditIcon"}
               // onIconClick={onIconClick}
@@ -101,6 +99,7 @@ export function ProfilePage() {
               className={styles.input}
               placeholder={"Email"}
               name="email"
+              //@ts-ignore ругается на TForm
               value={form.email}
               icon={"EditIcon"}
               // onIconClick={onIconClick}
@@ -110,6 +109,7 @@ export function ProfilePage() {
               className={styles.input}
               placeholder={"Пароль"}
               name="password"
+              //@ts-ignore ругается на TForm
               value={form.password}
               icon={"EditIcon"}
               // onIconClick={onIconClick}

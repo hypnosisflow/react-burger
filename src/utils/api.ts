@@ -1,5 +1,5 @@
 import { getCookie } from "./utils";
-import { TRes, TForm } from "./types";
+import { TForm, TIngredient } from "./types";
 
 // Мне кажется, что я что-то упускаю, упрощаю типизацию, пропуская важные моменты (не понимаю пока суть дженериков видимо)))
 
@@ -12,13 +12,15 @@ const checkResponse = (res: Response) => {
 const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
 // ? нужна тут типизация?
+// возвращает TIngredient массивом? 
+
 export async function loadIngredients() {
   return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
     checkResponse
   );
 }
 
-export async function makeOrder(ingredients: any) {
+export async function makeOrder(ingredients: TIngredient[]) {
   return await fetch(`${BASE_URL}orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

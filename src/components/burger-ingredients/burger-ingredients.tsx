@@ -3,13 +3,7 @@ import { useInView } from "react-intersection-observer";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "../ingredients-group/ingredients-group";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TIngredient } from "../../utils/types";
-
-type TIngredientsProps = {
-  data: TIngredient[];
-  openModal?: Function;
-  ref?: HTMLDivElement
-};
+import { TIngredientsProps } from "../../utils/types";
 
 const BurgerIngredients: FC<TIngredientsProps> = ({ data }) => {
   const [current, setCurrent] = useState("one");
@@ -52,25 +46,13 @@ const BurgerIngredients: FC<TIngredientsProps> = ({ data }) => {
       </div>
       <div className={styles.list}>
         <h3 className={styles.group}>Булки</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"bun"}
-          ref={bunsRef}
-        />
+        <IngredientsGroup data={menu} group={"bun"} ref={bunsRef} />
 
         <h3 className={styles.group}>Начинка</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"main"}
-          ref={mainsRef}
-        />
+        <IngredientsGroup data={menu} group={"main"} ref={mainsRef} />
 
         <h3 className={styles.group}>Соусы</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"sauce"}
-          ref={saucesRef}
-        />
+        <IngredientsGroup data={menu} group={"sauce"} ref={saucesRef} />
       </div>
     </section>
   );

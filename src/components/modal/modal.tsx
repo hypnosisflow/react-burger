@@ -4,18 +4,14 @@ import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-
-type TModal = {
-  closeModal: any,
-  children?: React.ReactNode
-}
+import { TModal } from "../../utils/types";
 
 const modalsElement = document.querySelector<any>("#modal");
 
 const Modal = ({ closeModal, children }: TModal) => {
-
   useEffect(() => {
-    const handleCloseEsc = (e: KeyboardEvent) => e.key === "Escape" && closeModal();
+    const handleCloseEsc = (e: KeyboardEvent) =>
+      e.key === "Escape" && closeModal();
 
     window.addEventListener("keydown", handleCloseEsc);
     return () => window.removeEventListener("keydown", handleCloseEsc);
@@ -25,10 +21,7 @@ const Modal = ({ closeModal, children }: TModal) => {
     <div className={styles.root}>
       <ModalOverlay closeModal={closeModal} />
       <div className={styles.content}>
-        <div
-          className={styles.close}
-          onClick={closeModal}
-        >
+        <div className={styles.close} onClick={closeModal}>
           <CloseIcon type="primary" />
         </div>
         {children}
@@ -36,6 +29,6 @@ const Modal = ({ closeModal, children }: TModal) => {
     </div>,
     modalsElement
   );
-}
+};
 
 export default Modal;

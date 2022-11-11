@@ -6,7 +6,7 @@ export type TIngredient = {
     price: number;
     image: string;
     image_large: string;
-    image_mobile: string,
+    image_mobile: string;
     calories: number;
     proteins: number;
     fat: number;
@@ -27,16 +27,50 @@ export interface IIgredient {
   carbohydrates: number;
 }
 
-export type TRes = {
-  res:  string
-  json: Function
-  ok: string,
-  err: any
-}
-
 export type TForm = {
-  name: string, 
-  password?: string,
-  email?: string
+  name?: string | undefined;
+  password?: string | undefined;
+  email?: string | undefined;
+  token?: string;
+  isChanged?: boolean;
+};
+
+export type TState = {
+  location: string;
+  background: any;
+  from?: any
+};
+
+export type TIngredientProps = {
+  ingredient: TIngredient;
+  onClick: () => void;
+  index: number;
+};
+
+export type TIngredientsProps = {
+  data: TIngredient[];
+  openModal?: Function;
+  ref?: HTMLDivElement;
+};
+
+export type TConstructorProps = {
+  item: TIngredient;
+  index: number;
+};
+
+export type TGroupProps = {
+  data: TIngredient[];
+  group: string;
+  onClick?: () => void;
+  ref: any;
+};
+
+export type TModal = {
+  closeModal: any,
+  children?: React.ReactNode
 }
 
+export type TModalOverlay = {
+  closeModal: any;
+  children?: React.ReactNode;
+};

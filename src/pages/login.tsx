@@ -7,13 +7,14 @@ import { loginSend } from "../services/actions/login";
 
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { TForm } from "../utils/types";
 
 export function LoginPage() {
   const dispatch = useDispatch();
   //@ts-ignore
   const user = useSelector((state) => state.auth.accessToken);
 
-  const [form, setValue] = useState({ email: "", password: "" });
+  const [form, setValue] = useState<TForm>({ email: "", password: "" });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -41,12 +42,14 @@ export function LoginPage() {
         <form onSubmit={login}>
           <div className={styles.form}>
             <Input
+            //@ts-ignore ругается на TForm
               value={form.email}
               name="email"
               onChange={onChange}
               placeholder={"E-mail"}
             />
             <PasswordInput
+            //@ts-ignore
               value={form.password}
               name="password"
               onChange={onChange}

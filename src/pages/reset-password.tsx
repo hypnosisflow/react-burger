@@ -8,13 +8,13 @@ import { resetPassword } from "../services/actions/login";
 
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { TForm } from "../utils/types";
 
 export function ResetPasswordPage() {
   const dispatch = useDispatch();
-  const [form, setValue] = useState({ password: "", token: "" });
+  const [form, setValue] = useState<TForm>({ password: "", token: "" });
   //@ts-ignore
   const resetAllowed = useSelector((state) => state.auth.resetRequest);
-  console.log(resetAllowed);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -42,12 +42,14 @@ export function ResetPasswordPage() {
         <form className={styles.form}>
           <Input
             placeholder={"Введите новый пароль"}
+            //@ts-ignore рушается на TForm? 
             value={form.password}
             name="password"
             onChange={onChange}
           />
           <Input
             placeholder={"Введите код из письма"}
+            //@ts-ignore 
             value={form.token}
             name="token"
             onChange={onChange}

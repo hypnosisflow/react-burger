@@ -10,10 +10,11 @@ import { Link } from "react-router-dom";
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { registerSend } from "../services/actions/login";
+import { TForm } from "../utils/types";
 
 export function RegisterPage() {
   const dispatch = useDispatch();
-  const [form, setValue] = useState({ email: "", password: "", name: "" });
+  const [form, setValue] = useState<TForm>({ email: "", password: "", name: "" });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -37,6 +38,7 @@ export function RegisterPage() {
           <div className={styles.form}>
             <Input
               name="name"
+              //@ts-ignore ругается TFORM 
               value={form.name}
               className={styles.input}
               onChange={onChange}
@@ -44,6 +46,7 @@ export function RegisterPage() {
             />
             <Input
               name="email"
+              //@ts-ignore ругается TFORM 
               value={form.email}
               className={styles.input}
               onChange={onChange}
@@ -51,6 +54,7 @@ export function RegisterPage() {
             />
             <PasswordInput
               name="password"
+              //@ts-ignore ругается TFORM 
               value={form.password}
               onChange={onChange}
             />

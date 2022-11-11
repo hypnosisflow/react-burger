@@ -10,14 +10,11 @@ import {
   useLocation,
 } from "react-router-dom";
 import styles from "./app.module.css";
-
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
 import IngredientsDetails from "../ingredients-details/ingredients-details";
 import { ProtectedRoute } from "../protected-route";
-
 import { fetchData } from "../../services/actions/menu";
-
 import {
   LoginPage,
   ProfilePage,
@@ -27,11 +24,9 @@ import {
   MainPage,
   Page404,
 } from "../../pages/index";
+import { TState } from "../../utils/types";
 
-type TState = {
-  location: string,
-  background: any,
-}
+
 
 const App: FC = () => {
   const dispatch = useDispatch();
