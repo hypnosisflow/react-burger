@@ -6,6 +6,7 @@ import BurgerConstructor from "../components/burger-constructor/burger-construct
 import { useSelector } from "react-redux";
 
 export function MainPage() {
+  //@ts-ignore
     const { menu } = useSelector((state) => state.menu);
 
   return (

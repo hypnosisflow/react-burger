@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,6 @@ import IngredientsDetails from "../ingredients-details/ingredients-details";
 import { ProtectedRoute } from "../protected-route";
 
 import { fetchData } from "../../services/actions/menu";
-import { REMOVE_DETAILS } from "../../services/actions/ingredient";
 
 import {
   LoginPage,
@@ -28,19 +27,20 @@ import {
   MainPage,
   Page404,
 } from "../../pages/index";
-import { checkUserAuth } from "../../services/actions/login";
 
-function App() {
+type TState = {
+  location: string,
+  background: any,
+}
+
+const App: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<TState>();
 
   const background = location.state && location.state.background;
-
   const handleModalClose = () => history.goBack();
-
-  const { modalOpen } = useSelector((state) => state.ingredient);
-  const { item } = useSelector((state) => state.ingredient);
+  //@ts-ignore
   const { menu } = useSelector((state) => state.menu);
 
   useEffect(() => {
@@ -51,11 +51,8 @@ function App() {
     <DndProvider backend={HTML5Backend}>
       {menu && (
         <div className={styles.app}>
-
           <main className={styles.main}>
-          <AppHeader />
-
-            {/* <Router> */}
+            <AppHeader />
             <Switch location={background || location}>
               <Route path="/" exact={true}>
                 <MainPage />
@@ -76,20 +73,19 @@ function App() {
                 <ProfilePage />
               </ProtectedRoute>
               <Route path="/ingredients/:id">
-                <IngredientsDetails item={item.item} />
+                <IngredientsDetails />
               </Route>
               <Route>
                 <Page404 />
               </Route>
             </Switch>
-            {/* </Router> */}
           </main>
         </div>
       )}
       {background && (
         <Route path="/ingredients/:id">
           <Modal closeModal={handleModalClose}>
-            <IngredientsDetails item={item.item} />
+            <IngredientsDetails />
           </Modal>
         </Route>
       )}

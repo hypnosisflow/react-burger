@@ -15,13 +15,14 @@ export function RegisterPage() {
   const dispatch = useDispatch();
   const [form, setValue] = useState({ email: "", password: "", name: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   let request = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
+      //@ts-ignore
       dispatch(registerSend(form));
       setValue({ email: "", password: "", name: "" });
       console.log(form);
@@ -54,7 +55,7 @@ export function RegisterPage() {
               onChange={onChange}
             />
           </div>
-          <Button className={styles.button}>Зарегистрироваться</Button>
+          <Button className={styles.button} htmlType={"button"}>Зарегистрироваться</Button>
         </form>
       </div>
       <div className={styles.links_wrap}>

@@ -1,3 +1,4 @@
+import React, { FC } from 'react';
 import {
   CurrencyIcon,
   Counter,
@@ -7,8 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { countSelector } from "../../services/selectors/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { TIngredient } from '../../utils/types'
 
-function BurgerIngredient({ ingredient, index }) {
+type TIngredientProps = {
+  ingredient: TIngredient
+  onClick: () => void;
+  index: number
+}
+
+const BurgerIngredient: FC<TIngredientProps> = ({ ingredient  }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const res = useSelector(countSelector);
@@ -46,7 +54,7 @@ function BurgerIngredient({ ingredient, index }) {
           <span className="text text_type_digits-default">
             {ingredient.item.price}
           </span>
-          <CurrencyIcon className={styles.icon} type="primary" />
+          <CurrencyIcon type="primary" />
         </div>
         <span className={styles.name}>{ingredient.item.name}</span>
       </li>

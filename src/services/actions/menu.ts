@@ -4,8 +4,8 @@ export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_FAILED = "FETCH_FAILED";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 
-export function fetchData() {
-  return function (dispatch) {
+export const fetchData: Function = () => {
+  return function (dispatch: any) {
     dispatch({
       type: FETCH_REQUEST,
     });

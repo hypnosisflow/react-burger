@@ -14,24 +14,33 @@ import { editProfile, logoutSend } from "../services/actions/login";
 export function ProfilePage() {
   const dispatch = useDispatch();
   const history = useHistory();
+  //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
-  const [form, setValue] = useState({
+  type TForm = {
+    email: string;
+    password: string;
+    name: string;
+    isChanged?: boolean;
+  };
+
+  const [form, setValue] = useState<TForm>({
     email: user.email,
     password: "********",
     name: user.name,
     isChanged: false,
   });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, isChanged: true, [e.target.name]: e.target.value });
   };
 
   const edit = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
+      //@ts-ignore
       dispatch(editProfile(form));
-      setValue({ ...form, isChanged: false})
+      setValue({ ...form, isChanged: false });
     },
     [form]
   );
@@ -42,13 +51,14 @@ export function ProfilePage() {
       password: "********",
       name: user.name,
     });
-  });
+  }, []);
 
   const logout = useCallback(() => {
+    //@ts-ignore
     dispatch(logoutSend()).then(() => {
       history.replace({ pathname: "/login" });
     });
-  });
+  }, []);
 
   return (
     <section className={styles.main_profile}>
@@ -108,25 +118,28 @@ export function ProfilePage() {
             ></PasswordInput>
             {form.isChanged && (
               <div>
-                <Button onClick={clear} type="secondary" size="medium">
+                <Button
+                  onClick={clear}
+                  type="secondary"
+                  size="medium"
+                  htmlType={"button"}
+                >
                   ОЧИСТИТЬ
                 </Button>
-                <Button size="medium">
+                <Button size="medium" htmlType={"button"}>
                   {" "}
                   СОХРАНИТЬ{" "}
                 </Button>
               </div>
             )}
-      
           </form>
         </div>
-        
       </div>
       <div className={styles.profile_info}>
-              <span className={styles.info}>
-                В этом разделе вы можете изменить свои персональные данные{" "}
-              </span>
-            </div>
+        <span className={styles.info}>
+          В этом разделе вы можете изменить свои персональные данные{" "}
+        </span>
+      </div>
     </section>
   );
 }

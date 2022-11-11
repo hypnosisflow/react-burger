@@ -1,16 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./ingredients-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TIngredient } from "../../utils/types";
 
-function IngredientsDetails() {
+const IngredientsDetails: FC = () => {
+  //@ts-ignore
   const { id } = useParams();
-  // console.log(id);
-
+  //@ts-ignore
   const menu = useSelector((state) => state.menu.menuSuccess);
-  console.log(menu);
 
   const data = useSelector((state) => {
+    //@ts-ignore
     return state.menu.menu.find((item) => item.item._id === id);
   });
 
@@ -45,6 +46,6 @@ function IngredientsDetails() {
       )}
     </section>
   );
-}
+};
 
 export default IngredientsDetails;

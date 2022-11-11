@@ -12,17 +12,18 @@ import { useDispatch, useSelector } from "react-redux";
 export function ResetPasswordPage() {
   const dispatch = useDispatch();
   const [form, setValue] = useState({ password: "", token: "" });
-
+  //@ts-ignore
   const resetAllowed = useSelector((state) => state.auth.resetRequest);
   console.log(resetAllowed);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const reset = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
+      //@ts-ignore
       dispatch(resetPassword(form));
       setValue({ password: "", token: "" });
       console.log(form);
@@ -52,7 +53,7 @@ export function ResetPasswordPage() {
             onChange={onChange}
           ></Input>
         </form>
-        <Button onClick={reset}>Сохранить</Button>
+        <Button onClick={reset} htmlType={"button"}>Сохранить</Button>
         <div className={styles.links_wrap}>
           <span>
             Вспомнили пароль? <Link to={"/login"}> Войти </Link>

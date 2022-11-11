@@ -1,16 +1,13 @@
-import React, { useCallback } from "react";
+import React, { SyntheticEvent, useCallback } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import PropTypes from "prop-types";
-import { dataType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   sumSelector,
@@ -21,25 +18,24 @@ import { ORDER_RESET, sendOrder } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
+import { TIngredient } from "../../utils/types";
 
-// BurgerConstructor.propTypes = {
-//   // data: dataType.isRequired,
-//   openModal: PropTypes.func.isRequired,
-// };
-
-function BurgerConstructor({ openModal, onDropHandler }) {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // @ts-ignore
   const orderNumber = useSelector((state) => state.order.orderNumber);
   const sum = useSelector(sumSelector);
   const ingredients = useSelector(constructorSelector);
   const buns = useSelector(hasBun);
+  //@ts-ignore
   const { ...bun } = useSelector((state) => state.cart.bun);
+  //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
     accept: "MENU_INGREDIENT",
-    drop: (item) => dispatch(addToConstructor(item.item)),
+    drop: (item: TIngredient) => dispatch(addToConstructor(item.item)),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -56,12 +52,12 @@ function BurgerConstructor({ openModal, onDropHandler }) {
   }
 
   const send = useCallback(
-    (e) => {
+    (e: SyntheticEvent<HTMLButtonElement>): void => {
       e.preventDefault();
       if (user) {
-        dispatch(sendOrder())
+        dispatch(sendOrder());
       } else {
-        history.push('/login')
+        history.push("/login");
       }
     },
     [user]
@@ -82,10 +78,14 @@ function BurgerConstructor({ openModal, onDropHandler }) {
       )}
       {/* <div style={{ backgroundColor }}> */}
       <ul className={styles.list}>
-        {ingredients.length || buns > 0 ? (
-          ingredients.map((item, index) => {
+        {ingredients.length || buns ? (
+          ingredients.map((item: TIngredient, index: number) => {
             return (
-              <ConstructorIngredient item={item} key={item.id} index={index} />
+              <ConstructorIngredient
+                item={item}
+                key={item.item._id}
+                index={index}
+              />
             );
           })
         ) : (
@@ -110,7 +110,7 @@ function BurgerConstructor({ openModal, onDropHandler }) {
       <div className={styles.order}>
         <div className={styles.sum}>
           <p className="text text_type_digits-medium">{sum}</p>
-          <CurrencyIcon className={styles.icon} />
+          <CurrencyIcon type={"primary"} />
         </div>
         <Button onClick={send} type="primary" size="medium">
           ОФОРМИТЬ ЗАКАЗ
@@ -123,6 +123,6 @@ function BurgerConstructor({ openModal, onDropHandler }) {
       )}
     </section>
   );
-}
+};
 
 export default BurgerConstructor;

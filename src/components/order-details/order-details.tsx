@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./order-details.module.css";
+//@ts-ignore
 import done from "../../images/done.png";
 
-function OrderDetails({ number }) {
+
+function OrderDetails({ number }: number | any) {
   return (
     <div className={styles.wrap}>
       <p className="text text_type_digits-large mt-30">{number}</p>

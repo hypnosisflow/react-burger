@@ -6,12 +6,11 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AppHeader() {
-  // const isConstructor = !!useRouteMatch({ path: '/', exact: true})
-
+// @ts-ignore
   const user = useSelector((state) => state.auth.user);
 
   return (
@@ -24,11 +23,11 @@ function AppHeader() {
             className={styles.button}
             activeClassName={styles.active}
           >
-            <BurgerIcon />
+            <BurgerIcon type={'primary'} />
             Конструктор
           </NavLink>
           <a href="#" className={styles.button}>
-            <ListIcon />
+            <ListIcon type={'primary'} />
             <span className={styles.inactive}>Лента заказов</span>
           </a>
         </nav>
@@ -38,7 +37,7 @@ function AppHeader() {
           className={styles.button}
           activeClassName={styles.active}
         >
-          <ProfileIcon />
+          <ProfileIcon type={'primary'}/>
           {user ? user.name : "Личный кабинет"}
         </NavLink>
       </div>

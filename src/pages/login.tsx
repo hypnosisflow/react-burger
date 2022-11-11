@@ -10,17 +10,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 export function LoginPage() {
   const dispatch = useDispatch();
+  //@ts-ignore
   const user = useSelector((state) => state.auth.accessToken);
 
   const [form, setValue] = useState({ email: "", password: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const login = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
+      //@ts-ignore
       dispatch(loginSend(form));
       setValue({ email: "", password: "" });
       console.log(form);
@@ -50,7 +52,7 @@ export function LoginPage() {
               onChange={onChange}
             />
           </div>
-          <Button>Войти</Button>
+          <Button htmlType={"button"}>Войти</Button>
         </form>
         <div className={styles.links_wrap}>
           <span>

@@ -14,13 +14,14 @@ export function ForgotPasswordPage() {
   const history = useHistory();
   const [form, setValue] = useState({ email: "" });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
   const request = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
+      //@ts-ignore
       dispatch(forgotPassword(form));
       setValue({ email: "" });
       history.replace({ pathname: "/reset-password" });
@@ -39,7 +40,7 @@ export function ForgotPasswordPage() {
             name="email"
             onChange={onChange}
           />
-          <Button>Восстановить</Button>
+          <Button htmlType={"button"}>Восстановить</Button>
         </form>
         <div className={styles.links_wrap}>
           <span>
