@@ -42,15 +42,15 @@ export function LoginPage() {
         <form onSubmit={login}>
           <div className={styles.form}>
             <Input
-            //@ts-ignore ругается на TForm
-              value={form.email}
+              //@ts-ignor ругается на TForm
+              value={form.email ? form.email : ""}
               name="email"
               onChange={onChange}
               placeholder={"E-mail"}
             />
             <PasswordInput
-            //@ts-ignore
-              value={form.password}
+              //@ts-ignor
+              value={form.password ? form.password : ""}
               name="password"
               onChange={onChange}
             />

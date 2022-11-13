@@ -28,9 +28,9 @@ export interface IIgredient {
 }
 
 export type TForm = {
-  name?: string | undefined;
-  password?: string | undefined;
-  email?: string | undefined;
+  name?: string;
+  password?: string;
+  email?: string;
   token?: string;
   isChanged?: boolean;
 };
@@ -38,7 +38,7 @@ export type TForm = {
 export type TState = {
   location: string;
   background: any;
-  from?: any
+  from?: any;
 };
 
 export type TIngredientProps = {
@@ -66,9 +66,9 @@ export type TGroupProps = {
 };
 
 export type TModal = {
-  closeModal: any,
-  children?: React.ReactNode
-}
+  closeModal: any;
+  children?: React.ReactNode;
+};
 
 export type TModalOverlay = {
   closeModal: any;

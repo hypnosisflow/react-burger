@@ -8,7 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 import styles from "./login.module.css";
 import { forgotPassword } from "../services/actions/login";
 import { useDispatch } from "react-redux";
-import { TForm  } from "../utils/types";
+import { TForm } from "../utils/types";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();
@@ -22,12 +22,12 @@ export function ForgotPasswordPage() {
   const request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore 
+      //@ts-ignore
       dispatch(forgotPassword(form));
       setValue({ email: "" });
       history.replace({ pathname: "/reset-password" });
     },
-    [form]
+    [form, dispatch, history]
   );
 
   return (
@@ -37,8 +37,7 @@ export function ForgotPasswordPage() {
         <form onSubmit={request} className={styles.form}>
           <Input
             placeholder={"Укажите e-mail"}
-            //@ts-ignore тут почему то ругается на тип TForm
-            value={form.email}
+            value={form.email ? form.email : ""}
             name="email"
             onChange={onChange}
           />

@@ -18,7 +18,6 @@ export function ProfilePage() {
   //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
-
   const [form, setValue] = useState<TForm>({
     email: user.email,
     password: "********",
@@ -39,8 +38,6 @@ export function ProfilePage() {
     },
     [form]
   );
-
-  // Нужноли как то типизировать штуки внизу ?? 
 
   const clear = useCallback(() => {
     setValue({
@@ -89,30 +86,24 @@ export function ProfilePage() {
               className={styles.input}
               placeholder={"Имя"}
               name="name"
-              //@ts-ignore ругается на TForm
-              value={form.name}
+              value={form.name ? form.name : ""}
               icon={"EditIcon"}
-              // onIconClick={onIconClick}
               onChange={onChange}
             ></Input>
             <Input
               className={styles.input}
               placeholder={"Email"}
               name="email"
-              //@ts-ignore ругается на TForm
-              value={form.email}
+              value={form.email ? form.email : ""}
               icon={"EditIcon"}
-              // onIconClick={onIconClick}
               onChange={onChange}
             ></Input>
             <PasswordInput
               className={styles.input}
               placeholder={"Пароль"}
               name="password"
-              //@ts-ignore ругается на TForm
-              value={form.password}
+              value={form.password ? form.password : ""}
               icon={"EditIcon"}
-              // onIconClick={onIconClick}
               onChange={onChange}
               size={"default"}
             ></PasswordInput>

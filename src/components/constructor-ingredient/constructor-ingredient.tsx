@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-
 import {
   ConstructorElement,
   DragIcon,
@@ -7,7 +6,7 @@ import {
 import { useDispatch } from "react-redux";
 import styles from "./constructor-ingredient.module.css";
 import { useRef } from "react";
-import { useDrop, useDrag, XYCoord } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 import { hover } from "@testing-library/user-event/dist/hover";
 import {
   REMOVE_PRODUCT,
@@ -18,7 +17,7 @@ import { TConstructorProps } from "../../utils/types";
 const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
   const dispatch = useDispatch();
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: ["INGREDIENT"],
     collect(monitor) {
@@ -32,14 +31,11 @@ const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-      //@ts-ignore
-      // getBoundingClientRect - не существует в типе never ?? 
-      const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect();
+
+      const hoverBoundingRect: any = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset: any = monitor.getClientOffset();
-      //@ts-ignor
-      //clientOffset не ругается только с any, нужна ли тут вооьще типизация какаято?
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;

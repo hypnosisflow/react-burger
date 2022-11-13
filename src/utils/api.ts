@@ -1,8 +1,6 @@
 import { getCookie } from "./utils";
 import { TForm, TIngredient } from "./types";
 
-// Мне кажется, что я что-то упускаю, упрощаю типизацию, пропуская важные моменты (не понимаю пока суть дженериков видимо)))
-
 const checkResponse = (res: Response) => {
   return res.ok
     ? res.json()
@@ -10,9 +8,6 @@ const checkResponse = (res: Response) => {
 };
 
 const BASE_URL: string = "https://norma.nomoreparties.space/api/";
-
-// ? нужна тут типизация?
-// возвращает TIngredient массивом? 
 
 export async function loadIngredients() {
   return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
@@ -71,22 +66,8 @@ export const logout = async () =>
     referrerPolicy: "no-referrer",
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
-      // @ts-ignore
-      // then тут выдает ошибку - не существует в string(откуда она идет?)
-    }).then(checkResponse),
-  });
-
-
-// пытался вывести тип для headers 96стр. 
-type THead = {
-  "Content-Type": string;
-  Authorization: string | undefined;
-};
-
-const head: THead = {
-  "Content-Type": "application/json",
-  Authorization: getCookie("accessToken"),
-};
+    }),
+  }).then(checkResponse);
 
 export const editProfileRequest = async (form: TForm) => {
   return await fetch(`${BASE_URL}auth/user`, {
@@ -94,12 +75,10 @@ export const editProfileRequest = async (form: TForm) => {
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
-    //@ts-ignore 
-    // headers тут ругается - не может для типа HeadersInit|undefined? и веде внизу? чего  тут надо доюиться?
     headers: {
       "Content-Type": "application/json",
       Authorization: getCookie("accessToken"),
-    },
+    } as HeadersInit,
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
@@ -112,11 +91,10 @@ export const getUserRequest = async () =>
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
-    // @ts-ignore
     headers: {
       "Content-Type": "application/json",
       Authorization: getCookie("accessToken"),
-    },
+    } as HeadersInit,
     redirect: "follow",
     referrerPolicy: "no-referrer",
   }).then(checkResponse);

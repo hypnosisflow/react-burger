@@ -42,20 +42,20 @@ export function ResetPasswordPage() {
         <form className={styles.form}>
           <Input
             placeholder={"Введите новый пароль"}
-            //@ts-ignore рушается на TForm? 
-            value={form.password}
+            value={form.password ? form.password : ""}
             name="password"
             onChange={onChange}
           />
           <Input
             placeholder={"Введите код из письма"}
-            //@ts-ignore 
-            value={form.token}
+            value={form.token ? form.token : ""}
             name="token"
             onChange={onChange}
           ></Input>
         </form>
-        <Button onClick={reset} htmlType={"button"}>Сохранить</Button>
+        <Button onClick={reset} htmlType={"button"}>
+          Сохранить
+        </Button>
         <div className={styles.links_wrap}>
           <span>
             Вспомнили пароль? <Link to={"/login"}> Войти </Link>

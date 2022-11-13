@@ -14,7 +14,11 @@ import { TForm } from "../utils/types";
 
 export function RegisterPage() {
   const dispatch = useDispatch();
-  const [form, setValue] = useState<TForm>({ email: "", password: "", name: "" });
+  const [form, setValue] = useState<TForm>({
+    email: "",
+    password: "",
+    name: "",
+  });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -34,32 +38,31 @@ export function RegisterPage() {
     <section className={styles.main}>
       <div className={styles.container}>
         <span> Регистрация </span>
-        <form onSubmit={request} >
+        <form onSubmit={request}>
           <div className={styles.form}>
             <Input
               name="name"
-              //@ts-ignore ругается TFORM 
-              value={form.name}
+              value={form.name ? form.name : ""}
               className={styles.input}
               onChange={onChange}
               placeholder={"Имя"}
             />
             <Input
               name="email"
-              //@ts-ignore ругается TFORM 
-              value={form.email}
+              value={form.email ? form.email : ""}
               className={styles.input}
               onChange={onChange}
               placeholder={"E-mail"}
             />
             <PasswordInput
               name="password"
-              //@ts-ignore ругается TFORM 
-              value={form.password}
+              value={form.password ? form.password : ""}
               onChange={onChange}
             />
           </div>
-          <Button className={styles.button} htmlType={"button"}>Зарегистрироваться</Button>
+          <Button className={styles.button} htmlType={"button"}>
+            Зарегистрироваться
+          </Button>
         </form>
       </div>
       <div className={styles.links_wrap}>

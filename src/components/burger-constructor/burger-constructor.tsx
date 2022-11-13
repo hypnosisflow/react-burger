@@ -51,9 +51,8 @@ const BurgerConstructor = () => {
     backgroundColor = "#111";
   }
 
-  // не понмиаю на что ругается
   const send = useCallback(
-    (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (user) {
         dispatch(sendOrder());
@@ -61,7 +60,7 @@ const BurgerConstructor = () => {
         history.push("/login");
       }
     },
-    [user]
+    [user, dispatch, history]
   );
 
   return (
@@ -113,13 +112,13 @@ const BurgerConstructor = () => {
           <p className="text text_type_digits-medium">{sum}</p>
           <CurrencyIcon type={"primary"} />
         </div>
-        <Button onClick={send} type="primary" size="medium"> 
+        <Button htmlType="button" onClick={send} type="primary" size="medium">
           ОФОРМИТЬ ЗАКАЗ
         </Button>
       </div>
       {orderNumber > 0 && (
         <Modal closeModal={() => dispatch({ type: ORDER_RESET })}>
-          <OrderDetails number={orderNumber} />
+          <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
     </section>
