@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { useInView } from "react-intersection-observer";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "../ingredients-group/ingredients-group";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { dataType } from "../../utils/types";
+import { TIngredientsProps } from "../../utils/types";
 
-
-BurgerIngredients.propTypes = {
-  // data: dataType.isRequired,
-  // openModal: PropTypes.func.isRequired,
-};
-
-function BurgerIngredients({ data, openModal }) {
+const BurgerIngredients: FC<TIngredientsProps> = ({ data }) => {
   const [current, setCurrent] = useState("one");
 
   const menu = data;
@@ -53,31 +46,16 @@ function BurgerIngredients({ data, openModal }) {
       </div>
       <div className={styles.list}>
         <h3 className={styles.group}>Булки</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"bun"}
-          open={openModal}
-          ref={bunsRef}
-        />
+        <IngredientsGroup data={menu} group={"bun"} ref={bunsRef} />
 
         <h3 className={styles.group}>Начинка</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"main"}
-          open={openModal}
-          ref={mainsRef}
-        />
+        <IngredientsGroup data={menu} group={"main"} ref={mainsRef} />
 
         <h3 className={styles.group}>Соусы</h3>
-        <IngredientsGroup
-          data={menu}
-          group={"sauce"}
-          open={openModal}
-          ref={saucesRef}
-        />
+        <IngredientsGroup data={menu} group={"sauce"} ref={saucesRef} />
       </div>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

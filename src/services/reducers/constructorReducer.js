@@ -22,7 +22,7 @@ export const constructorReducer = (state = initialState, action) => {
     case REMOVE_PRODUCT: {
       return {
         ...state,
-        items: state.items.filter((i) => i.id !== action.payload),
+        items: state.items.filter((i) => i._id !== action.payload),
       };
     }
     case REORDER_PRODUCTS: {
