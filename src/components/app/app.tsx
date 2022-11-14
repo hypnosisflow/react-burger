@@ -26,8 +26,6 @@ import {
 } from "../../pages/index";
 import { TState } from "../../utils/types";
 
-
-
 const App: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -86,5 +84,5 @@ const App: FC = () => {
       )}
     </DndProvider>
   );
-}
+};
 export default App;
