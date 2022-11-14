@@ -65,7 +65,7 @@ const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
   return (
     <div>
       <li
-        key={item.item._id}
+        key={item._id}
         className={styles.component}
         style={{ opacity }}
         data-handler-id={handlerId}
@@ -73,11 +73,11 @@ const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {
       >
         <DragIcon type="primary" />
         <ConstructorElement
-          text={item.item.name}
-          price={item.item.price}
-          thumbnail={item.item.image_mobile}
+          text={item.name}
+          price={item.price}
+          thumbnail={item.image_mobile}
           handleClose={() =>
-            dispatch({ type: REMOVE_PRODUCT, payload: item.item._id })
+            dispatch({ type: REMOVE_PRODUCT, payload: item._id })
           }
         />
       </li>

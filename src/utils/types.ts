@@ -1,10 +1,8 @@
-
-import * as H from 'history';
-import { Ref } from 'react';
-
+import * as H from "history";
+import { Ref } from "react";
 
 export type TIngredientItem = {
-  item: IIngredient
+  item: IIngredient;
 };
 
 export interface IIngredient {
@@ -14,7 +12,7 @@ export interface IIngredient {
   price: number;
   image: string;
   image_large: string;
-  image_mobile: string,
+  image_mobile: string;
   calories: number;
   proteins: number;
   fat: number;
@@ -40,7 +38,7 @@ export type TState = {
   location: H.Location;
   background: H.Location;
   from: H.LocationDescriptor;
-}
+};
 
 export type TIngredientProps = {
   ingredient: TIngredientItem;
@@ -55,7 +53,7 @@ export type TIngredientsProps = {
 };
 
 export type TConstructorProps = {
-  item: TIngredientItem;
+  item: IIngredient;
   index: number;
 };
 
@@ -63,7 +61,7 @@ export type TGroupProps = {
   data: TIngredientItem[];
   group: string;
   onClick?: () => void;
-  ref: Ref<HTMLUListElement> ;
+  ref: Ref<HTMLUListElement>;
 };
 
 export type TModal = {

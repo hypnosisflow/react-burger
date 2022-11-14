@@ -27,6 +27,7 @@ const BurgerConstructor = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
   const sum = useSelector(sumSelector);
   const ingredients = useSelector(constructorSelector);
+  console.log(ingredients)
   const buns = useSelector(hasBun);
   //@ts-ignore
   const { ...bun } = useSelector((state) => state.cart.bun);
@@ -35,7 +36,7 @@ const BurgerConstructor = () => {
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
     accept: "MENU_INGREDIENT",
-    drop: (item: TIngredientItem) => dispatch(addToConstructor(item.item)),
+    drop: (item: any) => dispatch(addToConstructor(item.item)),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -79,11 +80,11 @@ const BurgerConstructor = () => {
       {/* <div style={{ backgroundColor }}> */}
       <ul className={styles.list}>
         {ingredients.length || buns ? (
-          ingredients.map((item: TIngredientItem, index: number) => {
+          ingredients.map((item: any, index: number) => {
             return (
               <ConstructorIngredient
                 item={item}
-                key={item.item._id}
+                key={item._id}
                 index={index}
               />
             );
