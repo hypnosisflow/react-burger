@@ -1,5 +1,5 @@
 import { getCookie } from "./utils";
-import { TForm, TIngredient } from "./types";
+import { TForm, TIngredientItem } from "./types";
 
 const checkResponse = (res: Response) => {
   return res.ok
@@ -15,7 +15,7 @@ export async function loadIngredients() {
   );
 }
 
-export async function makeOrder(ingredients: TIngredient[]) {
+export async function makeOrder(ingredients: TIngredientItem[]) {
   return await fetch(`${BASE_URL}orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

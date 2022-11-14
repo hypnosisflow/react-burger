@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./order-details.module.css";
-//@ts-ignore
 import done from "../../images/done.png";
 
 const  OrderDetails = ({ orderNumber }: {orderNumber: number}) => {

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styles from "./ingredients-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TIngredient } from "../../utils/types";
+import { TIngredientItem } from "../../utils/types";
 
 const IngredientsDetails: FC = () => {
   //@ts-ignore

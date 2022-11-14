@@ -1,4 +1,8 @@
-export function setCookie(name: string, value: any, props: any) {
+export function setCookie(
+  name: string,
+  value: string | number | boolean,
+  props: { [x: string]: any; expires?: any; } | undefined
+) {
   props = {
     path: "/",
     ...props,
@@ -35,6 +39,6 @@ export function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name: string,) {
-  setCookie(name, null, { expires: -1 });
+export function deleteCookie(name: string) {
+  setCookie(name, '', { expires: -1 });
 }

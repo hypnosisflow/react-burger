@@ -5,18 +5,18 @@ import { ADD_DETAILS } from "../../services/actions/ingredient";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { useDispatch } from "react-redux";
-import { TIngredient, TGroupProps } from "../../utils/types";
+import { TIngredientItem, TGroupProps } from "../../utils/types";
 
 const IngredientsGroup: FC<TGroupProps> = forwardRef(
   ({ data, group }, ref: LegacyRef<HTMLUListElement>) => {
     const dispatch = useDispatch();
-    const filteredItems = data.filter((item: TIngredient) => {
+    const filteredItems = data.filter((item: TIngredientItem) => {
       return item.item.type === group;
     });
 
     return (
       <ul className={styles.group} ref={ref}>
-        {filteredItems.map((ingredient: TIngredient, index: number) => {
+        {filteredItems.map((ingredient: TIngredientItem, index: number) => {
           return (
             <BurgerIngredient
               onClick={() =>

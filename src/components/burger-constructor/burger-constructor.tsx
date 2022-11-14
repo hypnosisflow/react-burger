@@ -18,7 +18,7 @@ import { ORDER_RESET, sendOrder } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
-import { TIngredient } from "../../utils/types";
+import { TIngredientItem } from "../../utils/types";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const BurgerConstructor = () => {
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
     accept: "MENU_INGREDIENT",
-    drop: (item: TIngredient) => dispatch(addToConstructor(item.item)),
+    drop: (item: TIngredientItem) => dispatch(addToConstructor(item.item)),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -79,7 +79,7 @@ const BurgerConstructor = () => {
       {/* <div style={{ backgroundColor }}> */}
       <ul className={styles.list}>
         {ingredients.length || buns ? (
-          ingredients.map((item: TIngredient, index: number) => {
+          ingredients.map((item: TIngredientItem, index: number) => {
             return (
               <ConstructorIngredient
                 item={item}

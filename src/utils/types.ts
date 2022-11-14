@@ -1,30 +1,31 @@
-export type TIngredient = {
-  item: {
-    _id: string;
-    name: string;
-    type: string;
-    price: number;
-    image: string;
-    image_large: string;
-    image_mobile: string;
-    calories: number;
-    proteins: number;
-    fat: number;
-    carbohydrates: number;
-  };
+
+import * as H from 'history';
+import { Ref } from 'react';
+
+
+export type TIngredientItem = {
+  item: IIngredient
 };
 
-export interface IIgredient {
+export interface IIngredient {
   _id: string;
   name: string;
   type: string;
   price: number;
   image: string;
   image_large: string;
+  image_mobile: string,
   calories: number;
   proteins: number;
   fat: number;
   carbohydrates: number;
+}
+
+export interface IProtectedRouteProps {
+  auth?: boolean;
+  children: React.ReactNode;
+  path: string;
+  exact: boolean;
 }
 
 export type TForm = {
@@ -36,33 +37,33 @@ export type TForm = {
 };
 
 export type TState = {
-  location: string;
-  background: any;
-  from?: any;
-};
+  location: H.Location;
+  background: H.Location;
+  from: H.LocationDescriptor;
+}
 
 export type TIngredientProps = {
-  ingredient: TIngredient;
+  ingredient: TIngredientItem;
   onClick: () => void;
   index: number;
 };
 
 export type TIngredientsProps = {
-  data: TIngredient[];
+  data: TIngredientItem[];
   openModal?: Function;
   ref?: HTMLDivElement;
 };
 
 export type TConstructorProps = {
-  item: TIngredient;
+  item: TIngredientItem;
   index: number;
 };
 
 export type TGroupProps = {
-  data: TIngredient[];
+  data: TIngredientItem[];
   group: string;
   onClick?: () => void;
-  ref: any;
+  ref: Ref<HTMLUListElement> ;
 };
 
 export type TModal = {
