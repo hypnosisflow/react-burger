@@ -55,7 +55,7 @@ export function LoginPage() {
               onChange={onChange}
             />
           </div>
-          <Button htmlType={"button"}>Войти</Button>
+          <Button htmlType={"submit"}>Войти</Button>
         </form>
         <div className={styles.links_wrap}>
           <span>

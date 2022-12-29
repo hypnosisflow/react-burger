@@ -11,7 +11,7 @@ import { hover } from "@testing-library/user-event/dist/hover";
 import {
   REMOVE_PRODUCT,
   REORDER_PRODUCTS,
-} from "../../services/actions/constructor";
+} from "../../services/constants/constructor";
 import { TConstructorProps } from "../../utils/types";
 
 const ConstructorIngredient: FC<TConstructorProps> = ({ item, index }) => {

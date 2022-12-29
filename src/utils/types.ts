@@ -2,6 +2,7 @@ import * as H from "history";
 import { Ref } from "react";
 
 export type TIngredientItem = {
+  _id: IIngredient;
   item: IIngredient;
 };
 
@@ -17,6 +18,8 @@ export interface IIngredient {
   proteins: number;
   fat: number;
   carbohydrates: number;
+  to: number;
+  from: number;
 }
 
 export interface IProtectedRouteProps {
@@ -27,11 +30,14 @@ export interface IProtectedRouteProps {
 }
 
 export type TForm = {
+  user?: TForm
   name?: string;
   password?: string;
   email?: string;
   token?: string;
   isChanged?: boolean;
+  readonly refreshToken?: string;
+  readonly accessToken?: string;
 };
 
 export type TState = {

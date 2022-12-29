@@ -6,7 +6,7 @@ import {
 import { Link, useHistory } from "react-router-dom";
 
 import styles from "./login.module.css";
-import { forgotPassword } from "../services/actions/login";
+import { forgotPassword } from "../services/actions/profile";
 import { useDispatch } from "react-redux";
 import { TForm } from "../utils/types";
 

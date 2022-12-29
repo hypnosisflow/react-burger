@@ -4,11 +4,15 @@ import { ingredientReducer } from "./ingredientReducer";
 import { combineReducers } from "redux";
 import { constructorReducer } from "./constructorReducer";
 import { authReducer } from "./authReducers";
+import { userReducer } from "./userReducer";
+import { wsReducer } from "./wsReducer";
 
 export const rootReducer = combineReducers({
   menu: menuReducer,
   order: orderReducer,
   ingredient: ingredientReducer,
   cart: constructorReducer,
-  auth: authReducer
+  auth: authReducer,
+  user: userReducer,
+  ws: wsReducer
 });

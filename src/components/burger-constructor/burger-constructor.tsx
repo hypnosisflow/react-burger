@@ -14,11 +14,13 @@ import {
   constructorSelector,
   hasBun,
 } from "../../services/selectors/selectors";
-import { ORDER_RESET, sendOrder } from "../../services/actions/order";
+import { sendOrder } from "../../services/actions/order";
+import { ORDER_RESET } from "../../services/constants/order"
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
 import { TIngredientItem } from "../../utils/types";
+import { TState } from "../../services/reducers/constructorReducer";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -27,10 +29,11 @@ const BurgerConstructor = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
   const sum = useSelector(sumSelector);
   const ingredients = useSelector(constructorSelector);
-  console.log(ingredients)
-  const buns = useSelector(hasBun);
-  //@ts-ignore
-  const { ...bun } = useSelector((state) => state.cart.bun);
+  console.log(ingredients);
+  const bun = useSelector(hasBun);
+  console.log(bun)
+  // @ts-ignore
+  const { ...buns } = useSelector((state) => state.cart.bun)  ;
   //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
@@ -66,27 +69,23 @@ const BurgerConstructor = () => {
 
   return (
     <section ref={drop} className={styles.constructorwrap}>
-      {buns && (
+      {bun && (
         <div className={styles.top_item}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={bun.name + " (верх)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={buns.name + " (верх)"}
+            price={buns.price}
+            thumbnail={buns.image}
           />
         </div>
       )}
       {/* <div style={{ backgroundColor }}> */}
       <ul className={styles.list}>
-        {ingredients.length || buns ? (
+        {ingredients.length || bun ? (
           ingredients.map((item: any, index: number) => {
             return (
-              <ConstructorIngredient
-                item={item}
-                key={item._id}
-                index={index}
-              />
+              <ConstructorIngredient item={item} key={item._id} index={index} />
             );
           })
         ) : (
@@ -97,14 +96,14 @@ const BurgerConstructor = () => {
       </ul>
       {/* </div> */}
 
-      {buns && (
+      {bun && (
         <div className={styles.last_item}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun.name + " (верх)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={buns.name + " (верх)"}
+            price={buns.price}
+            thumbnail={buns.image}
           />
         </div>
       )}

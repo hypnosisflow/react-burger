@@ -1,0 +1,6 @@
+export const FETCH_REQUEST = "FETCH_REQUEST";
+export const FETCH_FAILED = "FETCH_FAILED";
+export const FETCH_SUCCESS = "FETCH_SUCCESS";
+
+export const ADD_DETAILS = "ADD_DETAILS";
+export const REMOVE_DETAILS = "REMOVE_DETAILS";

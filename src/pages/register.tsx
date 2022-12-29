@@ -22,17 +22,18 @@ export function RegisterPage() {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
+    console.log(form)
   };
 
   let request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
+      // @ts-ignore
       dispatch(registerSend(form));
       setValue({ email: "", password: "", name: "" });
       console.log(form);
     },
-    [form]
+    [form, dispatch]
   );
   return (
     <section className={styles.main}>
@@ -43,14 +44,14 @@ export function RegisterPage() {
             <Input
               name="name"
               value={form.name ? form.name : ""}
-              className={styles.input}
+              // className={styles.input}
               onChange={onChange}
               placeholder={"Имя"}
             />
             <Input
               name="email"
               value={form.email ? form.email : ""}
-              className={styles.input}
+              // className={styles.input}
               onChange={onChange}
               placeholder={"E-mail"}
             />
@@ -60,7 +61,7 @@ export function RegisterPage() {
               onChange={onChange}
             />
           </div>
-          <Button className={styles.button} htmlType={"button"}>
+          <Button htmlType={"submit"}>
             Зарегистрироваться
           </Button>
         </form>

@@ -1,7 +1,7 @@
 import React, { useEffect, FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/hooks";
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +25,8 @@ import {
   Page404,
 } from "../../pages/index";
 import { TState } from "../../utils/types";
+import { WS_CONNECTION_START, WS_CONNECTION_SUCCESS } from "../../models/wsActionTypes";
+import { wsConnectionClose, wsConnectionStart } from "../../services/actions/wsActions";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -33,12 +35,17 @@ const App: FC = () => {
 
   const background = location.state && location.state.background;
   const handleModalClose = () => history.goBack();
-  //@ts-ignore
-  const { menu } = useSelector((state) => state.menu);
+  // @ts-ignore
+  const { menu } = useSelector((state) => state.menu)<any>;
 
   useEffect(() => {
     dispatch(fetchData());
-  }, []);
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(wsConnectionStart())
+
+  // }, [dispatch]);
 
   return (
     <DndProvider backend={HTML5Backend}>

@@ -9,7 +9,8 @@ import { NavLink, useHistory } from "react-router-dom";
 
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { editProfile, logoutSend } from "../services/actions/login";
+import { editProfile } from "../services/actions/profile";
+import { logoutSend } from "../services/actions/login";
 import { TForm } from "../utils/types";
 
 export function ProfilePage() {
@@ -36,7 +37,7 @@ export function ProfilePage() {
       dispatch(editProfile(form));
       setValue({ ...form, isChanged: false });
     },
-    [form]
+    [form, dispatch]
   );
 
   const clear = useCallback(() => {
@@ -45,14 +46,14 @@ export function ProfilePage() {
       password: "********",
       name: user.name,
     });
-  }, []);
+  }, [user]);
 
   const logout = useCallback(() => {
     //@ts-ignore
     dispatch(logoutSend()).then(() => {
       history.replace({ pathname: "/login" });
     });
-  }, []);
+  }, [dispatch, history]);
 
   return (
     <section className={styles.main_profile}>
@@ -83,7 +84,7 @@ export function ProfilePage() {
         <div className={styles.inputs_wrapper}>
           <form onSubmit={edit} className={styles.inputs_wrapper}>
             <Input
-              className={styles.input}
+              // className={styles.input}
               placeholder={"Имя"}
               name="name"
               value={form.name ? form.name : ""}
@@ -91,7 +92,7 @@ export function ProfilePage() {
               onChange={onChange}
             ></Input>
             <Input
-              className={styles.input}
+              // className={styles.input}
               placeholder={"Email"}
               name="email"
               value={form.email ? form.email : ""}
@@ -99,7 +100,7 @@ export function ProfilePage() {
               onChange={onChange}
             ></Input>
             <PasswordInput
-              className={styles.input}
+              // className={styles.input}
               placeholder={"Пароль"}
               name="password"
               value={form.password ? form.password : ""}

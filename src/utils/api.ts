@@ -1,6 +1,44 @@
 import { getCookie } from "./utils";
 import { TForm, TIngredientItem } from "./types";
 
+type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
+  [key in TDataKey]: TDataType;
+} & {
+  success: boolean;
+  message?: string;
+  headers?: Headers;
+  readonly refreshToken: string;
+  readonly accessToken: string;
+};
+
+interface CustomBody<T extends any> extends Body {
+  json(): Promise<T>;
+}
+
+export interface CustomResponse<T> extends CustomBody<T> {
+  readonly headers: Headers;
+  readonly ok: boolean;
+  readonly redirected: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly trailer?: Promise<Headers>;
+  readonly type: ResponseType;
+  readonly url: string;
+  readonly refreshToken: string;
+  readonly accessToken: string;
+  readonly user: T;
+  readonly message: string;
+  readonly payload: T
+}
+
+export type TTokenResponse = {
+  // accessToken: string
+  payload: TForm;
+  user: TForm;
+  readonly refreshToken: string;
+  readonly accessToken: string;
+};
+
 const checkResponse = (res: Response) => {
   return res.ok
     ? res.json()
@@ -23,8 +61,10 @@ export async function makeOrder(ingredients: TIngredientItem[]) {
   }).then(checkResponse);
 }
 
-export const register = async (form: TForm) => {
-  return await fetch(`${BASE_URL}auth/register `, {
+export const register = async (
+  form: TForm
+): Promise<TResponseBody<"user", CustomResponse<TForm>>> => {
+  return await fetch(`${BASE_URL}auth/register`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -38,7 +78,9 @@ export const register = async (form: TForm) => {
   }).then(checkResponse);
 };
 
-export const login = async (form: TForm) => {
+export const login = async (
+  form: TForm
+): Promise<TResponseBody<"user", CustomResponse<TTokenResponse>>> => {
   return await fetch(`${BASE_URL}auth/login`, {
     method: "POST",
     mode: "cors",
@@ -53,7 +95,7 @@ export const login = async (form: TForm) => {
   }).then(checkResponse);
 };
 
-export const logout = async () =>
+export const logout = async (): Promise<Response> =>
   await fetch(`${BASE_URL}auth/logout`, {
     method: "POST",
     mode: "cors",
@@ -67,9 +109,11 @@ export const logout = async () =>
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  });
 
-export const editProfileRequest = async (form: TForm) => {
+export const editProfileRequest = async (
+  form: TForm
+): Promise<TResponseBody<"user", TForm>> => {
   return await fetch(`${BASE_URL}auth/user`, {
     method: "PATCH",
     mode: "cors",
@@ -85,7 +129,7 @@ export const editProfileRequest = async (form: TForm) => {
   }).then(checkResponse);
 };
 
-export const getUserRequest = async () =>
+export const getUserRequest = async (): Promise<TResponseBody<"user", TForm>> =>
   await fetch(`${BASE_URL}auth/user`, {
     method: "GET",
     mode: "cors",
@@ -99,7 +143,8 @@ export const getUserRequest = async () =>
     referrerPolicy: "no-referrer",
   }).then(checkResponse);
 
-export const tokenUpdate = async () =>
+export const tokenUpdate = async ( ...args: any
+): Promise<TResponseBody<"token", TForm>> =>
   await fetch(`${BASE_URL}auth/token`, {
     method: "POST",
     mode: "cors",
@@ -115,7 +160,9 @@ export const tokenUpdate = async () =>
     }),
   }).then(checkResponse);
 
-export const passwordResetRequest = async (form: TForm) => {
+export const passwordResetRequest = async (
+  form: TForm
+): Promise<TResponseBody<"user", TForm>> => {
   return await fetch(`${BASE_URL}reset-password`, {
     method: "POST",
     mode: "cors",
@@ -127,10 +174,12 @@ export const passwordResetRequest = async (form: TForm) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  });
+  }).then(checkResponse);
 };
 
-export const passwordReset = async (form: TForm) => {
+export const passwordReset = async (
+  form: TForm
+): Promise<TResponseBody<"user", TForm>> => {
   return await fetch(`${BASE_URL}password-reset/reset`, {
     method: "POST",
     mode: "cors",
