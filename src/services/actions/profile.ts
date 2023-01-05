@@ -15,7 +15,7 @@ import {
 } from "../../utils/api";
 
 import { TForm } from "../../utils/types";
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 
 // edit profile section
 export type TEditAction = {

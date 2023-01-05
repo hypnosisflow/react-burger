@@ -9,15 +9,14 @@ import { rootReducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./utils/socketMiddleware";
 import { TWsActions } from "./services/actions/wsActions";
-import { ordersWsActions } from './utils/socketMiddleware'
-
+import { ordersWsActions } from "./services/constants/ws";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsUrl, ordersWsActions))
+  applyMiddleware(thunk, socketMiddleware(ordersWsActions))
 );
 
 // socketMiddleware(wsUrl, WSAction)

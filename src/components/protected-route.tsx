@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { getUser } from "../services/actions/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../utils/hooks";
 import { TState, IProtectedRouteProps } from "../utils/types";
 
 export function ProtectedRoute({
@@ -16,9 +15,8 @@ export function ProtectedRoute({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getUser());
-  }, []);
+  }, [dispatch]);
 
   if (auth && user) {
     const { from } = location.state || { from: { pathname: "/" } };
@@ -29,6 +27,7 @@ export function ProtectedRoute({
       </Route>
     );
   }
+
 
   if (!auth && !user) {
     return (

@@ -1,28 +1,10 @@
-import type { TApplicationActions, AppDispatch, RootState } from "./index";
-import type { Middleware, MiddlewareAPI } from "redux";
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
-} from "../services/constants/ws";
+import type { Middleware } from "redux";
+import { RootState } from ".";
 
-export const ordersWsActions = {
-  wsConnect: WS_CONNECTION_START,
-  wsDisconnect: WS_CONNECTION_CLOSED,
-  wsConnecting: WS_CONNECTION_START,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE,
-};
-
-export type TWSA = {
+export type TWsActions = {
   wsConnect: string;
   wsDisconnect: string;
-  wsSendMessage: string;
+  wsSendMessage?: string;
   wsConnecting: string;
   onOpen: string;
   onClose: string;
@@ -30,12 +12,12 @@ export type TWSA = {
   onMessage: string;
 };
 
-export const socketMiddleware: any = (
-  url: string,
-  wsAction: TWSA
+export const socketMiddleware = (
+  wsActions: TWsActions
 ): Middleware<{}, RootState> => {
-  return ((store) => {
+  return (store) => {
     let socket: WebSocket | null = null;
+    // let url = "";
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -48,16 +30,20 @@ export const socketMiddleware: any = (
         onClose,
         onError,
         onMessage,
-      } = wsAction;
+      } = wsActions;
 
       if (type === wsConnect) {
-        socket = new WebSocket(url);
+        // url = payload;
+        socket = new WebSocket(action.url);
         dispatch({ type: wsConnecting });
       }
       console.log(socket, " socket ");
 
       if (socket) {
-        // открытие сокета
+        if (type === wsDisconnect) {
+          socket.close();
+          dispatch({ type: onClose });
+        }
         socket.onopen = () => {
           dispatch({ type: onOpen });
         };
@@ -67,7 +53,6 @@ export const socketMiddleware: any = (
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-
           dispatch({ type: onMessage, payload: parsedData });
         };
         socket.onclose = (event) => {
@@ -76,13 +61,8 @@ export const socketMiddleware: any = (
           }
           dispatch({ type: onError, error: event.code.toString() });
         };
-
-        // if (type === onMessage) {
-        //   const message = payload;
-        //   socket.send(JSON.stringify(message));
-        // }
       }
       next(action);
     };
-  }) as Middleware;
+  };
 };

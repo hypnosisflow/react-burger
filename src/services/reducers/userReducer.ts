@@ -1,3 +1,4 @@
+import { TForm } from './../../../../../maket/src/utils/types';
 import {
   SET_USER_FAILED,
   SET_USER_REQUEST,
@@ -14,10 +15,9 @@ import {
 
 import { TProfileActions } from "./../actions/profile";
 import { TUserActions } from "./../actions/user";
-import { TForm } from "./../../utils/types";
 
 export type TUserState = {
-  user: TForm;
+  user?: TForm | null;
 
   data: any;
   loggedIn: boolean;
@@ -32,7 +32,7 @@ export type TUserState = {
 type TUserReducerActions = TProfileActions | TUserActions;
 
 const initialState = {
-  user: {},
+  user: null,
   data: null,
 
   loggedIn: false,
@@ -57,7 +57,7 @@ export const userReducer = (
       return { ...state, user: action.payload, data: action.data };
     }
     case SET_USER_FAILED: {
-      return { ...state, user: {} };
+      return { ...state, user: null };
     }
 
     case AUTH_CHECKED: {

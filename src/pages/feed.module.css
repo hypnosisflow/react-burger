@@ -1,0 +1,74 @@
+.main {
+    height: 100vh;
+    border: 1px solid red;
+    display: flex;
+    width: 1280px;
+    justify-content: space-between;
+}
+
+.feed {
+    border: 1px solid yellow;
+    width: 600px;
+}
+
+.total {
+    border: 1px solid yellow;
+    width: 600px;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.card {
+    border: 1px solid white;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.statelists {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.statelist {
+    list-style-type: none;
+    width: 50%;
+    margin-top: 24px;
+}
+
+.alltime {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.number {
+    font-size: 48px;
+
+
+}
+
+
+.today {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}

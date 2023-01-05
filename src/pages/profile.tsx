@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+ import React, { useState, useCallback, useEffect } from "react";
 import {
   Input,
   Button,
@@ -8,7 +8,7 @@ import {
 import { NavLink, useHistory } from "react-router-dom";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../utils/hooks";
 import { editProfile } from "../services/actions/profile";
 import { logoutSend } from "../services/actions/login";
 import { TForm } from "../utils/types";
@@ -33,7 +33,7 @@ export function ProfilePage() {
   const edit = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
+      // @ts-ignor
       dispatch(editProfile(form));
       setValue({ ...form, isChanged: false });
     },

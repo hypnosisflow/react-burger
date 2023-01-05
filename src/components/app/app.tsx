@@ -23,10 +23,11 @@ import {
   ResetPasswordPage,
   MainPage,
   Page404,
+  FeedPage,
 } from "../../pages/index";
 import { TState } from "../../utils/types";
-import { WS_CONNECTION_START, WS_CONNECTION_SUCCESS } from "../../models/wsActionTypes";
-import { wsConnectionClose, wsConnectionStart } from "../../services/actions/wsActions";
+
+import { wsConnectionStart } from "../../services/actions/wsActions";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -35,17 +36,17 @@ const App: FC = () => {
 
   const background = location.state && location.state.background;
   const handleModalClose = () => history.goBack();
-  // @ts-ignore
-  const { menu } = useSelector((state) => state.menu)<any>;
+  const { menu } = useSelector((state) => state.menu);
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(wsConnectionStart())
+  const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(wsConnectionStart(wsUrl));
+  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -75,6 +76,9 @@ const App: FC = () => {
               <Route path="/ingredients/:id">
                 <IngredientsDetails />
               </Route>
+              <ProtectedRoute path="/feed" exact={true}>
+                <FeedPage />
+              </ProtectedRoute>
               <Route>
                 <Page404 />
               </Route>

@@ -8,7 +8,6 @@ import {
 
 export type TOrderState = {
   orderNumber: number;
-
   orderFailed: boolean;
   orderRequest: boolean;
 };

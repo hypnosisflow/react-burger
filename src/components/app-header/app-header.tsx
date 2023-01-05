@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AppHeader() {
-// @ts-ignore
+  // @ts-ignore
   const user = useSelector((state) => state.auth.user);
 
   return (
@@ -23,13 +23,13 @@ function AppHeader() {
             className={styles.button}
             activeClassName={styles.active}
           >
-            <BurgerIcon type={'primary'} />
+            <BurgerIcon type={"primary"} />
             Конструктор
           </NavLink>
-          <a href="#" className={styles.button}>
-            <ListIcon type={'primary'} />
+          <NavLink to={{ pathname: "/feed" }} className={styles.button}>
+            <ListIcon type={"primary"} />
             <span className={styles.inactive}>Лента заказов</span>
-          </a>
+          </NavLink>
         </nav>
         <Logo />
         <NavLink
@@ -37,7 +37,7 @@ function AppHeader() {
           className={styles.button}
           activeClassName={styles.active}
         >
-          <ProfileIcon type={'primary'}/>
+          <ProfileIcon type={"primary"} />
           {user ? user.name : "Личный кабинет"}
         </NavLink>
       </div>

@@ -11,14 +11,16 @@ import { TWsActions } from "../actions/wsActions";
 
 export type TWSState = {
   wsConnected: boolean;
-  data: any;
-  error?: '';
+  wsConnecting: boolean;
+  data: any[];
+  error?: "" | null;
 };
 
 const initialState: TWSState = {
   wsConnected: false,
-  data: null,
-  error: ''
+  wsConnecting: false,
+  data: [],
+  error: null,
 };
 
 export const wsReducer = (state = initialState, action: TWsActions) => {
@@ -26,32 +28,36 @@ export const wsReducer = (state = initialState, action: TWsActions) => {
     case WS_CONNECTION_START: {
       return {
         ...state,
-        wsConnected: true,
+        wsConnected: false,
+        wsConnecting: true,
       };
     }
     case WS_CONNECTION_SUCCESS:
-      return { 
+      return {
         ...state,
-        error: '',
+        error: "",
         wsConnected: true,
+        wsConnecting: false,
         // data: action.payload
       };
     case WS_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
+        wsConnecting: false,
       };
     case WS_CONNECTION_CLOSED:
       return {
         ...state,
-        error: '',
+        error: "",
         wsConnected: false,
+        wsConnecting: false,
       };
     case WS_GET_MESSAGE:
       return {
         ...state,
-        error: '',
-        data: action.payload,
+        error: null,
+        data: [...state.data, action.payload],
       };
     default:
       return state;

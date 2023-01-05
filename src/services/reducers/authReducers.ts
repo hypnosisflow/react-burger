@@ -13,7 +13,7 @@ import {
 } from "../constants/login";
 
 export type TAuthState = {
-  user?: TForm;
+  user?: TForm | null;
 
   registerSucces: boolean;
   registerError: boolean;
@@ -33,7 +33,7 @@ export type TAuthState = {
 };
 
 const initialState = {
-  user: {},
+  user: null,
 
   registerSucces: false,
   registerError: false,
@@ -75,7 +75,7 @@ export const authReducer = (
     case REGISTER_FAILED: {
       return {
         ...state,
-        user: {},
+        user: null,
         registerSucces: false,
         registerError: true,
       };

@@ -8,12 +8,13 @@ import {
 } from "../constants/ws";
 
 export type TWsStartActoin = {
-  readonly type: typeof WS_CONNECTION_START
-}
+  readonly type: typeof WS_CONNECTION_START;
+  readonly url: string;
+};
 
 export type TWsSuccessAction = {
   readonly type: typeof WS_CONNECTION_SUCCESS;
-  readonly payload: string
+  readonly payload: string;
 };
 
 export type TWsErrorAction = {
@@ -25,7 +26,7 @@ export type TWsCloseAction = {
 };
 export type TWsGetMessageAction = {
   readonly type: typeof WS_GET_MESSAGE;
-  readonly payload: any;
+  readonly payload: string;
 };
 export type TWsSendMessageAction = {
   readonly type: typeof WS_SEND_MESSAGE;
@@ -40,13 +41,14 @@ export type TWsActions =
   | TWsGetMessageAction
   | TWsSendMessageAction;
 
-export const wsConnectionStart = (): TWsStartActoin => ({
-  type: WS_CONNECTION_START
-})
+export const wsConnectionStart = (url: string): TWsStartActoin => ({
+  type: WS_CONNECTION_START,
+  url,
+});
 
 export const wsConnectionSuccess = (data: any): TWsSuccessAction => ({
   type: WS_CONNECTION_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const wsConnectionError = (): TWsErrorAction => ({
