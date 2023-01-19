@@ -4,15 +4,18 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_RESET,
-  ORDER_ADD_DETAILS
+  ORDER_ADD_DETAILS,
+  ORDER_HISTORY_REQUEST,
+  ORDER_HISTORY_SUCCESS,
 } from "../constants/order";
 
 export type TOrderState = {
   orderNumber: number | null;
   orderFailed: boolean;
   orderRequest: boolean;
-  orderHistoryNumber?: number
-  orderHistoryData?: {}
+  orderHistoryNumber?: number;
+  orderHistoryData?: {};
+  order?: any;
 };
 
 const initialState = {
@@ -20,7 +23,8 @@ const initialState = {
   orderHistoryNumber: 0,
   orderFailed: false,
   orderRequest: false,
-  orderHistoryData: {}
+  orderHistoryData: {},
+  order: null,
 };
 
 export const orderReducer = (
@@ -58,8 +62,19 @@ export const orderReducer = (
     case ORDER_ADD_DETAILS: {
       return {
         ...state,
-        orderHistoryNumber: action.payload
-      }
+        orderHistoryNumber: action.payload,
+      };
+    }
+    case ORDER_HISTORY_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case ORDER_HISTORY_SUCCESS: {
+      return {
+        ...state,
+        order: action.payload,
+      };
     }
     default: {
       return state;

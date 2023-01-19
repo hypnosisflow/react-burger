@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from "../../utils/hooks";
 import {
@@ -9,6 +9,8 @@ import {
 import styles from "./order-history-details.module.css";
 import { Link } from "react-router-dom";
 import { countSelector } from "../../services/selectors/selectors";
+import { orderHistoryRequest } from "../../utils/api";
+import { orderRequest } from "../../services/actions/order";
 
 export const OrderHistoryDetails: FC = () => {
   // @ts-ignore
@@ -17,33 +19,27 @@ export const OrderHistoryDetails: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-
-  // useEffect(() => {
-  //   first
-
-  //   return () => {
-  //     second
-  //   }
-  // }, [third])
-
-  const [...orders] = useSelector((state) => state.ws.data.orders);
-
-  const orderInStoreCheck = useSelector((state) => {
-    return state.ws.data.orders.find(
-      (item: any) => item.number === orderNumber
-    );
-  });
-
-  const { _id, name, ingredients, createdAt } = orderInStoreCheck;
+  useEffect(() => {
+    dispatch(orderRequest(orderNumber));
+  }, []);
 
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
+  const [...orders] = useSelector((state) => state.ws.data.orders);
 
-  const elements = ingredients ? ingredients : null;
+  const orderInStoreCheck = orders?.find(
+    (item: any) => item.number === orderNumber
+  );
+  // @ts-ignore
+  const orderTest = useSelector((state) => state.order.order);
+  console.log(orderTest);
+
+  const { _id, name, ingredients, createdAt } = orderInStoreCheck;
 
   const intersection = menuIngredients.map((item: any) =>
     ingredients.includes(item._id) ? item : null
   );
+
   const images = intersection
     .map((item: any) => {
       if (item === null) {
@@ -54,10 +50,8 @@ export const OrderHistoryDetails: FC = () => {
     })
     .filter((n: any) => n);
 
-  const date = new Date(createdAt);
-
   const totalIngredients = intersection.filter((n: any) => n);
-  console.log(totalIngredients)
+  console.log(totalIngredients);
 
   const allPrices = totalIngredients.map((i: any) => {
     if (i.type === "bun") {
@@ -68,6 +62,7 @@ export const OrderHistoryDetails: FC = () => {
   });
 
   const totalPrice = allPrices.reduce((acc: any, i: any) => acc + i);
+  const date = new Date(createdAt);
 
   return (
     <section>
@@ -79,7 +74,7 @@ export const OrderHistoryDetails: FC = () => {
 
         <div className={styles.details}>
           <div className={styles.images}>
-            СОСТАВ: 
+            СОСТАВ:
             <ul className={styles.list}>
               {totalIngredients.map((item: any) => (
                 <li className={styles.list_item} key={images}>

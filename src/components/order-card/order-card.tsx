@@ -8,7 +8,6 @@ import {
 import styles from "./order-card.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "../../utils/hooks";
-import { access } from "fs";
 
 export const OrderCard: FC<any> = ({
   _id,

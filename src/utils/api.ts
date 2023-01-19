@@ -62,7 +62,10 @@ export async function makeOrder(ingredients: TIngredientItem[]) {
 }
 
 export async function orderHistoryRequest(orderNumber: number) {
-  return await fetch(`${BASE_URL}`);
+  return await fetch(`${BASE_URL}orders/${orderNumber}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then(checkResponse)
 }
 
 export const register = async (
