@@ -1,0 +1,45 @@
+.card {
+    color: aliceblue;
+    /* border: 1px solid white; */
+    background-color: rgba(233, 233, 233, .1);
+    border-radius: 40px;
+    /* height: 250px; */
+    /* width: 500px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+.images { 
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+.image { 
+    width: 70px;
+    height: 50px;
+    /* margin-right: -20px; */
+    border: 1px solid purple;
+    border-radius: 100%;
+ }
+
+ .total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .price {
+    margin-left: 10px;
+ }

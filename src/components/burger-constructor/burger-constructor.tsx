@@ -15,7 +15,7 @@ import {
   hasBun,
 } from "../../services/selectors/selectors";
 import { sendOrder } from "../../services/actions/order";
-import { ORDER_RESET } from "../../services/constants/order"
+import { ORDER_RESET } from "../../services/constants/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
@@ -29,11 +29,9 @@ const BurgerConstructor = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
   const sum = useSelector(sumSelector);
   const ingredients = useSelector(constructorSelector);
-  console.log(ingredients);
   const bun = useSelector(hasBun);
-  console.log(bun)
   // @ts-ignore
-  const { ...buns } = useSelector((state) => state.cart.bun)  ;
+  const { ...buns } = useSelector((state) => state.cart.bun);
   //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 

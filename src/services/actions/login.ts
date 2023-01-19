@@ -12,9 +12,10 @@ import {
 import { login, logout, register } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 import { TForm } from "../../utils/types";
-import { CustomResponse } from '../../utils/api'
+import { CustomResponse } from "../../utils/api";
+import { AppThunk } from "../../utils";
 
 // login section
 export type TLoginRequestAction = {
@@ -111,8 +112,8 @@ export const registerFailedAction = (): TRegisterFailedAction => ({
 
 // DISPATCHhIiiiiiiiiiiiiiNG
 
-export const loginSend = (data: TForm) => {
-  return function (dispatch: Dispatch) {
+export const loginSend = (data: TForm): AppThunk => {
+  return function (dispatch) {
     dispatch(loginRequestAction());
     login(data)
       .then((res) => {
@@ -132,10 +133,10 @@ export const logoutSend = () => {
   return function (dispatch: Dispatch) {
     logout()
       .then(
+        dispatch(logoutAction()),
         localStorage.clear(),
-        deleteCookie("accessToken"),
-        //@ts-ignore
-        dispatch(logoutAction())
+        // @ts-ignore
+        deleteCookie("accessToken")
       )
       .catch((err) => {
         dispatch(logoutFailedAction());

@@ -26,8 +26,9 @@ import {
   FeedPage,
 } from "../../pages/index";
 import { TState } from "../../utils/types";
-
-import { wsConnectionStart } from "../../services/actions/wsActions";
+import { OrderCard } from "../order-card/order-card";
+import { OrderHistoryDetails } from "../order-history-details/order-history-details";
+import { ProfileOrdersPage } from "../../pages/profile-orders";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -44,9 +45,9 @@ const App: FC = () => {
 
   const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
-  useEffect(() => {
-    dispatch(wsConnectionStart(wsUrl));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(connect(wsUrl));
+  // }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -70,15 +71,23 @@ const App: FC = () => {
               <ProtectedRoute auth={true} path="/reset-password" exact={true}>
                 <ResetPasswordPage />
               </ProtectedRoute>
+
               <ProtectedRoute path="/profile" exact={true}>
                 <ProfilePage />
               </ProtectedRoute>
+
+              <Route path="/profile/orders" exact={true}>
+                <ProfileOrdersPage />
+              </Route>
               <Route path="/ingredients/:id">
                 <IngredientsDetails />
               </Route>
-              <ProtectedRoute path="/feed" exact={true}>
+              <Route path="/feed" exact={true}>
                 <FeedPage />
-              </ProtectedRoute>
+              </Route>
+              <Route path="/feed/:number" exact={true}>
+                <OrderHistoryDetails />
+              </Route>
               <Route>
                 <Page404 />
               </Route>
@@ -87,11 +96,18 @@ const App: FC = () => {
         </div>
       )}
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal closeModal={handleModalClose}>
-            <IngredientsDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/ingredients/:id">
+            <Modal closeModal={handleModalClose}>
+              <IngredientsDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:number">
+            <Modal closeModal={handleModalClose}>
+              <OrderHistoryDetails />
+            </Modal>
+          </Route>
+        </>
       )}
     </DndProvider>
   );

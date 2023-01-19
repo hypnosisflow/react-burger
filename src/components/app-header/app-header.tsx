@@ -7,11 +7,12 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../utils/hooks";
 
 function AppHeader() {
   // @ts-ignore
   const user = useSelector((state) => state.auth.user);
+  console.log(user);
 
   return (
     <header className={styles.header}>
@@ -26,9 +27,13 @@ function AppHeader() {
             <BurgerIcon type={"primary"} />
             Конструктор
           </NavLink>
-          <NavLink to={{ pathname: "/feed" }} className={styles.button}>
+          <NavLink
+            to={{ pathname: "/feed" }}
+            className={styles.button}
+            activeClassName={styles.active}
+          >
             <ListIcon type={"primary"} />
-            <span className={styles.inactive}>Лента заказов</span>
+            Лента заказов
           </NavLink>
         </nav>
         <Logo />

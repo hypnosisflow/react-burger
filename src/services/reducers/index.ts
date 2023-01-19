@@ -7,6 +7,8 @@ import { authReducer } from "./authReducers";
 import { userReducer } from "./userReducer";
 import { wsReducer } from "./wsReducer";
 
+export type RootState = ReturnType<typeof rootReducer>
+
 export const rootReducer = combineReducers({
   menu: menuReducer,
   order: orderReducer,
@@ -14,5 +16,6 @@ export const rootReducer = combineReducers({
   cart: constructorReducer,
   auth: authReducer,
   user: userReducer,
-  ws: wsReducer
+  ws: wsReducer,
+  userOrders: wsReducer
 });

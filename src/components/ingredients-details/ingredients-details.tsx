@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import styles from "./ingredients-details.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../utils/hooks";
 import { TIngredientItem } from "../../utils/types";
 
 const IngredientsDetails: FC = () => {
-  //@ts-ignore
+  // @ts-ignore
   const { id } = useParams();
   //@ts-ignore
   const menu = useSelector((state) => state.menu.menuSuccess);

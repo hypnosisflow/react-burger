@@ -6,7 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { loginSend } from "../services/actions/login";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../utils/hooks";
 import { TForm } from "../utils/types";
 
 export function LoginPage() {
@@ -23,7 +23,6 @@ export function LoginPage() {
   const login = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(loginSend(form));
       setValue({ email: "", password: "" });
       console.log(form);
@@ -42,14 +41,12 @@ export function LoginPage() {
         <form onSubmit={login}>
           <div className={styles.form}>
             <Input
-              //@ts-ignor ругается на TForm
               value={form.email ? form.email : ""}
               name="email"
               onChange={onChange}
               placeholder={"E-mail"}
             />
             <PasswordInput
-              //@ts-ignor
               value={form.password ? form.password : ""}
               name="password"
               onChange={onChange}

@@ -9,17 +9,20 @@ import { rootReducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./utils/socketMiddleware";
 import { TWsActions } from "./services/actions/wsActions";
-import { ordersWsActions } from "./services/constants/ws";
+import {
+  ordersWsActions,
+  profileOrdersWsActions,
+} from "./services/constants/ws";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const wsUrl = "wss://norma.nomoreparties.space/orders/all";
-
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(ordersWsActions))
+  applyMiddleware(
+    thunk,
+    socketMiddleware(ordersWsActions),
+    socketMiddleware(profileOrdersWsActions)
+  )
 );
-
-// socketMiddleware(wsUrl, WSAction)
 
 export const store = legacy_createStore(rootReducer, enhancer);
 

@@ -1,70 +1,24 @@
-import { WS_CONNECTION_ERROR } from "./../constants/ws";
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
-} from "../constants/ws";
+import { createAction } from "@reduxjs/toolkit";
 
-export type TWsStartActoin = {
-  readonly type: typeof WS_CONNECTION_START;
-  readonly url: string;
-};
+export enum WebsocketStatus {
+  CONNECTING = "CONNECTING...",
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE",
+}
 
-export type TWsSuccessAction = {
-  readonly type: typeof WS_CONNECTION_SUCCESS;
-  readonly payload: string;
-};
-
-export type TWsErrorAction = {
-  readonly type: typeof WS_CONNECTION_ERROR;
-};
-
-export type TWsCloseAction = {
-  readonly type: typeof WS_CONNECTION_CLOSED;
-};
-export type TWsGetMessageAction = {
-  readonly type: typeof WS_GET_MESSAGE;
-  readonly payload: string;
-};
-export type TWsSendMessageAction = {
-  readonly type: typeof WS_SEND_MESSAGE;
-  readonly payload: string;
-};
+export const connect = createAction<string, "ORDERS_CONNECT">("ORDERS_CONNECT");
+export const disconnect = createAction("ORDERS_DISCONNECT");
+export const wsConnecting = createAction("WS_CONNECTING");
+export const wsOpen = createAction("WS_OPEN");
+export const wsClose = createAction("WS_CLOSE");
+export const wsMessage = createAction<any, "WS_MESSAGE">("WS_MESSAGE"); // СДЕЛАТЬ ТИП
+export const wsError = createAction<string, "WS_ERROR">("WS_ERROR");
 
 export type TWsActions =
-  | TWsStartActoin
-  | TWsSuccessAction
-  | TWsErrorAction
-  | TWsCloseAction
-  | TWsGetMessageAction
-  | TWsSendMessageAction;
-
-export const wsConnectionStart = (url: string): TWsStartActoin => ({
-  type: WS_CONNECTION_START,
-  url,
-});
-
-export const wsConnectionSuccess = (data: any): TWsSuccessAction => ({
-  type: WS_CONNECTION_SUCCESS,
-  payload: data,
-});
-
-export const wsConnectionError = (): TWsErrorAction => ({
-  type: WS_CONNECTION_ERROR,
-});
-
-export const wsConnectionClose = (): TWsCloseAction => ({
-  type: WS_CONNECTION_CLOSED,
-});
-
-export const wsGetMessage = (data: any): TWsGetMessageAction => ({
-  type: WS_GET_MESSAGE,
-  payload: data,
-});
-
-export const wsSendMessage = (message: string): TWsSendMessageAction => ({
-  type: WS_SEND_MESSAGE,
-  payload: message,
-});
+  | ReturnType<typeof connect>
+  | ReturnType<typeof disconnect>
+  | ReturnType<typeof wsConnecting>
+  | ReturnType<typeof wsOpen>
+  | ReturnType<typeof wsClose>
+  | ReturnType<typeof wsMessage>
+  | ReturnType<typeof wsError>;

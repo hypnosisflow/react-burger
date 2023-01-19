@@ -90,7 +90,7 @@ export const authReducer = (
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        user: action.payload,
+        user: action.user,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         loginSucces: true,

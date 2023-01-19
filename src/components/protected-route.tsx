@@ -9,7 +9,7 @@ export function ProtectedRoute({
   children,
   ...rest
 }: IProtectedRouteProps) {
-  //@ts-ignore
+  // @ts-ignore
   const user = useSelector((state) => state.auth.user);
   const location = useLocation<TState>();
   const dispatch = useDispatch();

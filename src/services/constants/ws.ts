@@ -1,18 +1,39 @@
-export const WS_CONNECTION_SUCCESS: "WS_CONNECTION_SUCCESS" =
-  "WS_CONNECTION_SUCCESS";
-export const WS_CONNECTION_START: "WS_CONNECTION_START" = "WS_CONNECTION_START";
-export const WS_CONNECTION_CLOSED: "WS_CONNECTION_CLOSED" =
-  "WS_CONNECTION_CLOSED";
-export const WS_CONNECTION_ERROR: "WS_CONNECTION_ERROR" = "WS_CONNECTION_ERROR";
-export const WS_GET_MESSAGE: "WS_GET_MESSAGE" = "WS_GET_MESSAGE";
-export const WS_SEND_MESSAGE: "WS_SEND_MESSAGE" = "WS_SEND_MESSAGE";
+import {
+  connect as OrdersWsConnect,
+  disconnect as OrdersWsDisconnect,
+  wsOpen as OrdersWsOpen,
+  wsClose as OrdersWsClose,
+  wsMessage as OrdersWsMessage,
+  wsError as OrdersWsError,
+  wsConnecting as OrdersWsConnecting,
+} from "../actions/wsActions";
+
+import {
+  connect as ProfileOrdersWsConnect,
+  disconnect as ProfileOrdersWsDisconnect,
+  wsOpen as ProfileOrdersWsOpen,
+  wsClose as ProfileOrdersWsClose,
+  wsMessage as ProfileOrdersWsMessage,
+  wsError as ProfileOrdersWsError,
+  wsConnecting as ProfileOrdersWsConnecting,
+} from "../actions/wsProfileActions";
 
 export const ordersWsActions = {
-  wsConnect: WS_CONNECTION_START,
-  wsDisconnect: WS_CONNECTION_CLOSED,
-  wsConnecting: WS_CONNECTION_START,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE,
+  wsConnect: OrdersWsConnect,
+  wsDisconnect: OrdersWsDisconnect,
+  wsConnecting: OrdersWsConnecting,
+  onOpen: OrdersWsOpen,
+  onClose: OrdersWsClose,
+  onError: OrdersWsError,
+  onMessage: OrdersWsMessage,
+};
+
+export const profileOrdersWsActions = {
+  wsConnect: ProfileOrdersWsConnect,
+  wsDisconnect: ProfileOrdersWsDisconnect,
+  wsConnecting: ProfileOrdersWsConnecting,
+  onOpen: ProfileOrdersWsOpen,
+  onClose: ProfileOrdersWsClose,
+  onError: ProfileOrdersWsError,
+  onMessage: ProfileOrdersWsMessage,
 };

@@ -28,7 +28,7 @@ export interface CustomResponse<T> extends CustomBody<T> {
   readonly accessToken: string;
   readonly user: T;
   readonly message: string;
-  readonly payload: T
+  readonly payload: T;
 }
 
 export type TTokenResponse = {
@@ -59,6 +59,10 @@ export async function makeOrder(ingredients: TIngredientItem[]) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ingredients }),
   }).then(checkResponse);
+}
+
+export async function orderHistoryRequest(orderNumber: number) {
+  return await fetch(`${BASE_URL}`);
 }
 
 export const register = async (
@@ -95,8 +99,8 @@ export const login = async (
   }).then(checkResponse);
 };
 
-export const logout = async (): Promise<Response> =>
-  await fetch(`${BASE_URL}auth/logout`, {
+export const logout = async (): Promise<Response> => {
+  return await fetch(`${BASE_URL}auth/logout`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -109,7 +113,8 @@ export const logout = async (): Promise<Response> =>
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  });
+  }).then((res) => res.json());
+};
 
 export const editProfileRequest = async (
   form: TForm
@@ -143,7 +148,8 @@ export const getUserRequest = async (): Promise<TResponseBody<"user", TForm>> =>
     referrerPolicy: "no-referrer",
   }).then(checkResponse);
 
-export const tokenUpdate = async ( ...args: any
+export const tokenUpdate = async (
+  ...args: any
 ): Promise<TResponseBody<"token", TForm>> =>
   await fetch(`${BASE_URL}auth/token`, {
     method: "POST",

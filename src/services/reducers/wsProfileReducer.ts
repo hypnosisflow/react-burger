@@ -6,11 +6,11 @@ import {
   wsError,
   wsMessage,
   wsOpen,
-} from "./../actions/wsActions";
+} from "./../actions/wsProfileActions";
 
 export type TWsStore = {
   status: WebsocketStatus;
-  data: any;
+  data: [];
   connectionError: string;
 };
 

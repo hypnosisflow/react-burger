@@ -14,8 +14,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
   const location = useLocation<TState>();
   const dispatch = useDispatch();
   const res = useSelector(countSelector);
-  // console.log(ingredient.item._id)
-  // console.log(key)
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "MENU_INGREDIENT",

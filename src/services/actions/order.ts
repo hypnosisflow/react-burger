@@ -1,3 +1,4 @@
+import { AppThunk } from './../../utils/index';
 import { AnyAction, Dispatch } from "redux";
 import { makeOrder } from "../../utils/api";
 
@@ -6,7 +7,9 @@ import {
   ORDER_FAILED,
   ORDER_RESET,
   ORDER_SUCCESS,
+  ORDER_ADD_DETAILS
 } from "../constants/order";
+
 
 export type TOrderAction = {
   readonly type: typeof ORDER_REQUEST;
@@ -25,10 +28,16 @@ export type TOrderSuccessAction = {
   readonly payload: number;
 };
 
+export type TOrderAddDetailsAction = {
+  readonly type: typeof ORDER_ADD_DETAILS
+  readonly payload: number
+}
+
 export type TOrderActions =
   | TOrderAction
   | TOrderFailedAction
   | TOrderSuccessAction
+  | TOrderAddDetailsAction
   | TOrderResetAction;
 
 export const orderAction = (): TOrderAction => ({
@@ -73,3 +82,13 @@ export const sendOrder: Function = () => {
       });
   };
 };
+
+export const URL_REQ = 'wss://norma.nomoreparties.space/orders'
+
+export const orderRequest = (num: any): AppThunk => {
+  return function(dispatch, getState) {
+    // @ts-ignore
+    const num = getState().order.orderHistory 
+
+  }
+}

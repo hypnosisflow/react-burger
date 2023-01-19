@@ -4,19 +4,23 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_RESET,
+  ORDER_ADD_DETAILS
 } from "../constants/order";
 
 export type TOrderState = {
-  orderNumber: number;
+  orderNumber: number | null;
   orderFailed: boolean;
   orderRequest: boolean;
+  orderHistoryNumber?: number
+  orderHistoryData?: {}
 };
 
 const initialState = {
   orderNumber: 0,
-
+  orderHistoryNumber: 0,
   orderFailed: false,
   orderRequest: false,
+  orderHistoryData: {}
 };
 
 export const orderReducer = (
@@ -50,6 +54,12 @@ export const orderReducer = (
     }
     case ORDER_RESET: {
       return initialState;
+    }
+    case ORDER_ADD_DETAILS: {
+      return {
+        ...state,
+        orderHistoryNumber: action.payload
+      }
     }
     default: {
       return state;
