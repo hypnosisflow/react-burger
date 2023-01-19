@@ -19,10 +19,6 @@ export const OrderHistoryDetails: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  useEffect(() => {
-    dispatch(orderRequest(orderNumber));
-  }, []);
-
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
   const [...orders] = useSelector((state) => state.ws.data.orders);
@@ -30,11 +26,15 @@ export const OrderHistoryDetails: FC = () => {
   const orderInStoreCheck = orders?.find(
     (item: any) => item.number === orderNumber
   );
+  const { _id, name, ingredients, createdAt } = orderInStoreCheck;
+
+  useEffect(() => {
+    dispatch(orderRequest(orderNumber));
+  }, []);
+
   // @ts-ignore
   const orderTest = useSelector((state) => state.order.order);
   console.log(orderTest);
-
-  const { _id, name, ingredients, createdAt } = orderInStoreCheck;
 
   const intersection = menuIngredients.map((item: any) =>
     ingredients.includes(item._id) ? item : null
