@@ -19,22 +19,27 @@ export const OrderHistoryDetails: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const [orderState, setOrderState] = useState();
+
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
   const [...orders] = useSelector((state) => state.ws.data.orders);
 
-  const orderInStoreCheck = orders?.find(
-    (item: any) => item.number === orderNumber
-  );
-  const { _id, name, ingredients, createdAt } = orderInStoreCheck;
 
   useEffect(() => {
-    dispatch(orderRequest(orderNumber));
+    const orderInStoreCheck = orders?.find(
+      (item: any) => item.number === orderNumber
+    );
+      setOrderState(orderInStoreCheck)
+      dispatch(orderRequest(orderNumber));
   }, []);
-
+  
   // @ts-ignore
-  const orderTest = useSelector((state) => state.order.order);
-  console.log(orderTest);
+  const orderRecieved = useSelector((state) => state.order.order);
+
+  const finalResult = orderState  ? orderState : orderRecieved
+
+  const { _id, name, ingredients, createdAt } = finalResult;
 
   const intersection = menuIngredients.map((item: any) =>
     ingredients.includes(item._id) ? item : null
@@ -51,7 +56,7 @@ export const OrderHistoryDetails: FC = () => {
     .filter((n: any) => n);
 
   const totalIngredients = intersection.filter((n: any) => n);
-  console.log(totalIngredients);
+  // console.log(totalIngredients);
 
   const allPrices = totalIngredients.map((i: any) => {
     if (i.type === "bun") {
@@ -71,7 +76,6 @@ export const OrderHistoryDetails: FC = () => {
           <span>{number}</span>
         </div>
         <h4> {name} </h4>
-
         <div className={styles.details}>
           <div className={styles.images}>
             СОСТАВ:
