@@ -1,5 +1,3 @@
-import { TIngredientItem } from './../../../../../maket/src/utils/types';
-//@ts-ignore
 import { v4 as uuid } from "uuid";
 
 import {
@@ -13,17 +11,20 @@ import { IIngredient } from "../../utils/types";
 export type TAddProductAction = {
   readonly type: typeof ADD_PRODUCT;
   readonly payload: IIngredient;
-  readonly id: string;
+  readonly id?: string;
 };
 
 export type TRemoveProductAction = {
   readonly type: typeof REMOVE_PRODUCT;
-  readonly payload: IIngredient;
+  readonly payload: string;
 };
 
 export type TReorderPoductsAction = {
   readonly type: typeof REORDER_PRODUCTS;
-  readonly payload: IIngredient;
+  readonly payload: {
+    from: any;
+    to: number;
+  };
 };
 
 export type TResetAction = {

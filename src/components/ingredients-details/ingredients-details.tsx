@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styles from "./ingredients-details.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "../../utils/hooks";
+import { useSelector } from "../../utils/store-type";
 import { TIngredientItem } from "../../utils/types";
 
 const IngredientsDetails: FC = () => {

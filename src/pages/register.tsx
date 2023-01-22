@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../utils/store-type";
 import { registerSend } from "../services/actions/login";
 import { TForm } from "../utils/types";
 

@@ -6,7 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { loginSend } from "../services/actions/login";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/store-type";
 import { TForm } from "../utils/types";
 
 export function LoginPage() {

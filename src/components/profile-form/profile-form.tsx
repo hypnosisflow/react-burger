@@ -8,7 +8,7 @@ import {
 import { Link, NavLink, useHistory } from "react-router-dom";
 
 import styles from "../../pages/login.module.css";
-import { useDispatch, useSelector } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/store-type";
 import { editProfile } from "../../services/actions/profile";
 import { logoutSend } from "../../services/actions/login";
 import { TForm } from "../../utils/types";

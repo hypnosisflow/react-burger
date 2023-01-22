@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 
-import { useDispatch, useSelector } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/store-type";
 
 import styles from "../../pages/login.module.css";
 import { logoutSend } from "../../services/actions/login";

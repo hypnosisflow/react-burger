@@ -7,7 +7,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "../../utils/hooks";
+import { useSelector } from "../../utils/store-type";
 
 function AppHeader() {
   // @ts-ignore

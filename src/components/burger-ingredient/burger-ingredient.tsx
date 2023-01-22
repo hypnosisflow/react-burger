@@ -4,7 +4,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/store-type";
 import { countSelector } from "../../services/selectors/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";

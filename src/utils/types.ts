@@ -30,7 +30,7 @@ export interface IProtectedRouteProps {
 }
 
 export type TForm = {
-  user?: TForm
+  user?: TForm;
   name?: string;
   password?: string;
   email?: string;
@@ -78,4 +78,14 @@ export type TModal = {
 export type TModalOverlay = {
   closeModal: any;
   children?: React.ReactNode;
+};
+
+export type TOrderInfo = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
 };

@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 import { useHistory, useLocation } from "react-router";
 import { OrderCard } from "../components/order-card/order-card";
-import { connect } from "../services/actions/wsActions";
+import { connect, disconnect } from "../services/actions/wsActions";
 import { ORDER_ADD_DETAILS } from "../services/constants/order";
-import { useDispatch, useSelector } from "../utils/hooks";
-
+import { useDispatch, useSelector } from "../utils/store-type";
+import { v4 as uuid } from "uuid";
+import { TOrderInfo } from "../utils/types";
 import styles from "./feed.module.css";
 
 export const FeedPage = () => {
@@ -16,24 +17,24 @@ export const FeedPage = () => {
 
   useEffect(() => {
     dispatch(connect(wsUrl));
+    return () => {
+      dispatch(disconnect());
+    };
   }, [dispatch]);
 
-  const { ...data } = useSelector((state) => state.ws.data);
-  const total = useSelector((state) => state.ws.data.total);
-  const totalToday = useSelector((state) => state.ws.data.totalToday);
-  const orders: [] = { ...data.orders };
+  const { orders, total, totalToday } = useSelector((state) => state.ws);
 
   const readyOrders = () => {
-    let done = Object.values(orders).filter(
-      (item: any) => item.status === "done"
-    );
-    let undone = Object.values(orders).filter(
-      (item: any) => item.status === "soon"
-    );
+    let done = orders.filter((item) => item.status === "done");
+    let undone = orders.filter((item) => item.status === "undone");
     return { done, undone };
   };
 
   let sortedOrders = readyOrders();
+
+  if (!orders.length) {
+    return <h1> Загрузка ...</h1>;
+  }
 
   return (
     <>
@@ -41,28 +42,26 @@ export const FeedPage = () => {
         <div className={styles.feed}>
           <h1> ЛЕНТА ЗАКАЗОВ </h1>
           {/* LIST */}
-          {data.orders && (
-            <ul className={styles.list}>
-              {data.orders.map((order: any) => (
-                <li
-                  key={order._id}
-                  onClick={() =>
-                    dispatch({ type: ORDER_ADD_DETAILS, payload: order.number })
-                  }
-                >
-                  {/* CARD */}
-                  <OrderCard {...order} />
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className={styles.list}>
+            {orders.map((order: TOrderInfo) => (
+              <li
+                key={uuid()}
+                onClick={() =>
+                  dispatch({ type: ORDER_ADD_DETAILS, payload: order.number })
+                }
+              >
+                {/* CARD */}
+                <OrderCard order={order} />
+              </li>
+            ))}
+          </ul>
         </div>
         {/* RIGHT SECTION  */}
         <div className={styles.total}>
           <div className={styles.statelists}>
             <span>READY:</span>
             <ul className={styles.statelist}>
-              {sortedOrders.done.map((item: any) => (
+              {sortedOrders.done.map((item: TOrderInfo) => (
                 <li>{item.number}</li>
               ))}
             </ul>

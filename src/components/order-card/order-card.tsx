@@ -1,55 +1,38 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+
 import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { v4 as uuid } from "uuid";
 import styles from "./order-card.module.css";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/store-type";
+import { TOrderInfo } from "../../utils/types";
 
-export const OrderCard: FC<any> = ({
-  _id,
-  name,
-  ingredients,
-  number,
-  createdAt,
-}) => {
+interface TOrderCardProps {
+  order: TOrderInfo;
+}
+
+export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
+  const { _id, name, ingredients, number, createdAt } = order;
+
   const location = useLocation();
-  const dispatch = useDispatch();
 
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
 
-  const elements = ingredients ? ingredients : null;
+  // ings ids -> full ings
+  const items = ingredients.map((ingredient) => {
+    return menuIngredients.find((item: any) => item._id === ingredient)!;
+  });
 
-  const intersection = menuIngredients.map((item: any) =>
-    elements.includes(item._id) ? item : null
-  );
-  const images = intersection
-    .map((item: any) => {
-      if (item === null) {
-        return;
-      } else {
-        return item.image;
-      }
-    })
-    .filter((n: any) => n);
+  // get imgs
+  const images = items.map((item) => item.image);
 
   const date = new Date(createdAt);
 
-  const totalIngredients = intersection.filter((n: any) => n);
-
-  const allPrices = totalIngredients.map((i: any) => {
-    if (i.type === "bun") {
-      return i.price * 2;
-    } else {
-      return i.price;
-    }
-  });
-
-  const totalPrice = allPrices.reduce((acc: any, i: any) => acc + i);
+  const totalPrice = items.reduce((acc: any, i: any) => acc + i.price, 0);
 
   return (
     <Link
@@ -68,13 +51,13 @@ export const OrderCard: FC<any> = ({
         </div>
         <h4> {name} </h4>
         <div className={styles.details}>
-          <div className={styles.images}>
+          <ul className={styles.images}>
             {images.map((link: string) => (
-              <div>
+              <li key={uuid()}>
                 <img className={styles.image} src={link} alt="ing" />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <span className={styles.total}>
             <CurrencyIcon type="primary" />

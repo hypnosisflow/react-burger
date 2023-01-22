@@ -3,11 +3,10 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../utils/store-type";
 import styles from "./constructor-ingredient.module.css";
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
-import { hover } from "@testing-library/user-event/dist/hover";
 import {
   REMOVE_PRODUCT,
   REORDER_PRODUCTS,

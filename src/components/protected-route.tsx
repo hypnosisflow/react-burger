@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Redirect, Route, useLocation } from "react-router-dom";
 import { getUser } from "../services/actions/user";
-import { useDispatch, useSelector } from "../utils/hooks";
+import { useDispatch, useSelector } from "../utils/store-type";
 import { TState, IProtectedRouteProps } from "../utils/types";
 
 export function ProtectedRoute({

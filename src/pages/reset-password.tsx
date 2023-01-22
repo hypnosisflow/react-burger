@@ -7,7 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import { resetPassword } from "../services/actions/profile";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../utils/store-type";
 import { TForm } from "../utils/types";
 
 export function ResetPasswordPage() {

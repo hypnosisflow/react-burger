@@ -20,7 +20,7 @@
     text-align: center;
     align-items: center;
     width: 100%;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
 
 .title {
@@ -28,16 +28,19 @@
     justify-content: space-between;
 }
 
+.item_descr {
+    text-align: center;
+    align-items: center;
+}
+
 .details {
     display: flex;
-
-    /* justify-content: space-between; */
+    justify-content: center;
 }
 
 .images {
     width: 100%;
-    /* flex-direction: row; */
-    /* overflow: hidden; */
+    /* display: flex; */
 }
 
 .image {
@@ -46,8 +49,9 @@
 }
 
 .count {
-    display: flex;
+    display: flex   ;
     flex-direction: row;
+    
 }
 
 .list {
@@ -60,14 +64,18 @@
     display: flex;
     text-align: center;
     align-items: center;
+    width: 550px;
+    /* justify-content: space-between; */
 }
 
 .total {
     /* border: 1px solid red; */
     display: flex;
     justify-content: space-between;
+    text-align: center;
     align-items: center;
     margin-top: 30px;
+    width: 550px;
 }
 
 .price {

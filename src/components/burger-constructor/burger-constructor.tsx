@@ -8,7 +8,7 @@ import {
 import { useHistory } from "react-router-dom";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/store-type";
 import {
   sumSelector,
   constructorSelector,
@@ -19,8 +19,6 @@ import { ORDER_RESET } from "../../services/constants/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
-import { TIngredientItem } from "../../utils/types";
-import { TState } from "../../services/reducers/constructorReducer";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();

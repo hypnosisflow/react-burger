@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef, FC, LegacyRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../utils/store-type";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { ADD_DETAILS } from "../../services/constants/menu";

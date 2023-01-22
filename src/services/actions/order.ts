@@ -1,5 +1,5 @@
-import { AppThunk } from "./../../utils/index";
-import { AnyAction, Dispatch } from "redux";
+import { TIngredientItem } from './../../../../../maket/src/utils/types';
+import { AppThunk } from "../../utils/store-type";
 import { makeOrder, orderHistoryRequest } from "../../utils/api";
 
 import {
@@ -11,6 +11,7 @@ import {
   ORDER_HISTORY_REQUEST,
   ORDER_HISTORY_SUCCESS,
 } from "../constants/order";
+import { IIngredient, TOrderInfo } from "../../utils/types";
 
 export type TOrderAction = {
   readonly type: typeof ORDER_REQUEST;
@@ -40,7 +41,7 @@ export type TOrderHistoryRequestAction = {
 
 export type TOrderHistorySuccessAction = {
   readonly type: typeof ORDER_HISTORY_SUCCESS;
-  readonly payload: any;
+  readonly payload: Array<TOrderInfo>;
 };
 
 export type TOrderActions =
@@ -76,17 +77,19 @@ export const orderHistoryRequestAction = (
 });
 
 export const orderHistorySuccessAction = (
-  payload: number
+  payload: Array<TOrderInfo>
 ): TOrderHistorySuccessAction => ({
   type: ORDER_HISTORY_SUCCESS,
   payload,
 });
 
-export const sendOrder: Function = () => {
-  return function (dispatch: any, getState: any) {
+export const sendOrder= (): AppThunk => {
+  return function (dispatch, getState) {
+    //@ts-ignore
     const products = getState().cart.items;
+    // @ts-ignore
     const bun = getState().cart.bun._id;
-    const request = products.map((i: any) => i._id);
+    const request = products.map((i: IIngredient) => i._id);
     const data = [bun, ...request, bun];
 
     dispatch({ type: ORDER_REQUEST });
@@ -110,7 +113,7 @@ export const sendOrder: Function = () => {
 
 export const URL_REQ = "wss://norma.nomoreparties.space/orders";
 
-export const orderRequest = (num: any): AppThunk => {
+export const orderRequest = (num: number): AppThunk => {
   return function (dispatch, getState) {
     dispatch({ type: ORDER_HISTORY_REQUEST });
     orderHistoryRequest(num).then((res) => {

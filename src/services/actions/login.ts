@@ -15,7 +15,7 @@ import { setCookie, deleteCookie } from "../../utils/utils";
 import { AnyAction, Dispatch } from "redux";
 import { TForm } from "../../utils/types";
 import { CustomResponse } from "../../utils/api";
-import { AppThunk } from "../../utils";
+import { AppThunk } from "../../utils/store-type";
 
 // login section
 export type TLoginRequestAction = {

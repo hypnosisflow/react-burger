@@ -1,7 +1,7 @@
 import React, { useEffect, FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useDispatch, useSelector } from "../../utils/hooks";
+import { useDispatch, useSelector } from "../../utils/store-type";
 import {
   BrowserRouter as Router,
   Switch,
@@ -71,11 +71,9 @@ const App: FC = () => {
               <ProtectedRoute auth={true} path="/reset-password" exact={true}>
                 <ResetPasswordPage />
               </ProtectedRoute>
-
               <ProtectedRoute path="/profile" exact={true}>
                 <ProfilePage />
               </ProtectedRoute>
-
               <Route path="/profile/orders" exact={true}>
                 <ProfileOrdersPage />
               </Route>
