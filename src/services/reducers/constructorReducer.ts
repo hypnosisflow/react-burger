@@ -5,16 +5,15 @@ import {
   REORDER_PRODUCTS,
   RESET,
 } from "../constants/constructor";
-import { IIngredient, TIngredientItem } from "../../utils/types";
+import { IIngredient } from "../../utils/types";
 
 export type TConstructorState = {
-  bun?: {};
+  bun?: IIngredient ;
   items: Array<IIngredient>;
 };
-export type TState = {
-  cart: TConstructorState;
-};
-const initialState = {
+
+const initialState: TConstructorState = {
+  //@ts-ignore
   bun: {},
   items: [],
 };
@@ -26,7 +25,7 @@ export const constructorReducer = (
   switch (action.type) {
     case ADD_PRODUCT: {
       if (action.payload.type === "bun") {
-        return { ...state, bun: action.payload };
+        return { ...state, bun: action.payload, items: [...state.items] };
       } else {
         return { ...state, items: [...state.items, action.payload] };
       }
@@ -34,9 +33,7 @@ export const constructorReducer = (
     case REMOVE_PRODUCT: {
       return {
         ...state,
-        items: state.items.filter(
-          (i: IIngredient) => i._id !== action.payload
-        ),
+        items: state.items.filter((i: IIngredient) => i._id !== action.payload),
       };
     }
     case REORDER_PRODUCTS: {

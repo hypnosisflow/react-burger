@@ -4,11 +4,11 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { v4 as uuid } from "uuid";
-import styles from "./order-card.module.css";
-import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "../../utils/store-type";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
+import { useSelector } from "../../utils/store-type";
 import { TOrderInfo } from "../../utils/types";
+
+import styles from "./order-card.module.css";
 
 interface TOrderCardProps {
   order: TOrderInfo;
@@ -17,10 +17,13 @@ interface TOrderCardProps {
 export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const { _id, name, ingredients, number, createdAt } = order;
 
+  const match = useRouteMatch();
   const location = useLocation();
 
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
+
+  const maxIngredients = 6;
 
   // ings ids -> full ings
   const items = ingredients.map((ingredient) => {
@@ -34,10 +37,14 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
 
   const totalPrice = items.reduce((acc: any, i: any) => acc + i.price, 0);
 
+  const ingredientsToShow = items.slice(0, maxIngredients);
+  const ingredientsRemains =
+    items.length > maxIngredients ? items.length - maxIngredients : null;
+
   return (
     <Link
       to={{
-        pathname: `/feed/${number}`,
+        pathname: `${match.path}/${number}`,
         state: { background: location },
       }}
       className={styles.link}
@@ -52,11 +59,26 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
         <h4> {name} </h4>
         <div className={styles.details}>
           <ul className={styles.images}>
-            {images.map((link: string) => (
-              <li key={uuid()}>
-                <img className={styles.image} src={link} alt="ing" />
-              </li>
-            ))}
+            {ingredientsToShow.map((item, index) => {
+              return (
+                <li className={styles.list_image} key={index} >
+                  <img
+                    className={styles.image}
+                    src={item.image_mobile}
+                    alt="ing"
+                  />
+                  {maxIngredients === index + 1 ? (
+                    <span className={styles.remains}>
+                      {" "}
+                      {/* @ts-ignore */}
+                      {ingredientsRemains > 0
+                        ? `+${ingredientsRemains}`
+                        : null}{" "}
+                    </span>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
 
           <span className={styles.total}>

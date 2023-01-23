@@ -13,7 +13,6 @@ import { TForm } from "../utils/types";
 export function ResetPasswordPage() {
   const dispatch = useDispatch();
   const [form, setValue] = useState<TForm>({ password: "", token: "" });
-  //@ts-ignore
   const resetAllowed = useSelector((state) => state.auth.resetRequest);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +22,6 @@ export function ResetPasswordPage() {
   const reset = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(resetPassword(form));
       setValue({ password: "", token: "" });
       console.log(form);

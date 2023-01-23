@@ -26,7 +26,6 @@ import {
   FeedPage,
 } from "../../pages/index";
 import { TState } from "../../utils/types";
-import { OrderCard } from "../order-card/order-card";
 import { OrderHistoryDetails } from "../order-history-details/order-history-details";
 import { ProfileOrdersPage } from "../../pages/profile-orders";
 
@@ -38,16 +37,11 @@ const App: FC = () => {
   const background = location.state && location.state.background;
   const handleModalClose = () => history.goBack();
   const { menu } = useSelector((state) => state.menu);
+  const { ...orders } = useSelector((state) => state.ws.orders)
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
-
-  const wsUrl = "wss://norma.nomoreparties.space/orders/all";
-
-  // useEffect(() => {
-  //   dispatch(connect(wsUrl));
-  // }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -73,6 +67,13 @@ const App: FC = () => {
               </ProtectedRoute>
               <ProtectedRoute path="/profile" exact={true}>
                 <ProfilePage />
+              </ProtectedRoute>
+              <ProtectedRoute
+                auth={false}
+                exact={true}
+                path="/profile/orders/:number"
+              >
+                <OrderHistoryDetails />
               </ProtectedRoute>
               <Route path="/profile/orders" exact={true}>
                 <ProfileOrdersPage />
@@ -105,6 +106,15 @@ const App: FC = () => {
               <OrderHistoryDetails />
             </Modal>
           </Route>
+          <ProtectedRoute
+            // auth={false}
+            exact={true}
+            path="/profile/orders/:number"
+          >
+            <Modal closeModal={handleModalClose}>
+              <OrderHistoryDetails />
+            </Modal>
+          </ProtectedRoute>
         </>
       )}
     </DndProvider>

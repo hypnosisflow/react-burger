@@ -12,9 +12,7 @@ import {
 import { login, logout, register } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 
-import { AnyAction, Dispatch } from "redux";
 import { TForm } from "../../utils/types";
-import { CustomResponse } from "../../utils/api";
 import { AppThunk } from "../../utils/store-type";
 
 // login section
@@ -98,8 +96,8 @@ export const registerAction = (): TRegisterAction => ({
 });
 
 export const registerSuccesAction = (
-  user: any,
-  payload: any
+  user: TForm,
+  payload: TForm
 ): TRegisterSuccessAction => ({
   type: REGISTER_SUCCESS,
   user,
@@ -129,13 +127,13 @@ export const loginSend = (data: TForm): AppThunk => {
   };
 };
 
-export const logoutSend = () => {
-  return function (dispatch: Dispatch) {
+export const logoutSend = (): AppThunk => {
+  return function (dispatch) {
     logout()
       .then(
         dispatch(logoutAction()),
         localStorage.clear(),
-        // @ts-ignore
+        //@ts-ignore
         deleteCookie("accessToken")
       )
       .catch((err) => {
@@ -144,8 +142,8 @@ export const logoutSend = () => {
   };
 };
 
-export const registerSend = (data: TForm) => {
-  return function (dispatch: Dispatch) {
+export const registerSend = (data: TForm): AppThunk => {
+  return function (dispatch) {
     dispatch(registerAction());
     register(data)
       .then((res) => {

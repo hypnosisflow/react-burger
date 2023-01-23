@@ -1,4 +1,3 @@
-import { TIngredientItem } from './../../../../../maket/src/utils/types';
 import { AppThunk } from "../../utils/store-type";
 import { makeOrder, orderHistoryRequest } from "../../utils/api";
 
@@ -10,6 +9,7 @@ import {
   ORDER_ADD_DETAILS,
   ORDER_HISTORY_REQUEST,
   ORDER_HISTORY_SUCCESS,
+  ORDER_HISTORY_FAILED,
 } from "../constants/order";
 import { IIngredient, TOrderInfo } from "../../utils/types";
 
@@ -44,6 +44,10 @@ export type TOrderHistorySuccessAction = {
   readonly payload: Array<TOrderInfo>;
 };
 
+export type TOrderHistoryFailedAction = {
+  readonly type: typeof ORDER_HISTORY_FAILED
+}
+
 export type TOrderActions =
   | TOrderAction
   | TOrderFailedAction
@@ -51,7 +55,8 @@ export type TOrderActions =
   | TOrderAddDetailsAction
   | TOrderResetAction
   | TOrderHistoryRequestAction
-  | TOrderHistorySuccessAction;
+  | TOrderHistorySuccessAction
+  | TOrderHistoryFailedAction;
 
 export const orderAction = (): TOrderAction => ({
   type: ORDER_REQUEST,
@@ -83,31 +88,30 @@ export const orderHistorySuccessAction = (
   payload,
 });
 
-export const sendOrder= (): AppThunk => {
+export const sendOrder = (): AppThunk => {
   return function (dispatch, getState) {
-    //@ts-ignore
-    const products = getState().cart.items;
-    // @ts-ignore
-    const bun = getState().cart.bun._id;
-    const request = products.map((i: IIngredient) => i._id);
+    const products = getState().cart?.items;
+    const bun = getState().cart.bun?._id;
+    const request = products.map((i) => i._id);
     const data = [bun, ...request, bun];
 
     dispatch({ type: ORDER_REQUEST });
     if (!bun) {
       return;
     }
-    makeOrder(data)
-      .then((res) => {
-        console.log(res.order.number);
-        if (res && res.success) {
-          dispatch({ type: ORDER_SUCCESS, payload: res.order.number });
-        } else {
-          dispatch({ type: ORDER_FAILED });
-        }
-      })
-      .catch((err) => {
-        dispatch({ type: ORDER_FAILED });
-      });
+    if (data) {
+      makeOrder(data)
+        .then((res) => {
+          if (res && res.success) {
+            dispatch({ type: ORDER_SUCCESS, payload: res.order.number });
+          } else {
+            dispatch({ type: ORDER_FAILED });
+          }
+        })
+        .catch((err) => {
+          dispatch({ type: ORDER_FAILED, payload: err.message });
+        });
+    }
   };
 };
 
@@ -119,7 +123,11 @@ export const orderRequest = (num: number): AppThunk => {
     orderHistoryRequest(num).then((res) => {
       if (res && res.success) {
         dispatch({ type: ORDER_HISTORY_SUCCESS, payload: res.orders });
+      } else {
+        dispatch({ type: ORDER_HISTORY_FAILED})
       }
-    });
+    }).catch((err) => {
+      dispatch({ type: ORDER_HISTORY_FAILED, payload: err.message})
+    })
   };
 };

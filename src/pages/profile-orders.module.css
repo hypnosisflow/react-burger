@@ -16,3 +16,7 @@
     height: 492px;
     background-color: #8585AD;
   }
+
+  .loader {
+    height: 100%;
+  }

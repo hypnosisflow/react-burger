@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from "react";
 import { ProfileHeader } from "../components/profile-header/profile-header";
 import { useDispatch, useSelector } from "../utils/store-type";
-import { connect } from "../services/actions/wsProfileActions";
+import { connect, disconnect } from "../services/actions/wsProfileActions";
+
+import { getCookie } from "../utils/utils";
+import { OrderCard } from "../components/order-card/order-card";
 
 import styles from "./login.module.css";
-import { getCookie } from "../utils/utils";
-import { ORDER_ADD_DETAILS } from "../services/constants/order";
-import { OrderCard } from "../components/order-card/order-card";
-import { TOrderInfo } from "../utils/types";
+
 
 export const ProfileOrdersPage: FC = () => {
   const dispatch = useDispatch();
@@ -16,12 +16,15 @@ export const ProfileOrdersPage: FC = () => {
     const accessToken = getCookie("accessToken")?.replace("Bearer ", "");
     const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
     dispatch(connect(wsUrl));
+    return () => {
+      dispatch(disconnect());
+    };
   }, [dispatch]);
 
   const [...orders] = useSelector((state) => state.wsProfile.orders);
 
-  if (!orders) {
-    return <h1> Загрузка...</h1>;
+  if (!orders.length) {
+    return <h1 className={styles.loader}> Загрузка...</h1>;
   }
 
   return (
@@ -34,17 +37,9 @@ export const ProfileOrdersPage: FC = () => {
             <div className={styles.orders_container}>
               <ul className={styles.list}>
                 {orders.map((order: any) => (
-                  <li
-                    key={order._id}
-                    onClick={() =>
-                      dispatch({
-                        type: ORDER_ADD_DETAILS,
-                        payload: order.number,
-                      })
-                    }
-                  >
+                  <li key={order._id}>
                     {/* CARD */}
-                    <OrderCard {...order} />
+                    <OrderCard order={order} />
                   </li>
                 ))}
               </ul>

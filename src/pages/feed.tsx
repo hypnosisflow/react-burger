@@ -1,17 +1,12 @@
-import React, { useEffect, useMemo } from "react";
-import { useHistory, useLocation } from "react-router";
+import React, { useEffect } from "react";
 import { OrderCard } from "../components/order-card/order-card";
 import { connect, disconnect } from "../services/actions/wsActions";
-import { ORDER_ADD_DETAILS } from "../services/constants/order";
 import { useDispatch, useSelector } from "../utils/store-type";
-import { v4 as uuid } from "uuid";
 import { TOrderInfo } from "../utils/types";
 import styles from "./feed.module.css";
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
 
   const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
@@ -33,7 +28,7 @@ export const FeedPage = () => {
   let sortedOrders = readyOrders();
 
   if (!orders.length) {
-    return <h1> Загрузка ...</h1>;
+    return <h1 className={styles.loader}> Загрузка ...</h1>;
   }
 
   return (
@@ -43,12 +38,9 @@ export const FeedPage = () => {
           <h1> ЛЕНТА ЗАКАЗОВ </h1>
           {/* LIST */}
           <ul className={styles.list}>
-            {orders.map((order: TOrderInfo) => (
+            {orders.map((order, index: number) => (
               <li
-                key={uuid()}
-                onClick={() =>
-                  dispatch({ type: ORDER_ADD_DETAILS, payload: order.number })
-                }
+                key={index}
               >
                 {/* CARD */}
                 <OrderCard order={order} />
@@ -61,8 +53,8 @@ export const FeedPage = () => {
           <div className={styles.statelists}>
             <span>READY:</span>
             <ul className={styles.statelist}>
-              {sortedOrders.done.map((item: TOrderInfo) => (
-                <li>{item.number}</li>
+              {sortedOrders.done.map((item, index: number) => (
+                <li key={index}>{item.number}</li>
               ))}
             </ul>
             <span>SOON:</span>

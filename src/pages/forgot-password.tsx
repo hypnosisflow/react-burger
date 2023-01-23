@@ -22,7 +22,6 @@ export function ForgotPasswordPage() {
   const request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(forgotPassword(form));
       setValue({ email: "" });
       history.replace({ pathname: "/reset-password" });

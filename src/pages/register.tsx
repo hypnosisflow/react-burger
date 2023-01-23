@@ -6,11 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { Link } from "react-router-dom";
-
-import styles from "./login.module.css";
-import { useDispatch, useSelector } from "../utils/store-type";
+import { useDispatch } from "../utils/store-type";
 import { registerSend } from "../services/actions/login";
 import { TForm } from "../utils/types";
+import styles from "./login.module.css";
 
 export function RegisterPage() {
   const dispatch = useDispatch();
@@ -22,13 +21,12 @@ export function RegisterPage() {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
-    console.log(form)
+    console.log(form);
   };
 
   let request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      // @ts-ignore
       dispatch(registerSend(form));
       setValue({ email: "", password: "", name: "" });
       console.log(form);
@@ -61,9 +59,7 @@ export function RegisterPage() {
               onChange={onChange}
             />
           </div>
-          <Button htmlType={"submit"}>
-            Зарегистрироваться
-          </Button>
+          <Button htmlType={"submit"}>Зарегистрироваться</Button>
         </form>
       </div>
       <div className={styles.links_wrap}>

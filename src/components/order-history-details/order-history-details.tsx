@@ -1,14 +1,16 @@
-import React, { FC, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import React, { FC, useEffect } from "react";
+import { useParams, useRouteMatch } from "react-router";
 import { useDispatch, useSelector } from "../../utils/store-type";
 import {
   FormattedDate,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./order-history-details.module.css";
 import { orderRequest } from "../../services/actions/order";
 import { v4 as uuid } from "uuid";
+import { IIngredient } from "../../utils/types";
+import styles from "./order-history-details.module.css";
+
 interface IIngredientDetailsParams {
   number: string;
 }
@@ -17,6 +19,7 @@ export const OrderHistoryDetails: FC = () => {
   const { number } = useParams<IIngredientDetailsParams>();
   const orderNumber = Number(number);
   const dispatch = useDispatch();
+  const match = useRouteMatch();
 
   const { menu } = useSelector((state: any) => state.menu);
   const menuIngredients = menu.map((item: any) => item.item);
@@ -27,10 +30,17 @@ export const OrderHistoryDetails: FC = () => {
         state.ws.orders.find((order) => order.number === orderNumber) ?? null
       );
     }
-    //@ts-ignore
     if (state.order.order?.[0].number === orderNumber) {
-      //@ts-ignore
       return state.order.order[0];
+    }
+
+    if (
+      match.path === "/profile/orders/:number" &&
+      state.wsProfile.orders.length
+    ) {
+      return state.wsProfile.orders.find(
+        (order) => order.number === orderNumber
+      );
     }
     return null;
   });
@@ -45,22 +55,23 @@ export const OrderHistoryDetails: FC = () => {
     return <h1>Загрузка...</h1>;
   }
 
-  const { _id, name, ingredients, createdAt } = order;
+  const { name, ingredients, createdAt } = order;
 
-  const items = ingredients.map((ingredient: any) => {
-    return menuIngredients.find((item: any) => item._id === ingredient)!;
+  const items: IIngredient[] = ingredients.map((ingredient: string) => {
+    return menuIngredients.find(
+      (item: IIngredient) => item._id === ingredient
+    )!;
   });
-
-  // get imgs
-  const images = items.map((item: any) => item.image);
 
   const date = new Date(createdAt);
 
-  const totalPrice = items.reduce((acc: any, i: any) => acc + i.price, 0);
+  const totalPrice = items.reduce((acc, i) => acc + i.price, 0);
+
+  const counter = ingredients.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
 
   return (
     <section>
-      {order && (
+      {number && order && (
         <div className={styles.card}>
           <div className={styles.title}>
             <span>{number}</span>
@@ -68,9 +79,10 @@ export const OrderHistoryDetails: FC = () => {
           <h4> {name} </h4>
           <div className={styles.details}>
             <div className={styles.images}>
+            СОСТАВ:
+
               <ul className={styles.list}>
-                СОСТАВ:
-                {items.map((item: any) => (
+                {items.map((item) => (
                   <li className={styles.list_item} key={uuid()}>
                     <div className={styles.ingredient_item}>
                       <div className={styles.item_descr}>
@@ -81,7 +93,7 @@ export const OrderHistoryDetails: FC = () => {
                         />
                         <span>{item.name}</span>
                       </div>
-                      <span className={styles.count}>{item.price}</span>
+                      <span className={styles.count}>{counter.get(item._id)} {item.price}</span>
                     </div>
                   </li>
                 ))}

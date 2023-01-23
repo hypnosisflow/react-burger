@@ -30,7 +30,7 @@ export type TUserState = {
 
 type TUserReducerActions = TProfileActions | TUserActions;
 
-const initialState = {
+const initialState: TUserState = {
   user: {},
 
   loggedIn: false,

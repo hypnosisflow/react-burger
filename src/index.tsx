@@ -3,13 +3,12 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./components/app/app";
-import { AnyAction, configureStore } from "@reduxjs/toolkit";
-import { compose, legacy_createStore, applyMiddleware } from "redux";
+import {  configureStore } from "@reduxjs/toolkit";
+import { compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { reducer } from "./services/reducers/index";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./utils/socketMiddleware";
-import { TWsActions } from "./services/actions/wsActions";
 import {
   ordersWsActions,
   profileOrdersWsActions,

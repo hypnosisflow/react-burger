@@ -21,25 +21,44 @@
     display: flex;
     justify-content: space-between;
 }
-.images { 
+
+.images {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    /* overflow: hidden; */
+    list-style: none;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 }
-.image { 
+
+.list_image {
+    /* flex-wrap: wrap-reverse; */
+    margin-right: -30px;
+    display: flex;
+}
+
+.image {
     width: 70px;
-    height: 50px;
-    /* margin-right: -20px; */
+    height: 60px;
     border: 1px solid purple;
     border-radius: 100%;
- }
+}
 
- .total {
+.remains {
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.total {
     display: flex;
     align-items: center;
     justify-content: center;
- }
+}
 
- .price {
+.price {
     margin-left: 10px;
- }
+}

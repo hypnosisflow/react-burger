@@ -15,7 +15,8 @@ import {
 } from "../../utils/api";
 
 import { TForm } from "../../utils/types";
-import { AnyAction, Dispatch } from "redux";
+import { Dispatch } from "redux";
+import { AppThunk } from "../../utils/store-type";
 
 // edit profile section
 export type TEditAction = {
@@ -24,7 +25,7 @@ export type TEditAction = {
 
 export type TEditSuccessAction = {
   readonly type: typeof EDIT_SUCCESS;
-  readonly payload?: any;
+  readonly payload?: TForm;
 };
 
 export type TEditFailedAction = {
@@ -84,8 +85,8 @@ export const resetFailedAction = (): TResetFailedAction => ({
   type: RESET_FAILED,
 });
 
-export const editProfile = (data: TForm) => {
-  return function (dispatch: Dispatch) {
+export const editProfile = (data: TForm): AppThunk => {
+  return function (dispatch) {
     dispatch({ type: EDIT_REQUEST });
     editProfileRequest(data)
       .then((res) => {
@@ -97,8 +98,8 @@ export const editProfile = (data: TForm) => {
   };
 };
 
-export const forgotPassword = (data: TForm) => {
-  return function (dispatch: Dispatch) {
+export const forgotPassword = (data: TForm): AppThunk => {
+  return function (dispatch) {
     dispatch({ type: RESET_REQUEST });
     passwordResetRequest(data)
       .then((res) => {
@@ -113,8 +114,8 @@ export const forgotPassword = (data: TForm) => {
   };
 };
 
-export const resetPassword = (data: TForm) => {
-  return function (dispatch: Dispatch) {
+export const resetPassword = (data: TForm): AppThunk => {
+  return function (dispatch) {
     passwordReset(data)
       .then((res) => {
         dispatch({ type: RESET_SUCCESS, payload: res.message });

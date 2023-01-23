@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, FC, LegacyRef } from "react";
+import React, {  forwardRef, FC, LegacyRef } from "react";
 import { useDispatch } from "../../utils/store-type";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";

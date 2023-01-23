@@ -12,6 +12,10 @@
    
 }
 
+.loader {
+    height: 100vh;
+}
+
 .total {
     /* border: 1px solid yellow; */
     width: 600px;

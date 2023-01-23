@@ -10,7 +10,6 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "../../utils/store-type";
 
 function AppHeader() {
-  // @ts-ignore
   const user = useSelector((state) => state.auth.user);
   console.log(user);
 

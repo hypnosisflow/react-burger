@@ -2,7 +2,7 @@ import * as H from "history";
 import { Ref } from "react";
 
 export type TIngredientItem = {
-  _id: IIngredient;
+  _id?: IIngredient;
   item: IIngredient;
 };
 
@@ -30,7 +30,7 @@ export interface IProtectedRouteProps {
 }
 
 export type TForm = {
-  user?: TForm;
+  user?: {};
   name?: string;
   password?: string;
   email?: string;

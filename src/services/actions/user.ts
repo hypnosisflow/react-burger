@@ -16,7 +16,7 @@ import { Dispatch } from "redux";
 export type TTokenAction = {
   readonly type: typeof TOKEN_UPDATE;
   readonly accessToken: string;
-  readonly payload?: any;
+  readonly payload?: TForm;
 };
 
 export type TTokenFailedAction = {
@@ -53,15 +53,15 @@ export const authFailedAcion = (): TAuthFailedAction => ({
 
 export type TUserAction = {
   readonly type: typeof SET_USER_REQUEST;
-  readonly payload?: any;
-  readonly data: any;
+  readonly payload?: TForm;
+  readonly data: TForm;
 };
 
 export type TUserSuccessAction = {
   readonly type: typeof SET_USER_SUCCESS;
   readonly user: TForm;
-  readonly payload?: any;
-  readonly data: any;
+  readonly payload?: TForm;
+  readonly data: TForm;
 };
 
 export type TUserFailedActon = {
@@ -77,14 +77,14 @@ export type TUserActions =
   | TTokenAction
   | TTokenFailedAction;
 
-export const setUserAction = (data: any): TUserAction => ({
+export const setUserAction = (data: TForm): TUserAction => ({
   type: SET_USER_REQUEST,
   data,
 });
 
 export const setUserSuccessAction = (
   user: TForm,
-  data: any
+  data: TForm
 ): TUserSuccessAction => ({
   type: SET_USER_SUCCESS,
   user,

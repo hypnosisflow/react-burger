@@ -53,7 +53,7 @@ export async function loadIngredients() {
   );
 }
 
-export async function makeOrder(ingredients: TIngredientItem[]) {
+export async function makeOrder(ingredients: (string | undefined)[]) {
   return await fetch(`${BASE_URL}orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -65,8 +65,7 @@ export async function orderHistoryRequest(orderNumber: number) {
   return await fetch(`${BASE_URL}orders/${orderNumber}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-
-  }).then(checkResponse)
+  }).then(checkResponse);
 }
 
 export const register = async (

@@ -1,15 +1,16 @@
-import { TIngredientItem } from "./../../utils/types";
+import { IIngredient, TIngredientItem } from "./../../utils/types";
 import { TFetchActions } from "./../actions/menu";
 import { FETCH_FAILED, FETCH_SUCCESS, FETCH_REQUEST } from "../constants/menu";
 
+
 export type TMenuState = {
-  menu: TIngredientItem[];
+  menu: Array<TIngredientItem>,
   menuRequest: boolean;
   menuFailed: boolean;
   menuSuccess: boolean;
 };
 
-const initialState = {
+const initialState: TMenuState = {
   menu: [],
   menuRequest: false,
   menuFailed: false,
@@ -33,7 +34,7 @@ export const menuReducer = (
         ...state,
         menu: [
           ...state.menu,
-          ...action.menu.map((i: TIngredientItem) => ({ item: i })),
+          ...action.menu.map((i) => ({ item: i })),
         ],
         menuRequest: false,
         menuFailed: false,

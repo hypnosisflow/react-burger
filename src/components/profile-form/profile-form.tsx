@@ -2,28 +2,22 @@ import React, { useState, useCallback, useEffect, FC } from "react";
 import {
   Input,
   Button,
-  EditIcon,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, NavLink, useHistory } from "react-router-dom";
 
 import styles from "../../pages/login.module.css";
 import { useDispatch, useSelector } from "../../utils/store-type";
 import { editProfile } from "../../services/actions/profile";
-import { logoutSend } from "../../services/actions/login";
 import { TForm } from "../../utils/types";
-import { OrderCard } from "../../components/order-card/order-card";
 
-export const ProfileForm = () => {
+export const ProfileForm: FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  //@ts-ignore
   const user = useSelector((state) => state.auth.user);
 
   const [form, setValue] = useState<TForm>({
-    email: user.email,
+    email: user ? user.email : "empty",
     password: "********",
-    name: user.name,
+    name: user ? user.name : "empty",
     isChanged: false,
   });
 
@@ -42,9 +36,9 @@ export const ProfileForm = () => {
 
   const clear = useCallback(() => {
     setValue({
-      email: user.email,
+      email: user ? user.email : 'empty',
       password: "********",
-      name: user.name,
+      name: user ? user.name : 'empty',
     });
   }, [user]);
 

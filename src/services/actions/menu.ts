@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
+import { AppThunk } from '../../utils/store-type';
 import { loadIngredients } from "../../utils/api";
-import { TIngredientItem } from "../../utils/types";
+import { IIngredient, TIngredientItem } from "../../utils/types";
 
 import {
   FETCH_REQUEST,
@@ -16,8 +16,8 @@ export type TFetchAction = {
 
 export type TFetchSuccessAction = {
   readonly type: typeof FETCH_SUCCESS;
-  readonly menu: any;
-};
+  readonly menu: IIngredient[],
+}
 
 export type TFetchFailedAction = {
   readonly type: typeof FETCH_FAILED;
@@ -33,7 +33,7 @@ export const fetchAction = (): TFetchAction => ({
 });
 
 export const fetchSuccessAction = (
-  menu: Array<TIngredientItem>
+  menu: IIngredient[]
 ): TFetchSuccessAction => ({
   type: FETCH_SUCCESS,
   menu: menu
@@ -45,15 +45,15 @@ export const fetchFailedAction = (): TFetchFailedAction => ({
 
 export type TAddDetailsAction = {
   readonly type: typeof ADD_DETAILS;
-  readonly payload: any;
+  readonly payload: TIngredientItem;
 };
 export type TRemoveDetailsAction = {
   readonly type: typeof REMOVE_DETAILS;
 };
 export type TDetailsActions = TAddDetailsAction | TRemoveDetailsAction;
 
-export const fetchData: Function = () => {
-  return function (dispatch: any) {
+export const fetchData = (): AppThunk => {
+  return function (dispatch) {
     dispatch({
       type: FETCH_REQUEST,
     });

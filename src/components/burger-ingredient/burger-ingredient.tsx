@@ -24,7 +24,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
     }),
   }));
   return (
-    // <div ref={drag}>
     <Link
       className={styles.link}
       to={{
@@ -34,7 +33,7 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
       ref={drag}
     >
       <li
-        key={ingredient.item._id}
+        key={ingredient.item._id }
         onClick={() => dispatch({ type: "ADD_DETAILS", payload: ingredient })}
         className={styles.item}
       >
@@ -51,7 +50,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
         <span className={styles.name}>{ingredient.item.name}</span>
       </li>
     </Link>
-    // </div>
   );
 };
 

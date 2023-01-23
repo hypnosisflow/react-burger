@@ -1,3 +1,4 @@
+import { TOrderInfo } from './../../utils/types';
 import { TOrderActions } from "./../actions/order";
 import {
   ORDER_FAILED,
@@ -7,21 +8,23 @@ import {
   ORDER_ADD_DETAILS,
   ORDER_HISTORY_REQUEST,
   ORDER_HISTORY_SUCCESS,
+  ORDER_HISTORY_FAILED
 } from "../constants/order";
 
 export type TOrderState = {
-  orderNumber: number | null;
+  orderNumber: number;
   orderFailed: boolean;
   orderRequest: boolean;
   orderHistoryNumber?: number;
-  order?: any;
+  order?: TOrderInfo[];
 };
 
-const initialState = {
+const initialState: TOrderState = {
   orderNumber: 0,
   orderHistoryNumber: 0,
   orderFailed: false,
   orderRequest: false,
+  //@ts-ignore
   order: {},
 };
 
@@ -73,6 +76,11 @@ export const orderReducer = (
         ...state,
         order: action.payload,
       };
+    }
+    case ORDER_HISTORY_FAILED: {
+      return {
+        ...state,
+      }
     }
     default: {
       return state;

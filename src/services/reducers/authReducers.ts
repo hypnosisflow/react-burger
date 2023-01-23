@@ -32,7 +32,7 @@ export type TAuthState = {
   refreshToken?: string;
 };
 
-const initialState = {
+const initialState: TAuthState = {
   user: null,
 
   registerSucces: false,

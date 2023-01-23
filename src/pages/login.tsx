@@ -11,7 +11,6 @@ import { TForm } from "../utils/types";
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  //@ts-ignore
   const user = useSelector((state) => state.auth.accessToken);
 
   const [form, setValue] = useState<TForm>({ email: "", password: "" });
