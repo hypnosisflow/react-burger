@@ -6,9 +6,9 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { TModal } from "../../utils/types";
 
-const modalsElement = document.querySelector<any>("#modal");
+const modalsElement = document.querySelector<HTMLDivElement>("#modal");
 
-const Modal = ({ closeModal, children }: TModal) => {
+const Modal: React.FC<TModal> = ({ closeModal, children }) => {
   useEffect(() => {
     const handleCloseEsc = (e: KeyboardEvent) =>
       e.key === "Escape" && closeModal();
@@ -27,7 +27,7 @@ const Modal = ({ closeModal, children }: TModal) => {
         {children}
       </div>
     </div>,
-    modalsElement
+    modalsElement as HTMLDivElement
   );
 };
 

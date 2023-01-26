@@ -15,7 +15,7 @@ export const reducer = combineReducers({
   ingredient: ingredientReducer,
   cart: constructorReducer,
   auth: authReducer,
-  user: userReducer,
+  // user: userReducer,
   ws: wsReducer,
   wsProfile: wsProfileReducer
 });

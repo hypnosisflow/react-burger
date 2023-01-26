@@ -22,12 +22,6 @@ export interface IIngredient {
   from: number;
 }
 
-export interface IProtectedRouteProps {
-  auth?: boolean;
-  children: React.ReactNode;
-  path: string;
-  exact: boolean;
-}
 
 export type TForm = {
   user?: {};
@@ -71,12 +65,12 @@ export type TGroupProps = {
 };
 
 export type TModal = {
-  closeModal: any;
+  closeModal: () => void;
   children?: React.ReactNode;
 };
 
 export type TModalOverlay = {
-  closeModal: any;
+  closeModal: () => void ;
   children?: React.ReactNode;
 };
 

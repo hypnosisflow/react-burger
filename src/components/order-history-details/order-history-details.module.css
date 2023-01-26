@@ -1,18 +1,33 @@
+.wrap {
+    height: 100%;
+}
+
 .card {
     /* border: 1px solid white; */
-    background-color: rgba(33, 33, 33, 1);
+    /* background-color: rgba(33, 33, 33, 1); */
+    background-color: transparent;
     border-radius: 40px;
     /* height: 100% ; */
-    /* width: 100%; */
+    /* width: 500px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
+    padding: 30px;
     margin-bottom: 16px;
     min-width: 640px;
     max-height: 620px;
 
 
+}
+
+.name {
+    margin-bottom: 50px;
+    margin-top: 50px;
+    /* width: 100px; */
+}
+
+.list_names {
+    margin-left: 10px;
 }
 
 .ingredient_item {
@@ -21,6 +36,8 @@
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    margin-right: 30px;
+    margin-bottom: 15px;
 }
 
 .title {
@@ -29,6 +46,7 @@
 }
 
 .item_descr {
+    display: flex;
     text-align: center;
     align-items: center;
 }
@@ -47,13 +65,16 @@
 
 .image {
     width: 70px;
-    /* margin-right: -20px; */
+    height: 60px;
+    border: 2px solid #801AB3;
+    background-image: linear-gradient(var(--background-alt), var(--background-alt)), linear-gradient(#801AB3 0%, #4C4CFF);
+    border-radius: 100%;
 }
 
 .count {
-    display: flex   ;
+    display: flex;
     flex-direction: row;
-    
+    gap: 8px;
 }
 
 .list {
@@ -62,16 +83,18 @@
     padding: 0;
     height: 200px;
     overflow-y: scroll;
+    margin-top: 10px;
 }
+
 .list::-webkit-scrollbar {
     width: 8px;
     background-color: #2F2F37;
-  }
-  
-  .list::-webkit-scrollbar-thumb {
+}
+
+.list::-webkit-scrollbar-thumb {
     height: 100px;
     background-color: #8585AD;
-  }
+}
 
 
 
@@ -79,7 +102,7 @@
     display: flex;
     text-align: center;
     align-items: center;
-    width: 550px;
+    width: 100%;
     /* justify-content: space-between; */
 }
 
@@ -90,7 +113,7 @@
     text-align: center;
     align-items: center;
     margin-top: 30px;
-    width: 550px;
+    /* width: 550px; */
 }
 
 .price {
@@ -100,5 +123,5 @@
 }
 
 .price_num {
-    margin-left: 10px;
+    margin-right: 10px;
 }

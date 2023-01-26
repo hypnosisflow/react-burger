@@ -13,7 +13,7 @@ import { TForm } from "../utils/types";
 export function ResetPasswordPage() {
   const dispatch = useDispatch();
   const [form, setValue] = useState<TForm>({ password: "", token: "" });
-  const resetAllowed = useSelector((state) => state.auth.resetRequest);
+  const resetAllowed = useSelector((state) => state.auth);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });

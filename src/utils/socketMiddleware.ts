@@ -1,3 +1,4 @@
+import { IWsMessage } from './../services/actions/wsActions';
 import {
   ActionCreatorWithPayload,
   ActionCreatorWithoutPayload,
@@ -8,12 +9,12 @@ import { RootState } from "./store-type";
 export type TWsActionTypes = {
   wsConnect: ActionCreatorWithPayload<string>;
   wsDisconnect: ActionCreatorWithoutPayload;
-  wsSendMessage?: ActionCreatorWithPayload<any>;
+  wsSendMessage?: ActionCreatorWithPayload<string>;
   wsConnecting: ActionCreatorWithoutPayload;
   onOpen: ActionCreatorWithoutPayload;
   onClose: ActionCreatorWithoutPayload;
   onError: ActionCreatorWithPayload<string>;
-  onMessage: ActionCreatorWithPayload<any>;
+  onMessage: ActionCreatorWithPayload<IWsMessage>;
 };
 
 export const socketMiddleware = (

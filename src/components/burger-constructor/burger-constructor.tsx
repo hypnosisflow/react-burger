@@ -19,7 +19,7 @@ import { ORDER_RESET } from "../../services/constants/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
-import { IIngredient } from "../../utils/types";
+import { IIngredient, TIngredientItem } from "../../utils/types";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -30,12 +30,12 @@ const BurgerConstructor = () => {
   const ingredients = useSelector(constructorSelector);
   const hasBuns = useSelector(hasBun);
 
-  const { bun } = useSelector((state) => state.cart);
+  const bun  = useSelector((state) => state.cart.bun);
   const user = useSelector((state) => state.auth.user);
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
     accept: "MENU_INGREDIENT",
-    drop: (item: any) => dispatch(addToConstructor(item.item)),
+    drop: (item: TIngredientItem) => dispatch(addToConstructor(item.item)),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),

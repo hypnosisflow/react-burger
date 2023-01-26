@@ -1,4 +1,4 @@
-import { TLoginActions } from "./../actions/login";
+import { TLoginActions, TUserAuthActions } from "./../actions/login";
 import { TForm } from "./../../utils/types";
 
 import {
@@ -11,6 +11,16 @@ import {
   REGISTER_REQUEST,
   REGISTER_FAILED,
 } from "../constants/login";
+import {
+  SET_USER_REQUEST,
+  SET_USER_SUCCESS,
+  AUTH_CHECKED,
+  AUTH_FAILED,
+  EDIT_SUCCESS,
+  RESET_REQUEST,
+  RESET_SUCCESS,
+  RESET_REQUEST_FAILED,
+} from "../constants/profile";
 
 export type TAuthState = {
   user?: TForm | null;
@@ -23,13 +33,7 @@ export type TAuthState = {
 
   loggedIn: boolean;
 
-  data: null;
-
-  resetRequest: boolean;
-  resetSuccess: boolean;
-
-  accessToken?: string;
-  refreshToken?: string;
+  authChecked?: boolean
 };
 
 const initialState: TAuthState = {
@@ -43,18 +47,12 @@ const initialState: TAuthState = {
 
   loggedIn: false,
 
-  data: null,
-
-  resetRequest: false,
-  resetSuccess: false,
-
-  accessToken: "",
-  refreshToken: "",
+  authChecked: false
 };
 
 export const authReducer = (
   state = initialState,
-  action: TLoginActions
+  action: TUserAuthActions
 ): TAuthState => {
   switch (action.type) {
     case REGISTER_REQUEST: {
@@ -67,7 +65,7 @@ export const authReducer = (
     case REGISTER_SUCCESS: {
       return {
         ...state,
-        user: action.payload,
+        user: action.user,
         registerSucces: true,
         registerError: false,
       };
@@ -83,28 +81,58 @@ export const authReducer = (
     case LOGIN_REQUEST: {
       return {
         ...state,
+        loggedIn: false,
         loginSucces: false,
-        loginError: true,
+        loginError: false,
       };
     }
     case LOGIN_SUCCESS: {
       return {
         ...state,
         user: action.user,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken,
         loginSucces: true,
         loginError: false,
         loggedIn: true,
       };
     }
     case LOGIN_FAILED: {
-      return { ...state, loginSucces: false, loginError: true, loggedIn: true };
+      return {
+        ...state,
+        loginSucces: false,
+        loginError: true,
+        loggedIn: false,
+      };
     }
     case LOGOUT: {
       return { ...initialState };
     }
     case LOGOUT_FAILED: {
+      return { ...state };
+    }
+    case SET_USER_REQUEST: {
+      return { ...state };
+    }
+    case SET_USER_SUCCESS: {
+      return { ...state, user: action.user, loggedIn: true };
+    }
+
+    case AUTH_CHECKED: {
+      return { ...state, loggedIn: true, authChecked: true };
+    }
+    case AUTH_FAILED: {
+      return { ...state, loggedIn: false };
+    }
+
+    case EDIT_SUCCESS: {
+      return { ...state, user: action.payload };
+    }
+    case RESET_REQUEST: {
+      return { ...state };
+    }
+    case RESET_REQUEST_FAILED: {
+      return { ...state };
+    }
+    case RESET_SUCCESS: {
       return { ...state };
     }
     default: {

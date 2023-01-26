@@ -1,48 +1,31 @@
 import {
-  TOKEN_UPDATE,
-  TOKEN_UPDATE_FAILED,
   AUTH_CHECKED,
   AUTH_FAILED,
   SET_USER_REQUEST,
   SET_USER_SUCCESS,
-  SET_USER_FAILED,
 } from "../constants/profile";
-import { tokenUpdate, getUserRequest } from "../../utils/api";
-import { getCookie } from "../../utils/utils";
+import {
+  refreshToken,
+  BASE_URL,
+  fetchWithRefresh,
+} from "../../utils/api";
+import { getCookie, setCookie } from "../../utils/utils";
 import { TForm } from "../../utils/types";
-import { Dispatch } from "redux";
-
-// token
-export type TTokenAction = {
-  readonly type: typeof TOKEN_UPDATE;
-  readonly accessToken: string;
-  readonly payload?: TForm;
-};
-
-export type TTokenFailedAction = {
-  readonly type: typeof TOKEN_UPDATE_FAILED;
-};
-
-export const tokenAction = (accessToken: string): TTokenAction => ({
-  type: TOKEN_UPDATE,
-  accessToken,
-});
-
-export const tokenFailedAction = (): TTokenFailedAction => ({
-  type: TOKEN_UPDATE_FAILED,
-});
+import { AppThunk } from "../../utils/store-type";
 
 // auth section
 export type TAuthCheckAction = {
   readonly type: typeof AUTH_CHECKED;
+  readonly authChecked: boolean;
 };
 
 export type TAuthFailedAction = {
   readonly type: typeof AUTH_FAILED;
 };
 
-export const authCheckAction = (): TAuthCheckAction => ({
+export const authCheckAction = (authChecked: boolean): TAuthCheckAction => ({
   type: AUTH_CHECKED,
+  authChecked,
 });
 
 export const authFailedAcion = (): TAuthFailedAction => ({
@@ -53,101 +36,94 @@ export const authFailedAcion = (): TAuthFailedAction => ({
 
 export type TUserAction = {
   readonly type: typeof SET_USER_REQUEST;
-  readonly payload?: TForm;
-  readonly data: TForm;
 };
 
 export type TUserSuccessAction = {
   readonly type: typeof SET_USER_SUCCESS;
-  readonly user: TForm;
+  readonly user?: TForm;
   readonly payload?: TForm;
-  readonly data: TForm;
-};
-
-export type TUserFailedActon = {
-  readonly type: typeof SET_USER_FAILED;
+  readonly data?: TForm;
 };
 
 export type TUserActions =
   | TUserAction
   | TUserSuccessAction
-  | TUserFailedActon
   | TAuthCheckAction
-  | TAuthFailedAction
-  | TTokenAction
-  | TTokenFailedAction;
+  | TAuthFailedAction;
 
-export const setUserAction = (data: TForm): TUserAction => ({
+export const setUserAction = (): TUserAction => ({
   type: SET_USER_REQUEST,
-  data,
 });
 
 export const setUserSuccessAction = (
   user: TForm,
-  data: TForm
 ): TUserSuccessAction => ({
   type: SET_USER_SUCCESS,
   user,
-  data,
 });
 
-export const setUserFailedAction = (): TUserFailedActon => ({
-  type: SET_USER_FAILED,
-});
+// functions
 
-// diSPAtChiNG
+// export const checkUserAuth = (): AppThunk => (dispatch) => {
+//   if (getCookie("accessToken")) {
+//     dispatch(getUser())
+//       .finally(() => {
+//         dispatch({ type: AUTH_CHECKED, authChecked: true });
+//       })
+//       .catch((err: string) => {
+//         dispatch({ type: AUTH_FAILED, payload: err });
+//       });
+//   }
+// };
 
-export const getNewToken = (afterRefresh: any) => {
-  return function (dispatch: Dispatch) {
-    tokenUpdate()
+export interface ITokens {
+  refreshToken: string;
+  accessToken: string;
+  res?: unknown;
+}
+
+export function saveTokens(tokens: ITokens): void {
+  setCookie("accessToken", tokens.refreshToken);
+  localStorage.setItem("refreshToken", tokens.accessToken);
+  console.log("Tokens", tokens);
+}
+
+export const updateToken = (): AppThunk => {
+  return function (dispatch) {
+    refreshToken()
       .then((res) => {
-        dispatch({
-          type: TOKEN_UPDATE,
-          accessToken: res.accessToken,
-          refreshToken: res.refreshToken,
-        });
-        dispatch(afterRefresh);
+        dispatch(setUserAction());
+        console.log("Tokens updated");
       })
       .catch((err) => {
-        dispatch({ type: TOKEN_UPDATE_FAILED, payload: err });
+        console.log("Token Update Error", err);
       });
   };
 };
 
-export const checkUserAuth = () => (dispatch: any) => {
-  if (getCookie("accessToken")) {
-    dispatch(getUser())
-      .then(() => {
-        dispatch({ type: AUTH_CHECKED });
-      })
-      .catch((err: any) => {
-        dispatch({ type: AUTH_FAILED, payload: err });
-      });
-  }
-};
+interface IUser {
+  name: string;
+  email: string;
+}
 
-export const getUser = () => {
-  return function (dispatch: Dispatch) {
-    dispatch({ type: SET_USER_REQUEST });
-    getUserRequest()
+interface IGetUser {
+  user: IUser;
+  res: null;
+}
+
+export function getUser(): AppThunk {
+  return function (dispatch) {
+    fetchWithRefresh(`${BASE_URL}auth/user`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getCookie("accessToken"),
+      } as HeadersInit,
+    })
       .then((res) => {
-        dispatch({
-          type: SET_USER_SUCCESS,
-          payload: res.user,
-        });
+        dispatch(setUserSuccessAction(res.user));
       })
-      .catch((err) => {
-        if (err.message === "jwt expired") {
-          tokenUpdate(getUser()).then((res) => {
-            dispatch({
-              type: TOKEN_UPDATE,
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-            });
-          });
-        } else {
-          dispatch({ type: SET_USER_FAILED, payload: err });
-        }
+      .catch((error) => {
+        console.log('Error get user', error);
       });
   };
-};
+}

@@ -11,7 +11,6 @@ import { useSelector } from "../../utils/store-type";
 
 function AppHeader() {
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
 
   return (
     <header className={styles.header}>

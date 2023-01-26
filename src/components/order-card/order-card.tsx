@@ -20,26 +20,29 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const match = useRouteMatch();
   const location = useLocation();
 
-  const { menu } = useSelector((state: any) => state.menu);
-  const menuIngredients = menu.map((item: any) => item.item);
+  const { menu } = useSelector((state) => state.menu);
+  const menuIngredients = menu.map((item) => item.item);
 
   const maxIngredients = 6;
 
   // ings ids -> full ings
   const items = ingredients.map((ingredient) => {
-    return menuIngredients.find((item: any) => item._id === ingredient)!;
+    return menuIngredients.find((item) => item._id === ingredient)!;
   });
 
   // get imgs
-  const images = items.map((item) => item.image);
 
   const date = new Date(createdAt);
 
-  const totalPrice = items.reduce((acc: any, i: any) => acc + i.price, 0);
+  const totalPrice = items.reduce((acc, i) => acc + i.price, 0);
 
   const ingredientsToShow = items.slice(0, maxIngredients);
   const ingredientsRemains =
     items.length > maxIngredients ? items.length - maxIngredients : null;
+
+  const stylesName = `${styles.name} text text_type_main_medium mt-6 mb-6`;
+  const stylesPrice = `${styles.price} text text_type_digits-default` 
+  const stylesRemains = `${styles.remains} text text_type_digits-default`
 
   return (
     <Link
@@ -51,27 +54,26 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
     >
       <div className={styles.card}>
         <div className={styles.title}>
-          <span>{number}</span>
-          <span>
+          <span className="text text_type_digits-default">{number}</span>
+          <span className="text text_type_main_default text_color_inactive">
             <FormattedDate date={date} />
           </span>
         </div>
-        <h4> {name} </h4>
+        <span className={stylesName}> {name} </span>
         <div className={styles.details}>
           <ul className={styles.images}>
             {ingredientsToShow.map((item, index) => {
               return (
-                <li className={styles.list_image} key={index} >
+                <li className={styles.list_image} key={index}>
                   <img
                     className={styles.image}
                     src={item.image_mobile}
                     alt="ing"
                   />
                   {maxIngredients === index + 1 ? (
-                    <span className={styles.remains}>
+                    <span className={stylesRemains}>
                       {" "}
-                      {/* @ts-ignore */}
-                      {ingredientsRemains > 0
+                      {ingredientsRemains !== null && ingredientsRemains > 0
                         ? `+${ingredientsRemains}`
                         : null}{" "}
                     </span>
@@ -80,10 +82,9 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
               );
             })}
           </ul>
-
           <span className={styles.total}>
             <CurrencyIcon type="primary" />
-            <p className={styles.price}>{totalPrice}</p>
+            <p className={stylesPrice}>{totalPrice}</p>
           </span>
         </div>
       </div>

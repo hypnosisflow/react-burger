@@ -1,5 +1,9 @@
-import { getCookie } from "./utils";
+import { getCookie, setCookie } from "./utils";
 import { TForm, TIngredientItem } from "./types";
+
+import { ITokens, saveTokens } from "../services/actions/user";
+
+// import { saveTokens } from '../services/actions/auth'
 
 type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
   [key in TDataKey]: TDataType;
@@ -11,7 +15,7 @@ type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
   readonly accessToken: string;
 };
 
-interface CustomBody<T extends any> extends Body {
+interface CustomBody<T> extends Body {
   json(): Promise<T>;
 }
 
@@ -42,10 +46,10 @@ export type TTokenResponse = {
 const checkResponse = (res: Response) => {
   return res.ok
     ? res.json()
-    : res.json().then((err: any) => Promise.reject(err));
+    : res.json().then((err: string) => Promise.reject(err));
 };
 
-const BASE_URL: string = "https://norma.nomoreparties.space/api/";
+export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
 export async function loadIngredients() {
   return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
@@ -116,7 +120,7 @@ export const logout = async (): Promise<Response> => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then((res) => res.json());
+  }).then(checkResponse);
 };
 
 export const editProfileRequest = async (
@@ -151,23 +155,50 @@ export const getUserRequest = async (): Promise<TResponseBody<"user", TForm>> =>
     referrerPolicy: "no-referrer",
   }).then(checkResponse);
 
-export const tokenUpdate = async (
-  ...args: any
-): Promise<TResponseBody<"token", TForm>> =>
-  await fetch(`${BASE_URL}auth/token`, {
+export const refreshToken = (): Promise<TResponseBody> => {
+  return fetch(`${BASE_URL}auth/token`, {
     method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
     },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
   }).then(checkResponse);
+};
+
+export const fetchWithRefresh = async (
+  url: string,
+  options: RequestInit | any
+): Promise<CustomResponse<TTokenResponse>> => {
+  try {
+    const res = await fetch(url, options);
+    return await checkResponse(res);
+  } catch (err) {
+    if ((err as Error).message === "jwt expired") {
+      const refreshData = await refreshToken();
+      if (!refreshData.success) {
+        Promise.reject(refreshData);
+      }
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      setCookie("accessToken", refreshData.accessToken);
+      options.headers.authorization = refreshData.accessToken;
+      const res = await fetch(url, options);
+      return await checkResponse(res);
+    } else {
+      return Promise.reject(err);
+    }
+  }
+};
+
+// console.log(
+//   fetchWithRefresh(`${BASE_URL}auth/user`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: getCookie("accessToken"),
+//     } as HeadersInit,
+//   })
+// );
 
 export const passwordResetRequest = async (
   form: TForm

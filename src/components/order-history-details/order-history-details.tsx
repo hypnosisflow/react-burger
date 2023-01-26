@@ -12,17 +12,16 @@ import { IIngredient } from "../../utils/types";
 import styles from "./order-history-details.module.css";
 
 interface IIngredientDetailsParams {
-  number: string;
+  id: string;
 }
 
 export const OrderHistoryDetails: FC = () => {
-  const { number } = useParams<IIngredientDetailsParams>();
-  const orderNumber = Number(number);
+  const { id } = useParams<IIngredientDetailsParams>();
+  const orderNumber = Number(id);
   const dispatch = useDispatch();
-  const match = useRouteMatch();
 
-  const { menu } = useSelector((state: any) => state.menu);
-  const menuIngredients = menu.map((item: any) => item.item);
+  const { menu } = useSelector((state) => state.menu);
+  const menuIngredients = menu.map((item) => item.item);
 
   const order = useSelector((state) => {
     if (state.ws.orders.length) {
@@ -30,17 +29,18 @@ export const OrderHistoryDetails: FC = () => {
         state.ws.orders.find((order) => order.number === orderNumber) ?? null
       );
     }
+    console.log(state.ws.orders.length);
+
+    if (state.wsProfile.orders.length) {
+      return (
+        state.wsProfile.orders.find((order) => order.number === orderNumber) ??
+        null
+      );
+    }
+    console.log(state.wsProfile.orders.length);
+
     if (state.order.order?.[0].number === orderNumber) {
       return state.order.order[0];
-    }
-
-    if (
-      match.path === "/profile/orders/:number" &&
-      state.wsProfile.orders.length
-    ) {
-      return state.wsProfile.orders.find(
-        (order) => order.number === orderNumber
-      );
     }
     return null;
   });
@@ -57,7 +57,9 @@ export const OrderHistoryDetails: FC = () => {
 
   const { name, ingredients, createdAt } = order;
 
-  const items: IIngredient[] = ingredients.map((ingredient: string) => {
+  const unique = ingredients.filter((v, i, a) => a.indexOf(v) === i);
+
+  const items: IIngredient[] = unique.map((ingredient: string) => {
     return menuIngredients.find(
       (item: IIngredient) => item._id === ingredient
     )!;
@@ -67,20 +69,26 @@ export const OrderHistoryDetails: FC = () => {
 
   const totalPrice = items.reduce((acc, i) => acc + i.price, 0);
 
-  const counter = ingredients.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+  const counter = ingredients.reduce(
+    (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+    new Map()
+  );
+
+  const stylesName = `${styles.name} text text_type_main-medium`;
+  const stylesNumber = `${styles.count} text text_type_digits-default `;
+  const stylesTotalPrice = `${styles.price_num} text text_type_digits-default`
 
   return (
-    <section>
-      {number && order && (
+    <section className={styles.wrap}>
+      {id && order && (
         <div className={styles.card}>
           <div className={styles.title}>
-            <span>{number}</span>
+            <span className={stylesNumber}>{orderNumber}</span>
           </div>
-          <h4> {name} </h4>
+          <span className={stylesName}> {name} </span>
           <div className={styles.details}>
             <div className={styles.images}>
-            СОСТАВ:
-
+              <span className="text text_type_main-default">Состав:</span>
               <ul className={styles.list}>
                 {items.map((item) => (
                   <li className={styles.list_item} key={uuid()}>
@@ -91,9 +99,12 @@ export const OrderHistoryDetails: FC = () => {
                           src={item.image}
                           alt="ing"
                         />
-                        <span>{item.name}</span>
+                        <span className={styles.list_names}>{item.name}</span>
                       </div>
-                      <span className={styles.count}>{counter.get(item._id)} {item.price}</span>
+                      <span className={stylesNumber}>
+                        {counter.get(item._id)} x {item.price}
+                        <CurrencyIcon type="primary" />
+                      </span>
                     </div>
                   </li>
                 ))}
@@ -105,8 +116,8 @@ export const OrderHistoryDetails: FC = () => {
               <FormattedDate date={date} />
             </span>
             <span className={styles.price}>
+              <p className={stylesTotalPrice}>{totalPrice}</p>
               <CurrencyIcon type="primary" />
-              <p className={styles.price_num}>{totalPrice}</p>
             </span>
           </div>
         </div>

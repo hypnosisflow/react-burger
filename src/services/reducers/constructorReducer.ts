@@ -8,7 +8,7 @@ import {
 import { IIngredient } from "../../utils/types";
 
 export type TConstructorState = {
-  bun?: IIngredient ;
+  bun?: IIngredient;
   items: Array<IIngredient>;
 };
 

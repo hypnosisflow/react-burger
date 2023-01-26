@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,10 +8,13 @@ import { loginSend } from "../services/actions/login";
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "../utils/store-type";
 import { TForm } from "../utils/types";
+import { UserContext } from "../components/user-context";
 
-export function LoginPage() {
+
+export const LoginPage = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.accessToken);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const user = useSelector((state) => state.auth.user)
 
   const [form, setValue] = useState<TForm>({ email: "", password: "" });
 
@@ -24,14 +27,14 @@ export function LoginPage() {
       e.preventDefault();
       dispatch(loginSend(form));
       setValue({ email: "", password: "" });
-      console.log(form);
+      // setUser({user})
     },
     [form, dispatch]
   );
 
-  if (user) {
-    return <Redirect to={{ pathname: "/" }} />;
-  }
+  // if (loggedIn) {
+  //   return <Redirect to={{ pathname: "/" }} />;
+  // }
 
   return (
     <section className={styles.main}>
@@ -66,4 +69,4 @@ export function LoginPage() {
       </div>
     </section>
   );
-}
+};

@@ -10,7 +10,7 @@
 .content {
   max-width: 720px;
   /* height: 200px; */
-  /* background-color: #1c1c1c;   */
+  background-color: #1c1c1c;  
   border-radius: 5;
   z-index: 2000;
   margin: auto;

@@ -13,7 +13,7 @@ import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
 import IngredientsDetails from "../ingredients-details/ingredients-details";
-import { ProtectedRoute } from "../protected-route";
+import { ProtectedRoute } from '../protected-route'
 import { fetchData } from "../../services/actions/menu";
 import {
   LoginPage,
@@ -25,9 +25,11 @@ import {
   Page404,
   FeedPage,
 } from "../../pages/index";
-import { TState } from "../../utils/types";
 import { OrderHistoryDetails } from "../order-history-details/order-history-details";
 import { ProfileOrdersPage } from "../../pages/profile-orders";
+import { getUser } from "../../services/actions/login";
+import { getCookie } from "../../utils/utils";
+import { TState } from "../../utils/types";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -35,11 +37,18 @@ const App: FC = () => {
   const location = useLocation<TState>();
 
   const background = location.state && location.state.background;
-  const handleModalClose = () => history.goBack();
   const { menu } = useSelector((state) => state.menu);
-  const { ...orders } = useSelector((state) => state.ws.orders)
+
+  const handleModalClose = () => history.goBack();
+
+  const token = localStorage.getItem("refreshToken");
+  const cooka = getCookie("accessToken");
+  // console.log(token)
+  // console.log(cooka)
 
   useEffect(() => {
+    dispatch(getUser());
+    // dispatch(tokenRefresh())
     dispatch(fetchData());
   }, [dispatch]);
 
@@ -53,38 +62,35 @@ const App: FC = () => {
               <Route path="/" exact={true}>
                 <MainPage />
               </Route>
-              <ProtectedRoute auth={true} path="/login" exact={true}>
+              <Route path="/login" exact={true}>
                 <LoginPage />
-              </ProtectedRoute>
-              <ProtectedRoute auth={true} path="/register" exact={true}>
+              </Route>
+              <ProtectedRoute path="/register" exact={true}>
                 <RegisterPage />
               </ProtectedRoute>
-              <ProtectedRoute auth={true} path="/forgot-password" exact={true}>
+              <Route path="/forgot-password" exact={true}>
                 <ForgotPasswordPage />
-              </ProtectedRoute>
-              <ProtectedRoute auth={true} path="/reset-password" exact={true}>
+              </Route>
+              <Route path="/reset-password" exact={true}>
                 <ResetPasswordPage />
-              </ProtectedRoute>
-              <ProtectedRoute path="/profile" exact={true}>
+              </Route>
+              <Route path="/profile" exact={true}>
                 <ProfilePage />
-              </ProtectedRoute>
-              <ProtectedRoute
-                auth={false}
-                exact={true}
-                path="/profile/orders/:number"
-              >
-                <OrderHistoryDetails />
-              </ProtectedRoute>
+              </Route>
               <Route path="/profile/orders" exact={true}>
                 <ProfileOrdersPage />
               </Route>
+              <Route path="/profile/orders/:id" exact={true}>
+                <OrderHistoryDetails />
+              </Route>
+
               <Route path="/ingredients/:id">
                 <IngredientsDetails />
               </Route>
               <Route path="/feed" exact={true}>
                 <FeedPage />
               </Route>
-              <Route path="/feed/:number" exact={true}>
+              <Route path="/feed/:id" exact={true}>
                 <OrderHistoryDetails />
               </Route>
               <Route>
@@ -101,20 +107,16 @@ const App: FC = () => {
               <IngredientsDetails />
             </Modal>
           </Route>
-          <Route path="/feed/:number">
+          <Route exact={true} path="/feed/:id">
             <Modal closeModal={handleModalClose}>
               <OrderHistoryDetails />
             </Modal>
           </Route>
-          <ProtectedRoute
-            // auth={false}
-            exact={true}
-            path="/profile/orders/:number"
-          >
+          <Route exact={true} path="/profile/orders/:id">
             <Modal closeModal={handleModalClose}>
               <OrderHistoryDetails />
             </Modal>
-          </ProtectedRoute>
+          </Route>
         </>
       )}
     </DndProvider>

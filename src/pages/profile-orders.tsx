@@ -8,20 +8,20 @@ import { OrderCard } from "../components/order-card/order-card";
 
 import styles from "./login.module.css";
 
-
 export const ProfileOrdersPage: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const accessToken = getCookie("accessToken")?.replace("Bearer ", "");
     const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
+
     dispatch(connect(wsUrl));
     return () => {
       dispatch(disconnect());
     };
   }, [dispatch]);
 
-  const [...orders] = useSelector((state) => state.wsProfile.orders);
+  const orders = useSelector((state) => state.wsProfile.orders);
 
   if (!orders.length) {
     return <h1 className={styles.loader}> Загрузка...</h1>;
@@ -36,7 +36,7 @@ export const ProfileOrdersPage: FC = () => {
             {/* LIST */}
             <div className={styles.orders_container}>
               <ul className={styles.list}>
-                {orders.map((order: any) => (
+                {orders.map((order) => (
                   <li key={order._id}>
                     {/* CARD */}
                     <OrderCard order={order} />

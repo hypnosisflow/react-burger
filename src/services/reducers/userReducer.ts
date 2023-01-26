@@ -1,4 +1,4 @@
-import { TForm } from '../../utils/types';
+import { TForm } from "../../utils/types";
 import {
   SET_USER_FAILED,
   SET_USER_REQUEST,
@@ -12,34 +12,32 @@ import {
   RESET_SUCCESS,
   RESET_REQUEST_FAILED,
 } from "../constants/profile";
+import {
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  LOGOUT_FAILED,
+  REGISTER_REQUEST,
+  REGISTER_FAILED,
+  REGISTER_SUCCESS,
+} from "../constants/login";
 
 import { TProfileActions } from "./../actions/profile";
 import { TUserActions } from "./../actions/user";
 
 export type TUserState = {
   user?: TForm | null;
-
   loggedIn: boolean;
-
-  accessToken: string;
-  refreshToken: string;
-
-  resetRequest: boolean,
-  resetSuccess: boolean
+  authChecked: boolean;
 };
 
 type TUserReducerActions = TProfileActions | TUserActions;
 
 const initialState: TUserState = {
-  user: {},
-
+  user: null,
   loggedIn: false,
-
-  accessToken: "",
-  refreshToken: "",
-
-  resetRequest: false,
-  resetSuccess: false
+  authChecked: false
 };
 
 export const userReducer = (
@@ -48,44 +46,30 @@ export const userReducer = (
 ): TUserState => {
   switch (action.type) {
     case SET_USER_REQUEST: {
-      return { ...state, user: action.payload };
+      return { ...state };
     }
     case SET_USER_SUCCESS: {
-      return { ...state, user: action.payload};
-    }
-    case SET_USER_FAILED: {
-      return { ...state, user: null };
+      return { ...state, user: action.payload, loggedIn: true };
     }
 
     case AUTH_CHECKED: {
-      return { ...state, loggedIn: true };
+      return { ...state, loggedIn: true, authChecked: true };
     }
     case AUTH_FAILED: {
       return { ...state, loggedIn: false };
     }
-    case TOKEN_UPDATE: {
-      return {
-        ...state,
-        // refreshToken: action.refreshToken,
-        accessToken: action.accessToken,
-      };
-    }
-    case TOKEN_UPDATE_FAILED: {
-      return {
-        ...state,
-      };
-    }
+
     case EDIT_SUCCESS: {
       return { ...state, user: action.payload };
     }
     case RESET_REQUEST: {
-      return { ...state, resetRequest: true };
+      return { ...state}
     }
     case RESET_REQUEST_FAILED: {
-      return { ...state, resetRequest: false, resetSuccess: false };
+      return { ...state};
     }
     case RESET_SUCCESS: {
-      return { ...state, resetSuccess: true, resetRequest: true };
+      return { ...state };
     }
     default: {
       return state;

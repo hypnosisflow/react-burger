@@ -16,7 +16,7 @@ export type TOrderState = {
   orderFailed: boolean;
   orderRequest: boolean;
   orderHistoryNumber?: number;
-  order?: TOrderInfo[];
+  order?: TOrderInfo[] | null;
 };
 
 const initialState: TOrderState = {
@@ -24,8 +24,8 @@ const initialState: TOrderState = {
   orderHistoryNumber: 0,
   orderFailed: false,
   orderRequest: false,
-  //@ts-ignore
-  order: {},
+  // @ts-ignor
+  order: null,
 };
 
 export const orderReducer = (

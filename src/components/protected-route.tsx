@@ -1,40 +1,44 @@
-import React, { useEffect } from "react";
-import { Redirect, Route, useLocation } from "react-router-dom";
-import { getUser } from "../services/actions/user";
-import { useDispatch, useSelector } from "../utils/store-type";
-import { TState, IProtectedRouteProps } from "../utils/types";
+import React, { useEffect } from 'react';
+import { useLocation } from "react-router";
+import { Redirect } from "react-router";
+import { Route } from "react-router";
+import { useSelector, useDispatch } from "../utils/store-type";
+import { checkUserAuth } from '../services/actions/login';
 
-export function ProtectedRoute({
-  auth = false,
-  children,
-  ...rest
-}: IProtectedRouteProps) {
-  const user = useSelector((state) => state.auth.user);
-  const location = useLocation<TState>();
+export interface IProtectedRouteProps {
+  onlyUnAuth?: Boolean;
+  rest: {
+    path: string,
+    exact: boolean,
+  }
+}
+
+export const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const authChecked = useSelector(state => state.auth.authChecked)
+  const loggedIn = useSelector(state => state.auth.loggedIn)
+  const user = useSelector(state => state.auth.user)
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    dispatch(checkUserAuth())
+  }, [])
+  
 
-  if (auth && user) {
-    const { from } = location.state || { from: { pathname: "/" } };
-
-    return (
-      <Route {...rest}>
-        <Redirect to={from} />
-      </Route>
-    );
+  if (!authChecked) {
+    // request processing
+    return null; // || preloader
+  }
+  
+  if (onlyUnAuth && user) {
   }
 
-
-  if (!auth && !user) {
-    return (
-      <Route {...rest}>
-        <Redirect to={{ pathname: "login", state: { from: location } }} />
-      </Route>
-    );
+  if (!onlyUnAuth && !user) {
+    // server not responding 
+    return <Redirect to={{ pathname: "/login", state: { from: location } }} />;
   }
 
-  return <Route {...rest}>{children}</Route>;
-}
+  // !onlyUnAuth && user
+  return <Route {...rest} />
+};

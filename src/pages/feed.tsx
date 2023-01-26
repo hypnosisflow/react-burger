@@ -31,6 +31,9 @@ export const FeedPage = () => {
     return <h1 className={styles.loader}> Загрузка ...</h1>;
   }
 
+  const stylesTotals = `${styles.number} text text_type_digits-large`;
+  const stylesStatsHeaders = `${styles.stats} text text_type_digits-default`;
+
   return (
     <>
       <section className={styles.main}>
@@ -39,9 +42,7 @@ export const FeedPage = () => {
           {/* LIST */}
           <ul className={styles.list}>
             {orders.map((order, index: number) => (
-              <li
-                key={index}
-              >
+              <li key={index}>
                 {/* CARD */}
                 <OrderCard order={order} />
               </li>
@@ -51,26 +52,34 @@ export const FeedPage = () => {
         {/* RIGHT SECTION  */}
         <div className={styles.total}>
           <div className={styles.statelists}>
-            <span>READY:</span>
-            <ul className={styles.statelist}>
-              {sortedOrders.done.map((item, index: number) => (
-                <li key={index}>{item.number}</li>
-              ))}
-            </ul>
-            <span>SOON:</span>
-            <ul className={styles.statelist}>
-              <li>31231231231</li>
-              <li>8787878</li>
-              <li>57854</li>
-            </ul>
+            <div>
+              <span className="text text_type_main-medium">Готовы:</span>
+              <ul className={styles.statelist}>
+                {sortedOrders.done.map((item, index: number) => (
+                  <li key={index} className={stylesStatsHeaders}>
+                    {item.number}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <span className="text text_type_main-medium">В работе:</span>
+              <ul className={styles.statelist}>
+                <li className="text text_type_digits-default">57854</li>
+              </ul>
+            </div>
           </div>
           <div className={styles.alltime}>
-            <span>Выполнено за все время:</span>
-            <span className={styles.number}>{total}</span>
+            <span className="text text_type_main-medium">
+              Выполнено за все время:
+            </span>
+            <span className={stylesTotals}>{total}</span>
           </div>
           <div className={styles.today}>
-            <span>Выполнено за сегодня:</span>
-            <span className={styles.number}>{totalToday}</span>
+            <span className="text text_type_main-medium">
+              Выполнено за сегодня:
+            </span>
+            <span className={stylesTotals}>{totalToday}</span>
           </div>
         </div>
       </section>

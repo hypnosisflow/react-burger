@@ -22,7 +22,7 @@ export type TRemoveProductAction = {
 export type TReorderPoductsAction = {
   readonly type: typeof REORDER_PRODUCTS;
   readonly payload: {
-    from: any;
+    from: number;
     to: number;
   };
 };
