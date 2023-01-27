@@ -19,6 +19,9 @@ export const OrderHistoryDetails: FC = () => {
   const { id } = useParams<IIngredientDetailsParams>();
   const orderNumber = Number(id);
   const dispatch = useDispatch();
+  const match = useRouteMatch("");
+
+  // console.log(match?.path)
 
   const { menu } = useSelector((state) => state.menu);
   const menuIngredients = menu.map((item) => item.item);
@@ -55,7 +58,7 @@ export const OrderHistoryDetails: FC = () => {
     return <h1>Загрузка...</h1>;
   }
 
-  const { name, ingredients, createdAt } = order;
+  const { name, ingredients, createdAt, status } = order;
 
   const unique = ingredients.filter((v, i, a) => a.indexOf(v) === i);
 
@@ -74,9 +77,17 @@ export const OrderHistoryDetails: FC = () => {
     new Map()
   );
 
+  const statusTranslated = () => {
+    if (status === "done") {
+      return <span>Выполнен</span>;
+    } else if (status === "pending") {
+      return <span>Готовится</span>;
+    }
+  };
+
   const stylesName = `${styles.name} text text_type_main-medium`;
   const stylesNumber = `${styles.count} text text_type_digits-default `;
-  const stylesTotalPrice = `${styles.price_num} text text_type_digits-default`
+  const stylesTotalPrice = `${styles.price_num} text text_type_digits-default`;
 
   return (
     <section className={styles.wrap}>
@@ -85,7 +96,12 @@ export const OrderHistoryDetails: FC = () => {
           <div className={styles.title}>
             <span className={stylesNumber}>{orderNumber}</span>
           </div>
-          <span className={stylesName}> {name} </span>
+          <div className={styles.header}>
+            <span className={stylesName}> {name} </span>
+            {match?.path === "/profile/orders/:id" && (
+              <span className={styles.status}>{statusTranslated()}</span>
+            )}
+          </div>
           <div className={styles.details}>
             <div className={styles.images}>
               <span className="text text_type_main-default">Состав:</span>
@@ -112,7 +128,7 @@ export const OrderHistoryDetails: FC = () => {
             </div>
           </div>
           <div className={styles.total}>
-            <span>
+            <span className="text text_type_main_default text_color_inactive">
               <FormattedDate date={date} />
             </span>
             <span className={styles.price}>

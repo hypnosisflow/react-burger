@@ -15,7 +15,7 @@ interface TOrderCardProps {
 }
 
 export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
-  const { _id, name, ingredients, number, createdAt } = order;
+  const { _id, name, ingredients, number, createdAt, status } = order;
 
   const match = useRouteMatch();
   const location = useLocation();
@@ -40,9 +40,17 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const ingredientsRemains =
     items.length > maxIngredients ? items.length - maxIngredients : null;
 
+  const statusTranslated = () => {
+    if (status === "done") {
+      return <span>ВЫПОЛНЕН</span>;
+    } else if (status === "pending") {
+      return <span>ГОТОВИТСЯ</span>;
+    }
+  };
+
   const stylesName = `${styles.name} text text_type_main_medium mt-6 mb-6`;
-  const stylesPrice = `${styles.price} text text_type_digits-default` 
-  const stylesRemains = `${styles.remains} text text_type_digits-default`
+  const stylesPrice = `${styles.price} text text_type_digits-default`;
+  const stylesRemains = `${styles.remains} text text_type_digits-default`;
 
   return (
     <Link
@@ -59,7 +67,12 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
             <FormattedDate date={date} />
           </span>
         </div>
-        <span className={stylesName}> {name} </span>
+        <div className={styles.header}>
+          <span className={stylesName}> {name} </span>
+          {match?.path === "/profile/orders" && (
+            <span className={styles.status}>{statusTranslated()}</span>
+          )}
+        </div>
         <div className={styles.details}>
           <ul className={styles.images}>
             {ingredientsToShow.map((item, index) => {

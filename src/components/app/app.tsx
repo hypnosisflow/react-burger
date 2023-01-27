@@ -13,7 +13,7 @@ import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import Modal from "../modal/modal";
 import IngredientsDetails from "../ingredients-details/ingredients-details";
-import { ProtectedRoute } from '../protected-route'
+import { ProtectedRoute } from "../protected-route";
 import { fetchData } from "../../services/actions/menu";
 import {
   LoginPage,
@@ -27,8 +27,7 @@ import {
 } from "../../pages/index";
 import { OrderHistoryDetails } from "../order-history-details/order-history-details";
 import { ProfileOrdersPage } from "../../pages/profile-orders";
-import { getUser } from "../../services/actions/login";
-import { getCookie } from "../../utils/utils";
+import { getUser, checkUserAuth } from "../../services/actions/login";
 import { TState } from "../../utils/types";
 
 const App: FC = () => {
@@ -41,14 +40,9 @@ const App: FC = () => {
 
   const handleModalClose = () => history.goBack();
 
-  const token = localStorage.getItem("refreshToken");
-  const cooka = getCookie("accessToken");
-  // console.log(token)
-  // console.log(cooka)
-
   useEffect(() => {
-    dispatch(getUser());
-    // dispatch(tokenRefresh())
+    dispatch(checkUserAuth());
+
     dispatch(fetchData());
   }, [dispatch]);
 
@@ -62,27 +56,29 @@ const App: FC = () => {
               <Route path="/" exact={true}>
                 <MainPage />
               </Route>
-              <Route path="/login" exact={true}>
+
+              <ProtectedRoute onlyUnAuth={true} path="/login" exact={true}>
                 <LoginPage />
-              </Route>
-              <ProtectedRoute path="/register" exact={true}>
+              </ProtectedRoute>
+              <ProtectedRoute onlyUnAuth={true} path="/register" exact={true}>
                 <RegisterPage />
               </ProtectedRoute>
-              <Route path="/forgot-password" exact={true}>
+              <ProtectedRoute onlyUnAuth={true} path="/forgot-password" exact={true}>
                 <ForgotPasswordPage />
-              </Route>
-              <Route path="/reset-password" exact={true}>
+              </ProtectedRoute>
+              <ProtectedRoute onlyUnAuth={true} path="/reset-password" exact={true}>
                 <ResetPasswordPage />
-              </Route>
-              <Route path="/profile" exact={true}>
+              </ProtectedRoute>
+
+              <ProtectedRoute path="/profile" exact={true}>
                 <ProfilePage />
-              </Route>
-              <Route path="/profile/orders" exact={true}>
+              </ProtectedRoute>
+              <ProtectedRoute path="/profile/orders" exact={true}>
                 <ProfileOrdersPage />
-              </Route>
-              <Route path="/profile/orders/:id" exact={true}>
+              </ProtectedRoute>
+              <ProtectedRoute path="/profile/orders/:id" exact={true}>
                 <OrderHistoryDetails />
-              </Route>
+              </ProtectedRoute>
 
               <Route path="/ingredients/:id">
                 <IngredientsDetails />

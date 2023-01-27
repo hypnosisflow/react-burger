@@ -206,7 +206,6 @@ export const registerSend = (data: TForm): AppThunk => {
 export const checkUserAuth = (): AppThunk => (dispatch) => {
   if (getCookie("accessToken")) {
     dispatch(getUser())
-      //@ts-ignore
       .finally(() => {
         dispatch({ type: AUTH_CHECKED, authChecked: true });
       })
@@ -241,7 +240,7 @@ export const updateToken = (): AppThunk => {
   };
 };
 
-export const getUser = (): AppThunk => {
+export const getUser = (): AppThunk<Promise<unknown>> => {
   return function (dispatch) {
     dispatch(setUserAction());
     return fetchWithRefresh(`${BASE_URL}auth/user`, {
@@ -258,5 +257,3 @@ export const getUser = (): AppThunk => {
       });
   };
 };
-
-console.log(getUser());

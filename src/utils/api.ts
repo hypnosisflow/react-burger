@@ -191,15 +191,6 @@ export const fetchWithRefresh = async (
   }
 };
 
-// console.log(
-//   fetchWithRefresh(`${BASE_URL}auth/user`, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: getCookie("accessToken"),
-//     } as HeadersInit,
-//   })
-// );
-
 export const passwordResetRequest = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {

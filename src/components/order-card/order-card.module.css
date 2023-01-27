@@ -20,8 +20,21 @@
 .name {
     /* width: ; */
     font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.header {
+    text-align: left;
     margin-bottom: 50px;
     margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.status {
+    /* margin-bottom: 10px; */
 }
 .details {
     display: flex;
