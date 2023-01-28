@@ -1,10 +1,12 @@
 import React, { FC, useEffect } from "react";
-import { ProfileHeader } from "../components/profile-header/profile-header";
 import { useDispatch, useSelector } from "../utils/store-type";
 import { connect, disconnect } from "../services/actions/wsProfileActions";
 
-import { getCookie } from "../utils/utils";
+import { ProfileHeader } from "../components/profile-header/profile-header";
 import { OrderCard } from "../components/order-card/order-card";
+import { getCookie } from "../utils/utils";
+import { WS_BASE_URL } from "../utils/api";
+
 
 import styles from "./login.module.css";
 
@@ -13,9 +15,7 @@ export const ProfileOrdersPage: FC = () => {
 
   useEffect(() => {
     const accessToken = getCookie("accessToken")?.replace("Bearer ", "");
-    const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
-
-    dispatch(connect(wsUrl));
+    dispatch(connect(`${WS_BASE_URL}?token=${accessToken}`));
     return () => {
       dispatch(disconnect());
     };

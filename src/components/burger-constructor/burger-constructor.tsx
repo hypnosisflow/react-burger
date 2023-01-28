@@ -19,7 +19,8 @@ import { ORDER_RESET } from "../../services/constants/order";
 import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
-import { IIngredient, TIngredientItem } from "../../utils/types";
+import { TIngredientItem } from "../../utils/types";
+import { IConstructorIngredient } from "../../services/reducers/constructorReducer";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -78,9 +79,9 @@ const BurgerConstructor = () => {
       )}
       <ul className={styles.list}>
         {ingredients.length && bun ? (
-          ingredients.map((item: IIngredient, index: number) => {
+          ingredients.map((item, index) => {
             return (
-              <ConstructorIngredient item={item} key={index} index={index} />
+              <ConstructorIngredient item={item} key={item.id} index={index} />
             );
           })
         ) : (

@@ -3,15 +3,14 @@ import { OrderCard } from "../components/order-card/order-card";
 import { connect, disconnect } from "../services/actions/wsActions";
 import { useDispatch, useSelector } from "../utils/store-type";
 import { TOrderInfo } from "../utils/types";
+import { WS_BASE_URL } from "../utils/api";
 import styles from "./feed.module.css";
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
 
-  const wsUrl = "wss://norma.nomoreparties.space/orders/all";
-
   useEffect(() => {
-    dispatch(connect(wsUrl));
+    dispatch(connect(`${WS_BASE_URL}/all`));
     return () => {
       dispatch(disconnect());
     };
@@ -20,8 +19,8 @@ export const FeedPage = () => {
   const { orders, total, totalToday } = useSelector((state) => state.ws);
 
   const readyOrders = () => {
-    let done = orders.filter((item) => item.status === "done");
-    let undone = orders.filter((item) => item.status === "undone");
+    const done = orders.filter((item) => item.status === "done");
+    const undone = orders.filter((item) => item.status === "undone");
     return { done, undone };
   };
 

@@ -1,42 +1,42 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useLocation } from "react-router";
 import { Redirect } from "react-router";
 import { Route } from "react-router";
-import { useSelector, useDispatch } from "../utils/store-type";
-import { checkUserAuth } from "../services/actions/login";
+
+import { getCookie } from "../utils/utils";
+import { TState } from "../utils/types";
 
 export interface IProtectedRouteProps {
-  onlyUnAuth?: Boolean;
-  rest: {
-    path: string;
-    exact: boolean;
-  };
+  onlyForAuth?: boolean;
+  path: string;
+  exact: boolean;
+  children?: React.ReactNode;
 }
 
-export const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+export const ProtectedRoute: FC<IProtectedRouteProps> = ({
+  onlyForAuth,
+  children,
+  ...rest
+}) => {
+  const isAuthorized = getCookie("accessToken");
+  const location = useLocation<TState>();
 
-  const authChecked = useSelector((state) => state.auth.authChecked);
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const user = useSelector((state) => state.auth.user);
-
-  // if (!authChecked) {
-  //   // request processing
-  //   return null; // || preloader
-  // }
-
-  if (onlyUnAuth && !user) {
-    return <Route {...rest} />;
+  if (!onlyForAuth && isAuthorized) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return (
+      <Route {...rest}>
+        <Redirect to={from} />
+      </Route>
+    );
   }
 
-  if (onlyUnAuth && user) {
-    return <Redirect to={{ pathname: "/" }} />;
+  if (onlyForAuth && !isAuthorized) {
+    return (
+      <Route {...rest}>
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
+      </Route>
+    );
   }
 
-  if (!user) {
-    return <Redirect to={{ pathname: "/login", state: { from: location } }} />;
-  }
-
-  return <Route {...rest} />;
+  return <Route {...rest}>{children}</Route>;
 };

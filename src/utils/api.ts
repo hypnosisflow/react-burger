@@ -50,6 +50,7 @@ const checkResponse = (res: Response) => {
 };
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
+export const WS_BASE_URL: string = "wss://norma.nomoreparties.space/orders";
 
 export async function loadIngredients() {
   return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
@@ -60,7 +61,10 @@ export async function loadIngredients() {
 export async function makeOrder(ingredients: (string | undefined)[]) {
   return await fetch(`${BASE_URL}orders`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: getCookie("accessToken"),
+    } as HeadersInit,
     body: JSON.stringify({ ingredients }),
   }).then(checkResponse);
 }
@@ -68,7 +72,9 @@ export async function makeOrder(ingredients: (string | undefined)[]) {
 export async function orderHistoryRequest(orderNumber: number) {
   return await fetch(`${BASE_URL}orders/${orderNumber}`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
   }).then(checkResponse);
 }
 

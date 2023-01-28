@@ -57,26 +57,26 @@ const App: FC = () => {
                 <MainPage />
               </Route>
 
-              <ProtectedRoute onlyUnAuth={true} path="/login" exact={true}>
+              <ProtectedRoute onlyForAuth={false} path="/login" exact={true}>
                 <LoginPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyUnAuth={true} path="/register" exact={true}>
+              <ProtectedRoute onlyForAuth={false} path="/register" exact={true}>
                 <RegisterPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyUnAuth={true} path="/forgot-password" exact={true}>
+              <ProtectedRoute onlyForAuth={false} path="/forgot-password" exact={true}>
                 <ForgotPasswordPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyUnAuth={true} path="/reset-password" exact={true}>
+              <ProtectedRoute onlyForAuth={false} path="/reset-password" exact={true}>
                 <ResetPasswordPage />
               </ProtectedRoute>
 
-              <ProtectedRoute path="/profile" exact={true}>
+              <ProtectedRoute onlyForAuth={true} path="/profile" exact={true}>
                 <ProfilePage />
               </ProtectedRoute>
-              <ProtectedRoute path="/profile/orders" exact={true}>
+              <ProtectedRoute onlyForAuth={true} path="/profile/orders" exact={true}>
                 <ProfileOrdersPage />
               </ProtectedRoute>
-              <ProtectedRoute path="/profile/orders/:id" exact={true}>
+              <ProtectedRoute onlyForAuth={true} path="/profile/orders/:id" exact={true}>
                 <OrderHistoryDetails />
               </ProtectedRoute>
 

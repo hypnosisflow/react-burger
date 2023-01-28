@@ -1,20 +1,28 @@
-export const hasBun = (state) => {
+import { IIngredient } from "../../utils/types";
+import { TConstructorState } from "../reducers/constructorReducer";
+
+interface ICartProps {
+  cart: TConstructorState
+}
+
+export const hasBun = (state: ICartProps) => {
   const bun = state.cart.bun;
-  function isEmptyObject(obj) {
-    return JSON.stringify(obj) !== "{}";
+  function isEmptyObject(obj: IIngredient | null) {
+    return JSON.stringify(obj) !== "null";
   }
   const hasBunInCart = isEmptyObject(bun);
   return hasBunInCart;
 };
 
-export const sumSelector = (state) => {
+export const sumSelector = (state: ICartProps) => {
   let value = 0;
   let bunValue = 0;
   let total = 0;
   const bun = state.cart.bun;
+  const bunPrice = state.cart.bun?.price as number; 
 
   if (bun && bun.price) {
-    bunValue += state.cart.bun.price * 2;
+    bunValue += bunPrice * 2;
     return bunValue
   }
 
@@ -30,15 +38,15 @@ export const sumSelector = (state) => {
   return (total += bunValue + value || 0);
 };
 
-export const constructorSelector = (state) => {
+export const constructorSelector = (state: ICartProps) => {
   const items = state.cart.items.filter((i) => i.type !== "bun");
   return items;
 };
 
 //
-export const countSelector = (state) => {
+export const countSelector = (state: ICartProps) => {
   const ingredients = state.cart.items;
-  const bun = state.cart.bun;
+  const bunId = state.cart.bun?._id;
 
   let res = new Map();
 
@@ -46,8 +54,9 @@ export const countSelector = (state) => {
     (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
     res
   );
-  if (hasBun) {
-    res.set(bun._id, 2);
+  
+  if (bunId) {
+    res.set(bunId, 2);
   }
 
   return res;

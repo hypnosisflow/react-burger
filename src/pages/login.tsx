@@ -2,17 +2,17 @@ import React, { useState, useCallback, useContext } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { loginSend } from "../services/actions/login";
 
 import styles from "./login.module.css";
 import { useDispatch, useSelector } from "../utils/store-type";
-import { TForm } from "../utils/types";
-import { UserContext } from "../components/user-context";
+import { TForm, TState } from "../utils/types";
 
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation<TState>();
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const user = useSelector((state) => state.auth.user)
 
@@ -27,14 +27,14 @@ export const LoginPage = () => {
       e.preventDefault();
       dispatch(loginSend(form));
       setValue({ email: "", password: "" });
-      // setUser({user})
     },
     [form, dispatch]
   );
 
-  // if (loggedIn) {
-  //   return <Redirect to={{ pathname: "/" }} />;
-  // }
+  if (user) {
+    return  <Redirect to={location?.state?.from || '/'} />;
+  }
+
 
   return (
     <section className={styles.main}>

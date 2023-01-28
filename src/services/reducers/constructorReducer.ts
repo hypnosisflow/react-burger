@@ -7,14 +7,17 @@ import {
 } from "../constants/constructor";
 import { IIngredient } from "../../utils/types";
 
+export interface IConstructorIngredient extends IIngredient {
+  id?: string
+}
+
 export type TConstructorState = {
-  bun?: IIngredient;
-  items: Array<IIngredient>;
+  bun: IIngredient | null;
+  items: Array<IConstructorIngredient>;
 };
 
 const initialState: TConstructorState = {
-  //@ts-ignore
-  bun: {},
+  bun: null,
   items: [],
 };
 

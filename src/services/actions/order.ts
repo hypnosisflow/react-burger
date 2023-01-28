@@ -45,8 +45,8 @@ export type TOrderHistorySuccessAction = {
 };
 
 export type TOrderHistoryFailedAction = {
-  readonly type: typeof ORDER_HISTORY_FAILED
-}
+  readonly type: typeof ORDER_HISTORY_FAILED;
+};
 
 export type TOrderActions =
   | TOrderAction
@@ -103,6 +103,7 @@ export const sendOrder = (): AppThunk => {
       makeOrder(data)
         .then((res) => {
           if (res && res.success) {
+            console.log(res)
             dispatch({ type: ORDER_SUCCESS, payload: res.order.number });
           } else {
             dispatch({ type: ORDER_FAILED });
@@ -115,19 +116,19 @@ export const sendOrder = (): AppThunk => {
   };
 };
 
-export const URL_REQ = "wss://norma.nomoreparties.space/orders";
-
 export const orderRequest = (num: number): AppThunk => {
   return function (dispatch, getState) {
     dispatch({ type: ORDER_HISTORY_REQUEST });
-    orderHistoryRequest(num).then((res) => {
-      if (res && res.success) {
-        dispatch({ type: ORDER_HISTORY_SUCCESS, payload: res.orders });
-      } else {
-        dispatch({ type: ORDER_HISTORY_FAILED})
-      }
-    }).catch((err) => {
-      dispatch({ type: ORDER_HISTORY_FAILED, payload: err.message})
-    })
+    orderHistoryRequest(num)
+      .then((res) => {
+        if (res && res.success) {
+          dispatch({ type: ORDER_HISTORY_SUCCESS, payload: res.orders });
+        } else {
+          dispatch({ type: ORDER_HISTORY_FAILED });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: ORDER_HISTORY_FAILED, payload: err.message });
+      });
   };
 };

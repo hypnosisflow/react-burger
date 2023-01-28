@@ -21,8 +21,6 @@ export const OrderHistoryDetails: FC = () => {
   const dispatch = useDispatch();
   const match = useRouteMatch("");
 
-  // console.log(match?.path)
-
   const { menu } = useSelector((state) => state.menu);
   const menuIngredients = menu.map((item) => item.item);
 
@@ -32,7 +30,6 @@ export const OrderHistoryDetails: FC = () => {
         state.ws.orders.find((order) => order.number === orderNumber) ?? null
       );
     }
-    console.log(state.ws.orders.length);
 
     if (state.wsProfile.orders.length) {
       return (
@@ -40,11 +37,11 @@ export const OrderHistoryDetails: FC = () => {
         null
       );
     }
-    console.log(state.wsProfile.orders.length);
 
     if (state.order.order?.[0].number === orderNumber) {
       return state.order.order[0];
     }
+
     return null;
   });
 
@@ -107,7 +104,7 @@ export const OrderHistoryDetails: FC = () => {
               <span className="text text_type_main-default">Состав:</span>
               <ul className={styles.list}>
                 {items.map((item) => (
-                  <li className={styles.list_item} key={uuid()}>
+                  <li className={styles.list_item} key={item._id}>
                     <div className={styles.ingredient_item}>
                       <div className={styles.item_descr}>
                         <img
