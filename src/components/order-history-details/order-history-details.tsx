@@ -7,8 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { orderRequest } from "../../services/actions/order";
-import { v4 as uuid } from "uuid";
-import { IIngredient } from "../../utils/types";
+import { IIngredient, TOrderInfo } from "../../utils/types";
 import styles from "./order-history-details.module.css";
 
 interface IIngredientDetailsParams {
@@ -18,6 +17,7 @@ interface IIngredientDetailsParams {
 export const OrderHistoryDetails: FC = () => {
   const { id } = useParams<IIngredientDetailsParams>();
   const orderNumber = Number(id);
+
   const dispatch = useDispatch();
   const match = useRouteMatch("");
 
@@ -25,21 +25,27 @@ export const OrderHistoryDetails: FC = () => {
   const menuIngredients = menu.map((item) => item.item);
 
   const order = useSelector((state) => {
+    // Тут feed state
     if (state.ws.orders.length) {
-      return (
-        state.ws.orders.find((order) => order.number === orderNumber) ?? null
+      const foundOrder = state.ws.orders.find(
+        (order) => order.number === orderNumber
       );
+      if (foundOrder)
+      return foundOrder;
     }
-
+    // profile orders state
     if (state.wsProfile.orders.length) {
-      return (
-        state.wsProfile.orders.find((order) => order.number === orderNumber) ??
-        null
+      const foundOrder = state.wsProfile.orders.find(
+        (order) => order.number === orderNumber
       );
+      if (foundOrder) return foundOrder;
     }
-
-    if (state.order.order?.[0].number === orderNumber) {
-      return state.order.order[0];
+    // order state after dispatch
+    if (state.order.orders?.length) {
+      const foundOrder = state.order.orders.find(
+        (order) => order.number === orderNumber
+      );
+      if (foundOrder) return foundOrder;
     }
 
     return null;
@@ -51,18 +57,19 @@ export const OrderHistoryDetails: FC = () => {
     }
   }, [dispatch, order, orderNumber]);
 
+  console.log(order);
+
   if (!order) {
     return <h1>Загрузка...</h1>;
   }
 
   const { name, ingredients, createdAt, status } = order;
+  // console.log(order);
 
   const unique = ingredients.filter((v, i, a) => a.indexOf(v) === i);
 
   const items: IIngredient[] = unique.map((ingredient: string) => {
-    return menuIngredients.find(
-      (item: IIngredient) => item._id === ingredient
-    )!;
+    return menuIngredients.find((item) => item._id === ingredient)!;
   });
 
   const date = new Date(createdAt);
@@ -86,9 +93,11 @@ export const OrderHistoryDetails: FC = () => {
   const stylesNumber = `${styles.count} text text_type_digits-default `;
   const stylesTotalPrice = `${styles.price_num} text text_type_digits-default`;
 
+  // debugger;
+
   return (
     <section className={styles.wrap}>
-      {id && order && (
+      {order && (
         <div className={styles.card}>
           <div className={styles.title}>
             <span className={stylesNumber}>{orderNumber}</span>

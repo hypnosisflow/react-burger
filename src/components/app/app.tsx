@@ -28,7 +28,7 @@ import {
 import { OrderHistoryDetails } from "../order-history-details/order-history-details";
 import { ProfileOrdersPage } from "../../pages/profile-orders";
 import { getUser, checkUserAuth } from "../../services/actions/login";
-import { TState } from "../../utils/types";
+import { TOrderInfo, TState } from "../../utils/types";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -37,12 +37,12 @@ const App: FC = () => {
 
   const background = location.state && location.state.background;
   const { menu } = useSelector((state) => state.menu);
+  const order = useSelector((state) => state.order.orders);
 
   const handleModalClose = () => history.goBack();
 
   useEffect(() => {
     dispatch(checkUserAuth());
-
     dispatch(fetchData());
   }, [dispatch]);
 
@@ -63,20 +63,37 @@ const App: FC = () => {
               <ProtectedRoute onlyForAuth={false} path="/register" exact={true}>
                 <RegisterPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyForAuth={false} path="/forgot-password" exact={true}>
+              <ProtectedRoute
+                onlyForAuth={false}
+                path="/forgot-password"
+                exact={true}
+              >
                 <ForgotPasswordPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyForAuth={false} path="/reset-password" exact={true}>
+              <ProtectedRoute
+                onlyForAuth={false}
+                path="/reset-password"
+                exact={true}
+              >
                 <ResetPasswordPage />
               </ProtectedRoute>
 
+              {/* AUTHORIZED ONLY  */}
               <ProtectedRoute onlyForAuth={true} path="/profile" exact={true}>
                 <ProfilePage />
               </ProtectedRoute>
-              <ProtectedRoute onlyForAuth={true} path="/profile/orders" exact={true}>
+              <ProtectedRoute
+                onlyForAuth={true}
+                path="/profile/orders"
+                exact={true}
+              >
                 <ProfileOrdersPage />
               </ProtectedRoute>
-              <ProtectedRoute onlyForAuth={true} path="/profile/orders/:id" exact={true}>
+              <ProtectedRoute
+                onlyForAuth={true}
+                path="/profile/orders/:id"
+                exact={true}
+              >
                 <OrderHistoryDetails />
               </ProtectedRoute>
 
@@ -108,11 +125,15 @@ const App: FC = () => {
               <OrderHistoryDetails />
             </Modal>
           </Route>
-          <Route exact={true} path="/profile/orders/:id">
+          <ProtectedRoute
+            onlyForAuth={true}
+            exact={true}
+            path="/profile/orders/:id"
+          >
             <Modal closeModal={handleModalClose}>
               <OrderHistoryDetails />
             </Modal>
-          </Route>
+          </ProtectedRoute>
         </>
       )}
     </DndProvider>

@@ -9,13 +9,13 @@ import {
   wsOpen,
 } from "./../actions/wsProfileActions";
 
-export type TWsStore = {
+export type TWsProfileStore = {
   status: WebsocketStatus;
   orders: Array<TOrderInfo>;
   connectionError: string;
 };
 
-const initialState: TWsStore = {
+const initialState: TWsProfileStore = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
   connectionError: "",

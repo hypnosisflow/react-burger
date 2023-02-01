@@ -20,7 +20,6 @@ import { useDrop } from "react-dnd";
 import { addToConstructor } from "../../services/actions/constructor";
 import ConstructorIngredient from "../constructor-ingredient/constructor-ingredient";
 import { TIngredientItem } from "../../utils/types";
-import { IConstructorIngredient } from "../../services/reducers/constructorReducer";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();

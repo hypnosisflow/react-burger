@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { OrderCard } from "../components/order-card/order-card";
 import { connect, disconnect } from "../services/actions/wsActions";
 import { useDispatch, useSelector } from "../utils/store-type";
-import { TOrderInfo } from "../utils/types";
 import { WS_BASE_URL } from "../utils/api";
 import styles from "./feed.module.css";
 
@@ -17,7 +16,7 @@ export const FeedPage = () => {
   }, [dispatch]);
 
   const { orders, total, totalToday } = useSelector((state) => state.ws);
-
+ 
   const readyOrders = () => {
     const done = orders.filter((item) => item.status === "done");
     const undone = orders.filter((item) => item.status === "undone");
@@ -41,7 +40,7 @@ export const FeedPage = () => {
           {/* LIST */}
           <ul className={styles.list}>
             {orders.map((order, index: number) => (
-              <li key={index}>
+              <li key={order._id}>
                 {/* CARD */}
                 <OrderCard order={order} />
               </li>

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 import {
   CurrencyIcon,
@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector } from "../../utils/store-type";
-import { TOrderInfo } from "../../utils/types";
+import { IIngredient, TOrderInfo } from "../../utils/types";
 
 import styles from "./order-card.module.css";
 
@@ -26,19 +26,19 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const maxIngredients = 6;
 
   // ings ids -> full ings
-  const items = ingredients.map((ingredient) => {
-    return menuIngredients.find((item) => item._id === ingredient)!;
+  const orderWithFullIngredients = ingredients.map((id) => {
+    return menuIngredients.find((item) => item._id === id)!;
   });
-
-  // get imgs
-
   const date = new Date(createdAt);
 
-  const totalPrice = items.reduce((acc, i) => acc + i.price, 0);
+  const totalPrice =
+    orderWithFullIngredients.reduce((acc, i) => acc + i.price, 0) ?? null;
 
-  const ingredientsToShow = items.slice(0, maxIngredients);
+  const ingredientsToShow = orderWithFullIngredients.slice(0, maxIngredients);
   const ingredientsRemains =
-    items.length > maxIngredients ? items.length - maxIngredients : null;
+    orderWithFullIngredients.length > maxIngredients
+      ? orderWithFullIngredients.length - maxIngredients
+      : null;
 
   const statusTranslated = () => {
     if (status === "done") {
@@ -51,6 +51,8 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const stylesName = `${styles.name} text text_type_main_medium mt-6 mb-6`;
   const stylesPrice = `${styles.price} text text_type_digits-default`;
   const stylesRemains = `${styles.remains} text text_type_digits-default`;
+
+  // debugger;
 
   return (
     <Link
@@ -75,25 +77,26 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
         </div>
         <div className={styles.details}>
           <ul className={styles.images}>
-            {ingredientsToShow.map((item, index) => {
-              return (
-                <li className={styles.list_image} key={index}>
-                  <img
-                    className={styles.image}
-                    src={item.image_mobile}
-                    alt="ing"
-                  />
-                  {maxIngredients === index + 1 ? (
-                    <span className={stylesRemains}>
-                      {" "}
-                      {ingredientsRemains !== null && ingredientsRemains > 0
-                        ? `+${ingredientsRemains}`
-                        : null}{" "}
-                    </span>
-                  ) : null}
-                </li>
-              );
-            })}
+            {ingredientsToShow.length > 0 &&
+              ingredientsToShow.map((item, index) => {
+                return (
+                  <li className={styles.list_image} key={index}>
+                    <img
+                      className={styles.image}
+                      src={item.image_mobile}
+                      alt="ing"
+                    />
+                    {maxIngredients === index + 1 ? (
+                      <span className={stylesRemains}>
+                        {" "}
+                        {ingredientsRemains !== null && ingredientsRemains > 0
+                          ? `+${ingredientsRemains}`
+                          : null}{" "}
+                      </span>
+                    ) : null}
+                  </li>
+                );
+              })}
           </ul>
           <span className={styles.total}>
             <CurrencyIcon type="primary" />
