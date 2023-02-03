@@ -26,15 +26,21 @@ export const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   const maxIngredients = 6;
 
   // ings ids -> full ings
-  const orderWithFullIngredients = ingredients.map((id) => {
-    return menuIngredients.find((item) => item._id === id)!;
-  });
+  const orderWithFullIngredients = ingredients
+    .map((id) => {
+      return menuIngredients.find((item) => item._id === id)!;
+    })
+    // .filter((item) => item);
   const date = new Date(createdAt);
 
   const totalPrice =
-    orderWithFullIngredients.reduce((acc, i) => acc + i.price, 0) ?? null;
+    orderWithFullIngredients
+      .filter((item) => item)
+      .reduce((acc, i) => acc + i.price, 0) ?? null;
 
-  const ingredientsToShow = orderWithFullIngredients.slice(0, maxIngredients);
+  const ingredientsToShow = orderWithFullIngredients
+    .filter((item) => item)
+    .slice(0, maxIngredients);
   const ingredientsRemains =
     orderWithFullIngredients.length > maxIngredients
       ? orderWithFullIngredients.length - maxIngredients

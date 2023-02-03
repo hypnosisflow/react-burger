@@ -30,8 +30,7 @@ export const OrderHistoryDetails: FC = () => {
       const foundOrder = state.ws.orders.find(
         (order) => order.number === orderNumber
       );
-      if (foundOrder)
-      return foundOrder;
+      if (foundOrder) return foundOrder;
     }
     // profile orders state
     if (state.wsProfile.orders.length) {
@@ -57,14 +56,11 @@ export const OrderHistoryDetails: FC = () => {
     }
   }, [dispatch, order, orderNumber]);
 
-  console.log(order);
-
   if (!order) {
     return <h1>Загрузка...</h1>;
   }
 
   const { name, ingredients, createdAt, status } = order;
-  // console.log(order);
 
   const unique = ingredients.filter((v, i, a) => a.indexOf(v) === i);
 

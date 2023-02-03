@@ -23,7 +23,7 @@ export const FeedPage = () => {
     return { done, undone };
   };
 
-  let sortedOrders = readyOrders();
+  const sortedOrders = readyOrders();
 
   if (!orders.length) {
     return <h1 className={styles.loader}> Загрузка ...</h1>;

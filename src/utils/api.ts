@@ -1,9 +1,5 @@
 import { getCookie, setCookie } from "./utils";
-import { TForm, TIngredientItem } from "./types";
-
-import { ITokens, saveTokens } from "../services/actions/user";
-
-// import { saveTokens } from '../services/actions/auth'
+import { TForm } from "./types";
 
 type TResponseBody<TDataKey extends string = "", TDataType = {}> = {
   [key in TDataKey]: TDataType;
@@ -36,7 +32,6 @@ export interface CustomResponse<T> extends CustomBody<T> {
 }
 
 export type TTokenResponse = {
-  // accessToken: string
   payload: TForm;
   user: TForm;
   readonly refreshToken: string;
@@ -49,39 +44,41 @@ const checkResponse = (res: Response) => {
     : res.json().then((err: string) => Promise.reject(err));
 };
 
+function request(url: string, options: RequestInit) {
+  return fetch(url, options).then(checkResponse);
+}
+
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 export const WS_BASE_URL: string = "wss://norma.nomoreparties.space/orders";
 
 export async function loadIngredients() {
-  return await fetch(`${BASE_URL}ingredients`, { method: "GET" }).then(
-    checkResponse
-  );
+  return await request(`${BASE_URL}ingredients`, { method: "GET" });
 }
 
 export async function makeOrder(ingredients: (string | undefined)[]) {
-  return await fetch(`${BASE_URL}orders`, {
+  return await request(`${BASE_URL}orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: getCookie("accessToken"),
     } as HeadersInit,
     body: JSON.stringify({ ingredients }),
-  }).then(checkResponse);
+  });
 }
 
 export async function orderHistoryRequest(orderNumber: number) {
-  return await fetch(`${BASE_URL}orders/${orderNumber}`, {
+  return await request(`${BASE_URL}orders/${orderNumber}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(checkResponse);
+  });
 }
 
 export const register = async (
   form: TForm
 ): Promise<TResponseBody<"user", CustomResponse<TForm>>> => {
-  return await fetch(`${BASE_URL}auth/register`, {
+  return await request(`${BASE_URL}auth/register`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -92,13 +89,13 @@ export const register = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  });
 };
 
 export const login = async (
   form: TForm
 ): Promise<TResponseBody<"user", CustomResponse<TTokenResponse>>> => {
-  return await fetch(`${BASE_URL}auth/login`, {
+  return await request(`${BASE_URL}auth/login`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -109,11 +106,11 @@ export const login = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  });
 };
 
 export const logout = async (): Promise<Response> => {
-  return await fetch(`${BASE_URL}auth/logout`, {
+  return await request(`${BASE_URL}auth/logout`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -126,13 +123,13 @@ export const logout = async (): Promise<Response> => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  });
 };
 
 export const editProfileRequest = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {
-  return await fetch(`${BASE_URL}auth/user`, {
+  return await request(`${BASE_URL}auth/user`, {
     method: "PATCH",
     mode: "cors",
     cache: "no-cache",
@@ -144,11 +141,11 @@ export const editProfileRequest = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  });
 };
 
 export const getUserRequest = async (): Promise<TResponseBody<"user", TForm>> =>
-  await fetch(`${BASE_URL}auth/user`, {
+  await request(`${BASE_URL}auth/user`, {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -159,10 +156,10 @@ export const getUserRequest = async (): Promise<TResponseBody<"user", TForm>> =>
     } as HeadersInit,
     redirect: "follow",
     referrerPolicy: "no-referrer",
-  }).then(checkResponse);
+  });
 
 export const refreshToken = (): Promise<TResponseBody> => {
-  return fetch(`${BASE_URL}auth/token`, {
+  return request(`${BASE_URL}auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -170,7 +167,7 @@ export const refreshToken = (): Promise<TResponseBody> => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  });
 };
 
 export const fetchWithRefresh = async (
@@ -200,7 +197,7 @@ export const fetchWithRefresh = async (
 export const passwordResetRequest = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {
-  return await fetch(`${BASE_URL}reset-password`, {
+  return await request(`${BASE_URL}reset-password`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -211,13 +208,13 @@ export const passwordResetRequest = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  });
 };
 
 export const passwordReset = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {
-  return await fetch(`${BASE_URL}password-reset/reset`, {
+  return await request(`${BASE_URL}password-reset/reset`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -228,5 +225,5 @@ export const passwordReset = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse);
+  })
 };

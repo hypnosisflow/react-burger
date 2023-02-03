@@ -24,7 +24,7 @@ export function RegisterPage() {
     console.log(form);
   };
 
-  let request = useCallback(
+  const request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
       dispatch(registerSend(form));

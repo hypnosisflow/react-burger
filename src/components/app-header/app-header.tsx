@@ -34,7 +34,9 @@ function AppHeader() {
             Лента заказов
           </NavLink>
         </nav>
-        <Logo />
+        <NavLink to={{ pathname: "/" }}>
+          <Logo />
+        </NavLink>
         <NavLink
           to={{ pathname: "/profile" }}
           className={styles.button}
