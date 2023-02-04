@@ -1,7 +1,7 @@
 export function setCookie(
   name: string,
   value: string | number | boolean,
-  props: {[key: string ]: string | number | Date | boolean}
+  props?: {[key: string ]: string | number | Date | boolean}
 ) {
   props = {
     path: "/",

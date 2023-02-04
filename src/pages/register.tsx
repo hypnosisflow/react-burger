@@ -6,11 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { Link } from "react-router-dom";
-
-import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "../utils/store-type";
 import { registerSend } from "../services/actions/login";
 import { TForm } from "../utils/types";
+import styles from "./login.module.css";
 
 export function RegisterPage() {
   const dispatch = useDispatch();
@@ -22,17 +21,17 @@ export function RegisterPage() {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
+    console.log(form);
   };
 
-  let request = useCallback(
+  const request = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(registerSend(form));
       setValue({ email: "", password: "", name: "" });
       console.log(form);
     },
-    [form]
+    [form, dispatch]
   );
   return (
     <section className={styles.main}>
@@ -43,14 +42,14 @@ export function RegisterPage() {
             <Input
               name="name"
               value={form.name ? form.name : ""}
-              className={styles.input}
+              // className={styles.input}
               onChange={onChange}
               placeholder={"Имя"}
             />
             <Input
               name="email"
               value={form.email ? form.email : ""}
-              className={styles.input}
+              // className={styles.input}
               onChange={onChange}
               placeholder={"E-mail"}
             />
@@ -60,9 +59,7 @@ export function RegisterPage() {
               onChange={onChange}
             />
           </div>
-          <Button className={styles.button} htmlType={"button"}>
-            Зарегистрироваться
-          </Button>
+          <Button htmlType={"submit"}>Зарегистрироваться</Button>
         </form>
       </div>
       <div className={styles.links_wrap}>

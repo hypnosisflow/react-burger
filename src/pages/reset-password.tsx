@@ -3,18 +3,21 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
-import { resetPassword } from "../services/actions/login";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { resetPassword } from "../services/actions/user";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../utils/store-type";
 import { TForm } from "../utils/types";
 
 export function ResetPasswordPage() {
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const resetAllowed = useSelector((state) => state.auth.resetAllowed);
+  const reseted = useSelector((state) => state.auth.reseted);
+
   const [form, setValue] = useState<TForm>({ password: "", token: "" });
-  //@ts-ignore
-  const resetAllowed = useSelector((state) => state.auth.resetRequest);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -23,7 +26,6 @@ export function ResetPasswordPage() {
   const reset = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(resetPassword(form));
       setValue({ password: "", token: "" });
       console.log(form);
@@ -33,6 +35,10 @@ export function ResetPasswordPage() {
 
   if (!resetAllowed) {
     return <Redirect to={{ pathname: "/forgot-password" }} />;
+  }
+
+  if (resetAllowed && reseted) {
+    history.replace({ pathname: "/login" });
   }
 
   return (

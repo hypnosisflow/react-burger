@@ -2,6 +2,7 @@ import * as H from "history";
 import { Ref } from "react";
 
 export type TIngredientItem = {
+  _id?: IIngredient;
   item: IIngredient;
 };
 
@@ -17,21 +18,20 @@ export interface IIngredient {
   proteins: number;
   fat: number;
   carbohydrates: number;
+  to: number;
+  from: number;
 }
 
-export interface IProtectedRouteProps {
-  auth?: boolean;
-  children: React.ReactNode;
-  path: string;
-  exact: boolean;
-}
 
 export type TForm = {
+  user?: {};
   name?: string;
   password?: string;
   email?: string;
   token?: string;
   isChanged?: boolean;
+  readonly refreshToken?: string;
+  readonly accessToken?: string;
 };
 
 export type TState = {
@@ -65,11 +65,21 @@ export type TGroupProps = {
 };
 
 export type TModal = {
-  closeModal: any;
+  closeModal: () => void;
   children?: React.ReactNode;
 };
 
 export type TModalOverlay = {
-  closeModal: any;
+  closeModal: () => void ;
   children?: React.ReactNode;
+};
+
+export type TOrderInfo = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
 };

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, forwardRef, FC, LegacyRef } from "react";
-import styles from "./ingredients-group.module.css";
-
-import { ADD_DETAILS } from "../../services/actions/ingredient";
+import React, {  forwardRef, FC, LegacyRef } from "react";
+import { useDispatch } from "../../utils/store-type";
 
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import { useDispatch } from "react-redux";
+import { ADD_DETAILS } from "../../services/constants/menu";
 import { TIngredientItem, TGroupProps } from "../../utils/types";
+
+import styles from "./ingredients-group.module.css";
 
 const IngredientsGroup: FC<TGroupProps> = forwardRef(
   ({ data, group }, ref: LegacyRef<HTMLUListElement>) => {

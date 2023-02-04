@@ -1,18 +1,20 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { loginSend } from "../services/actions/login";
 
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { TForm } from "../utils/types";
+import { useDispatch, useSelector } from "../utils/store-type";
+import { TForm, TState } from "../utils/types";
 
-export function LoginPage() {
+
+export const LoginPage = () => {
   const dispatch = useDispatch();
-  //@ts-ignore
-  const user = useSelector((state) => state.auth.accessToken);
+  const location = useLocation<TState>();
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const user = useSelector((state) => state.auth.user)
 
   const [form, setValue] = useState<TForm>({ email: "", password: "" });
 
@@ -23,17 +25,16 @@ export function LoginPage() {
   const login = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      //@ts-ignore
       dispatch(loginSend(form));
       setValue({ email: "", password: "" });
-      console.log(form);
     },
     [form, dispatch]
   );
 
   if (user) {
-    return <Redirect to={{ pathname: "/" }} />;
+    return  <Redirect to={location?.state?.from || '/'} />;
   }
+
 
   return (
     <section className={styles.main}>
@@ -42,20 +43,18 @@ export function LoginPage() {
         <form onSubmit={login}>
           <div className={styles.form}>
             <Input
-              //@ts-ignor ругается на TForm
               value={form.email ? form.email : ""}
               name="email"
               onChange={onChange}
               placeholder={"E-mail"}
             />
             <PasswordInput
-              //@ts-ignor
               value={form.password ? form.password : ""}
               name="password"
               onChange={onChange}
             />
           </div>
-          <Button htmlType={"button"}>Войти</Button>
+          <Button htmlType={"submit"}>Войти</Button>
         </form>
         <div className={styles.links_wrap}>
           <span>
@@ -70,4 +69,4 @@ export function LoginPage() {
       </div>
     </section>
   );
-}
+};

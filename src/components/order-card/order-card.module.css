@@ -1,0 +1,87 @@
+.card {
+    color: aliceblue;
+    /* border: 1px solid white; */
+    background-color: rgba(233, 233, 233, .1);
+    border-radius: 40px;
+    /* height: 250px; */
+    /* width: 500px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    /* width: ; */
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 50px;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.status {
+    /* margin-bottom: 10px; */
+}
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.images {
+    display: flex;
+    flex-direction: row;
+    /* overflow: hidden; */
+    list-style: none;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+
+.list_image {
+    /* flex-wrap: wrap-reverse; */
+    margin-right: -20px;
+    display: flex;
+}
+
+.image {
+    width: 70px;
+    height: 60px;
+    border: 2px solid #801AB3;
+    background-image: linear-gradient(var(--background-alt), var(--background-alt)), linear-gradient(#801AB3 0%, #4C4CFF);
+    border-radius: 100%;
+}
+
+.remains {
+    text-align: center;
+    /* height: 100%; */
+    /* width: 60px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -50px;
+    /* background-color: rgba(1, 1, 1, .6); */
+    border-radius: 100%;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price {
+    margin-left: 10px;
+}

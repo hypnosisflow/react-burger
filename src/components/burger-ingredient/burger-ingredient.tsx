@@ -4,7 +4,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../utils/store-type";
 import { countSelector } from "../../services/selectors/selectors";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
@@ -14,8 +14,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
   const location = useLocation<TState>();
   const dispatch = useDispatch();
   const res = useSelector(countSelector);
-  // console.log(ingredient.item._id)
-  // console.log(key)
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "MENU_INGREDIENT",
@@ -26,7 +24,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
     }),
   }));
   return (
-    // <div ref={drag}>
     <Link
       className={styles.link}
       to={{
@@ -36,7 +33,7 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
       ref={drag}
     >
       <li
-        key={ingredient.item._id}
+        key={ingredient.item._id }
         onClick={() => dispatch({ type: "ADD_DETAILS", payload: ingredient })}
         className={styles.item}
       >
@@ -53,7 +50,6 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
         <span className={styles.name}>{ingredient.item.name}</span>
       </li>
     </Link>
-    // </div>
   );
 };
 

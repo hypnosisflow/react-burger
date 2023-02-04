@@ -1,28 +1,28 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Redirect, Route, useLocation } from "react-router-dom";
-import { getUser } from "../services/actions/login";
-import { useDispatch } from "react-redux";
-import { TState, IProtectedRouteProps } from "../utils/types";
+import React, { FC, useEffect } from "react";
+import { useLocation } from "react-router";
+import { Redirect } from "react-router";
+import { Route } from "react-router";
 
-export function ProtectedRoute({
-  auth = false,
+import { getCookie } from "../utils/utils";
+import { TState } from "../utils/types";
+
+export interface IProtectedRouteProps {
+  onlyForAuth?: boolean;
+  path: string;
+  exact: boolean;
+  children?: React.ReactNode;
+}
+
+export const ProtectedRoute: FC<IProtectedRouteProps> = ({
+  onlyForAuth,
   children,
   ...rest
-}: IProtectedRouteProps) {
-  //@ts-ignore
-  const user = useSelector((state) => state.auth.user);
+}) => {
+  const isAuthorized = getCookie("accessToken");
   const location = useLocation<TState>();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    //@ts-ignore
-    dispatch(getUser());
-  }, []);
-
-  if (auth && user) {
+  if (!onlyForAuth && isAuthorized) {
     const { from } = location.state || { from: { pathname: "/" } };
-
     return (
       <Route {...rest}>
         <Redirect to={from} />
@@ -30,13 +30,13 @@ export function ProtectedRoute({
     );
   }
 
-  if (!auth && !user) {
+  if (onlyForAuth && !isAuthorized) {
     return (
       <Route {...rest}>
-        <Redirect to={{ pathname: "login", state: { from: location } }} />
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
       </Route>
     );
   }
 
   return <Route {...rest}>{children}</Route>;
-}
+};

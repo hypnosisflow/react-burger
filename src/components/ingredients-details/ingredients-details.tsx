@@ -1,23 +1,22 @@
 import React, { FC } from "react";
 import styles from "./ingredients-details.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { TIngredientItem } from "../../utils/types";
+import { useSelector } from "../../utils/store-type";
 
+interface IngredientsDetailsProps {
+  id: string;
+}
 const IngredientsDetails: FC = () => {
-  //@ts-ignore
-  const { id } = useParams();
-  //@ts-ignore
+  const { id } = useParams<IngredientsDetailsProps>();
   const menu = useSelector((state) => state.menu.menuSuccess);
 
   const data = useSelector((state) => {
-    //@ts-ignore
     return state.menu.menu.find((item) => item.item._id === id);
   });
 
   return (
     <section className={styles.section}>
-      {menu && (
+      {menu && data && (
         <div className={styles.wrap}>
           <div className={styles.title}>
             <span className={styles.info}>Детали ингредиента</span>
