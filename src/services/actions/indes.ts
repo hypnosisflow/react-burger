@@ -2,7 +2,7 @@ import { TConstructorActions } from "./constructor";
 import { TLoginActions } from "./login";
 import { TFetchActions, TDetailsActions } from "./menu";
 import { TOrderActions } from './order'; 
-import { TProfileActions } from "./profile";
+import { TProfileActions } from "./user";
 import { TUserActions } from "./user";
 import { TWsActions } from "./wsActions";
 import { TProfileOrdersWsActions } from "./wsProfileActions";

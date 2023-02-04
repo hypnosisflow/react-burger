@@ -1,5 +1,5 @@
 import { getUserRequest } from "./../../utils/api";
-import { TProfileActions } from "./profile";
+import { TProfileActions } from "./user";
 import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
@@ -257,3 +257,5 @@ export const getUser = (): AppThunk<Promise<unknown>> => {
       });
   };
 };
+
+//

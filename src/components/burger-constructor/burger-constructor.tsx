@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback } from "react";
+import React, { SyntheticEvent, useCallback, useState, useEffect } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -22,6 +22,7 @@ import ConstructorIngredient from "../constructor-ingredient/constructor-ingredi
 import { TIngredientItem } from "../../utils/types";
 
 const BurgerConstructor = () => {
+  const [processing, setProcessing] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -30,7 +31,7 @@ const BurgerConstructor = () => {
   const ingredients = useSelector(constructorSelector);
   const hasBuns = useSelector(hasBun);
 
-  const bun  = useSelector((state) => state.cart.bun);
+  const bun = useSelector((state) => state.cart.bun);
   const user = useSelector((state) => state.auth.user);
 
   const [{ canDrop, isOver, dragItem }, drop] = useDrop(() => ({
@@ -42,6 +43,12 @@ const BurgerConstructor = () => {
       dragItem: monitor.getItem(),
     }),
   }));
+
+  const closeHandle = () => {
+    dispatch({ type: ORDER_RESET})
+    setProcessing(false)
+  }
+
 
   const isActive = canDrop && isOver;
   let backgroundColor = "black";
@@ -55,12 +62,13 @@ const BurgerConstructor = () => {
     (e: React.SyntheticEvent) => {
       e.preventDefault();
       if (user) {
+        setProcessing(true);
         dispatch(sendOrder());
       } else {
         history.push("/login");
       }
     },
-    [user, dispatch, history]
+    [user, dispatch, history, processing]
   );
 
   return (
@@ -106,12 +114,24 @@ const BurgerConstructor = () => {
           <p className="text text_type_digits-medium">{sum}</p>
           <CurrencyIcon type={"primary"} />
         </div>
-        <Button htmlType="button" onClick={send} type="primary" size="medium">
-          ОФОРМИТЬ ЗАКАЗ
-        </Button>
+        {processing ? (
+          <Button
+            htmlType="button"
+            onClick={send}
+            type="primary"
+            size="medium"
+            disabled
+          >
+            Отправка...
+          </Button>
+        ) : (
+          <Button htmlType="button" onClick={send} type="primary" size="medium">
+            ОФОРМИТЬ ЗАКАЗ
+          </Button>
+        )}
       </div>
       {orderNumber > 0 && (
-        <Modal closeModal={() => dispatch({ type: ORDER_RESET })}>
+        <Modal closeModal={() => closeHandle()}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}

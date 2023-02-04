@@ -1,10 +1,7 @@
 import { TForm } from "../../utils/types";
 import {
-  SET_USER_FAILED,
   SET_USER_REQUEST,
   SET_USER_SUCCESS,
-  TOKEN_UPDATE,
-  TOKEN_UPDATE_FAILED,
   AUTH_CHECKED,
   AUTH_FAILED,
   EDIT_SUCCESS,
@@ -12,18 +9,9 @@ import {
   RESET_SUCCESS,
   RESET_REQUEST_FAILED,
 } from "../constants/profile";
-import {
-  LOGIN_FAILED,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  LOGOUT_FAILED,
-  REGISTER_REQUEST,
-  REGISTER_FAILED,
-  REGISTER_SUCCESS,
-} from "../constants/login";
 
-import { TProfileActions } from "./../actions/profile";
+
+import { TProfileActions } from "./../actions/user";
 import { TUserActions } from "./../actions/user";
 
 export type TUserState = {

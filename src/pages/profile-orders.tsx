@@ -29,7 +29,7 @@ export const ProfileOrdersPage: FC = () => {
 
   return (
     <section className={styles.main_profile}>
-      {orders && (
+      {orders.length > 0 && (
         <>
           <div className={styles.container_profile}>
             <ProfileHeader />

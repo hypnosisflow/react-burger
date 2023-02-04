@@ -1,18 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 import styles from "./login.module.css";
-import { forgotPassword } from "../services/actions/profile";
+import { forgotPassword } from "../services/actions/user";
 import { useDispatch } from "../utils/store-type";
 import { TForm } from "../utils/types";
+import { useSelector } from "../utils/store-type";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const resetAllowed = useSelector((state) => state.auth.resetAllowed);
+
   const [form, setValue] = useState<TForm>({ email: "" });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,10 +28,13 @@ export function ForgotPasswordPage() {
       e.preventDefault();
       dispatch(forgotPassword(form));
       setValue({ email: "" });
-      history.replace({ pathname: "/reset-password" });
     },
     [form, dispatch, history]
   );
+
+  if (resetAllowed) {
+    history.replace({ pathname: "reset-password" });
+  }
 
   return (
     <section className={styles.main}>
@@ -40,7 +47,7 @@ export function ForgotPasswordPage() {
             name="email"
             onChange={onChange}
           />
-          <Button htmlType={"button"}>Восстановить</Button>
+          <Button htmlType={"submit"}>Восстановить</Button>
         </form>
         <div className={styles.links_wrap}>
           <span>

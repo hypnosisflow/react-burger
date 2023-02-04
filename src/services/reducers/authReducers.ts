@@ -1,4 +1,6 @@
-import { TLoginActions, TUserAuthActions } from "./../actions/login";
+import { TProfileActions } from "./../actions/user";
+import { TUserAuthActions } from "../actions/login";
+
 import { TForm } from "./../../utils/types";
 
 import {
@@ -20,7 +22,9 @@ import {
   RESET_REQUEST,
   RESET_SUCCESS,
   RESET_REQUEST_FAILED,
+  RESETED,
 } from "../constants/profile";
+
 
 export type TAuthState = {
   user?: TForm | null;
@@ -28,12 +32,17 @@ export type TAuthState = {
   registerSucces: boolean;
   registerError: boolean;
 
+  resetAllowed: boolean;
+  reseted: boolean,
+
   loginSucces: boolean;
   loginError: boolean;
 
   loggedIn: boolean;
 
-  authChecked?: boolean
+  authChecked?: boolean;
+
+  errorMessage?: string;
 };
 
 const initialState: TAuthState = {
@@ -42,12 +51,17 @@ const initialState: TAuthState = {
   registerSucces: false,
   registerError: false,
 
+  resetAllowed: false,
+  reseted: false,
+
   loginSucces: false,
   loginError: false,
 
   loggedIn: false,
 
-  authChecked: false
+  authChecked: false,
+  errorMessage: "",
+
 };
 
 export const authReducer = (
@@ -84,6 +98,8 @@ export const authReducer = (
         loggedIn: false,
         loginSucces: false,
         loginError: false,
+        resetAllowed: false,
+        reseted: false,
       };
     }
     case LOGIN_SUCCESS: {
@@ -127,14 +143,18 @@ export const authReducer = (
       return { ...state, user: action.payload };
     }
     case RESET_REQUEST: {
-      return { ...state };
+      return { ...state, resetAllowed: false };
     }
     case RESET_REQUEST_FAILED: {
-      return { ...state };
+      return { ...state, resetAllowed: false };
     }
     case RESET_SUCCESS: {
-      return { ...state };
+      return { ...state, resetAllowed: true };
     }
+    case RESETED: {
+      return {...state, resetAllowed: false, reseted: true}
+    }
+
     default: {
       return state;
     }

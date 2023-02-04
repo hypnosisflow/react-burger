@@ -7,7 +7,7 @@ import {
 
 import styles from "../../pages/login.module.css";
 import { useDispatch, useSelector } from "../../utils/store-type";
-import { editProfile } from "../../services/actions/profile";
+import { editProfile } from "../../services/actions/user";
 import { TForm } from "../../utils/types";
 
 export const ProfileForm: FC = () => {
