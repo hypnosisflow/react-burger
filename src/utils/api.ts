@@ -197,7 +197,7 @@ export const fetchWithRefresh = async (
 export const passwordResetRequest = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {
-  return await fetch(`${BASE_URL}password-reset`, {
+  return await request(`${BASE_URL}password-reset`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -208,9 +208,8 @@ export const passwordResetRequest = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  }).then(checkResponse)
+  });
 };
-
 export const passwordReset = async (
   form: TForm
 ): Promise<TResponseBody<"user", TForm>> => {
@@ -225,5 +224,5 @@ export const passwordReset = async (
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify(form),
-  })
+  });
 };
