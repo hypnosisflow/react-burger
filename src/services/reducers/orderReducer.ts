@@ -19,7 +19,7 @@ export type TOrderState = {
   orders?: TOrderInfo[] | null;
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   orderNumber: 0,
   orderHistoryNumber: 0,
   orderFailed: false,

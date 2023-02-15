@@ -25,7 +25,6 @@ import {
   RESETED,
 } from "../constants/profile";
 
-
 export type TAuthState = {
   user?: TForm | null;
 
@@ -33,7 +32,7 @@ export type TAuthState = {
   registerError: boolean;
 
   resetAllowed: boolean;
-  reseted: boolean,
+  reseted: boolean;
 
   loginSucces: boolean;
   loginError: boolean;
@@ -45,7 +44,7 @@ export type TAuthState = {
   errorMessage?: string;
 };
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   user: null,
 
   registerSucces: false,
@@ -61,7 +60,6 @@ const initialState: TAuthState = {
 
   authChecked: false,
   errorMessage: "",
-
 };
 
 export const authReducer = (
@@ -152,7 +150,7 @@ export const authReducer = (
       return { ...state, resetAllowed: true };
     }
     case RESETED: {
-      return {...state, resetAllowed: false, reseted: true}
+      return { ...state, resetAllowed: false, reseted: true };
     }
 
     default: {

@@ -6,7 +6,7 @@ export type TIngredientState = {
   modalOpen: boolean;
 };
 
-const initialState: TIngredientState = {
+export const initialState: TIngredientState = {
   item: {},
   modalOpen: false,
 };

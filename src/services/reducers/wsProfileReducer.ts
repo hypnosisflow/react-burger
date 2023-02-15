@@ -15,7 +15,7 @@ export type TWsProfileStore = {
   connectionError: string;
 };
 
-const initialState: TWsProfileStore = {
+export const initialState: TWsProfileStore = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
   connectionError: "",
