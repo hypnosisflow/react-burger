@@ -1,11 +1,16 @@
+
+
+const homeUrl = "http://localhost:3000";
+const ingredient = "[class^=burger-ingredient_link__]"
+
 describe("products management works correctly", function () {
   beforeEach(function () {
-    cy.visit("http://localhost:3000");
+    cy.visit(homeUrl);
   });
 
   it("ingredient clicks open/clsoe modal with description", function () {
     // ingredient select working + click #11
-    cy.get("[class^=burger-ingredient_link__]").first().as("ingredient");
+    cy.get(ingredient).first().as("ingredient");
     cy.get("@ingredient").click();
 
     // modal closing with overlay touch
@@ -22,9 +27,9 @@ describe("products management works correctly", function () {
 
 describe("Dragtest", () => {
   it("should dragndrop", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(homeUrl);
 
-    cy.get("[class^=burger-ingredient_link__]").first().as("ingredient");
+    cy.get(ingredient).first().as("ingredient");
     cy.get("[class^=burger-constructor_no_products__]").first().as("dropbox");
 
     cy.get("@ingredient").drag("@dropbox");
@@ -35,15 +40,15 @@ describe("Dragtest", () => {
 
 describe("Order test", () => {
   it("should request order", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(homeUrl);
 
-    cy.get("[class^=burger-ingredient_link__]").first().as("ingredient");
+    cy.get(ingredient).first().as("ingredient");
     cy.get("[class^=burger-constructor_no_products__]").first().as("dropbox");
     cy.get(".button").contains("ОФОРМИТЬ ЗАКАЗ").as("buttonOrder");
 
     cy.get("@buttonOrder").click();
 
-    // redirected as we are not logged in 
+    // redirected as we are not logged in
     cy.url().should("include", "/login");
 
     cy.get('input[name="email"]').type("log@mail.com");
@@ -58,7 +63,7 @@ describe("Order test", () => {
     cy.get("@buttonOrder").click();
     cy.wait(15000);
 
-    // rendered order details component 
+    // rendered order details component
     cy.get("[class^=order-details_wrap__]").as("orderCard").should("exist");
 
     // modal closing with closing button

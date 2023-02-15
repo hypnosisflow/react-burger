@@ -23,30 +23,14 @@ import { authReducer, initialState } from "./authReducers";
 
 describe("Auth reducer", () => {
   test("initial state", () => {
-    expect(authReducer(undefined, {})).toEqual({
-      user: null,
-
-      registerSucces: false,
-      registerError: false,
-
-      resetAllowed: false,
-      reseted: false,
-
-      loginSucces: false,
-      loginError: false,
-
-      loggedIn: false,
-
-      authChecked: false,
-      errorMessage: "",
-    });
+    expect(authReducer(undefined, {})).toEqual(initialState);
   });
 
   // login
 
   it("should handle LOGIN_REQUEST", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: LOGIN_REQUEST,
       })
     ).toEqual({
@@ -63,7 +47,7 @@ describe("Auth reducer", () => {
     let logSuccess = "Logged In";
     let userSuccess = "User here";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: LOGIN_SUCCESS,
         payload: logSuccess,
         user: userSuccess,
@@ -78,10 +62,8 @@ describe("Auth reducer", () => {
   });
 
   it("should handle LOGIN_FAILED", () => {
-    let logFail = "Log Fail";
-    let error = "Error received";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: LOGIN_FAILED,
       })
     ).toEqual({
@@ -96,7 +78,7 @@ describe("Auth reducer", () => {
 
   it("should handle REGISTER_REQUEST", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: REGISTER_REQUEST,
       })
     ).toEqual({
@@ -109,7 +91,7 @@ describe("Auth reducer", () => {
   it("should handle REGISTER_SUCCES", () => {
     let user = "User here";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: REGISTER_SUCCESS,
         user: user,
       })
@@ -125,7 +107,7 @@ describe("Auth reducer", () => {
     let user = null;
     let errorMessage = "Register failed";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: REGISTER_FAILED,
         error: errorMessage,
       })
@@ -141,31 +123,15 @@ describe("Auth reducer", () => {
 
   it("should handle LOGOUT", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: LOGOUT,
       })
-    ).toEqual({
-      user: null,
-
-      registerSucces: false,
-      registerError: false,
-
-      resetAllowed: false,
-      reseted: false,
-
-      loginSucces: false,
-      loginError: false,
-
-      loggedIn: false,
-
-      authChecked: false,
-      errorMessage: "",
-    });
+    ).toEqual(initialState);
   });
 
   it("should handle LOGOUT_FAILED", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: LOGOUT_FAILED,
       })
     ).toEqual({
@@ -175,7 +141,7 @@ describe("Auth reducer", () => {
 
   it("should handle SET_USER_REQUEST", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: SET_USER_REQUEST,
       })
     ).toEqual({
@@ -186,7 +152,7 @@ describe("Auth reducer", () => {
   it("should handle SET_USER_SUCCESS", () => {
     let userMock = "User setted";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: SET_USER_SUCCESS,
         user: userMock,
       })
@@ -199,7 +165,7 @@ describe("Auth reducer", () => {
 
   it("should handle AUTH_CHECKED", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: AUTH_CHECKED,
       })
     ).toEqual({
@@ -211,7 +177,7 @@ describe("Auth reducer", () => {
 
   it("should handle AUTH_FAILED", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: AUTH_FAILED,
       })
     ).toEqual({
@@ -223,17 +189,19 @@ describe("Auth reducer", () => {
   it("should handle EDIT_SUCCESS", () => {
     let userMock = "User editted";
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: EDIT_SUCCESS,
+        payload: userMock,
       })
     ).toEqual({
       ...initialState,
+      user: userMock,
     });
   });
 
   it("should handle RESET_REQUEST", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: RESET_REQUEST,
       })
     ).toEqual({
@@ -244,7 +212,7 @@ describe("Auth reducer", () => {
 
   it("should handle RESET_SUCCESS", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: RESET_SUCCESS,
       })
     ).toEqual({
@@ -255,7 +223,7 @@ describe("Auth reducer", () => {
 
   it("should handle RESET_REQUEST_FAILED", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: RESET_REQUEST_FAILED,
       })
     ).toEqual({
@@ -266,7 +234,7 @@ describe("Auth reducer", () => {
 
   it("should handle RESETED", () => {
     expect(
-      authReducer([], {
+      authReducer(initialState, {
         type: RESETED,
       })
     ).toEqual({
