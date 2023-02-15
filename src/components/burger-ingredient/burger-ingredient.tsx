@@ -33,9 +33,10 @@ const BurgerIngredient: FC<TIngredientProps> = ({ ingredient }) => {
       ref={drag}
     >
       <li
-        key={ingredient.item._id }
+        key={ingredient.item._id}
         onClick={() => dispatch({ type: "ADD_DETAILS", payload: ingredient })}
         className={styles.item}
+        data-testid="ingredient-element"
       >
         {res.get(ingredient.item._id) && (
           <Counter count={res.get(ingredient.item._id)} size="default" />

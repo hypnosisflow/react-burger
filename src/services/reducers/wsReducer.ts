@@ -12,15 +12,15 @@ import {
 export type TWsStore = {
   status: WebsocketStatus;
   orders: Array<TOrderInfo>;
-  connectionError: string;
+  connectionError: string | null;
   total: number; 
   totalToday: number;
 };
 
-const initialState: TWsStore = {
+export const initialState: TWsStore = {
   status: WebsocketStatus.OFFLINE,
   orders: [],
-  connectionError: "",
+  connectionError: null,
   total: 0,
   totalToday: 0
 };

@@ -16,7 +16,7 @@ export type TConstructorState = {
   items: Array<IConstructorIngredient>;
 };
 
-const initialState: TConstructorState = {
+export const initialState: TConstructorState = {
   bun: null,
   items: [],
 };
@@ -28,7 +28,7 @@ export const constructorReducer = (
   switch (action.type) {
     case ADD_PRODUCT: {
       if (action.payload.type === "bun") {
-        return { ...state, bun: action.payload, items: [...state.items] };
+        return { ...state, bun: action.payload};
       } else {
         return { ...state, items: [...state.items, action.payload] };
       }
